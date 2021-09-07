@@ -1,5 +1,26 @@
-# vue-mind-games
-Vue Mind Games is a web application build with vue.js containing several minigames that should increase your mathematical, memorizing and overall mental skills.
+# mind-games
+Mind Games is a web application build with vue.js containing several minigames that should increase your mathematical, memorizing and overall mental skills.
+
+# Setup
+
+Install dependencies:
+```
+npm install
+```
+
+Run locally:
+```
+npm run serve
+```
+
+Generate a new component or view (using [plop](https://plopjs.com/)):
+```
+# install plop globally
+npm i -g plop
+
+# run plop
+plop
+```
 
 # Minigames
 
@@ -24,5 +45,7 @@ Vue Mind Games is a web application build with vue.js containing several minigam
 |Task Switching|Brain|Given are 2 Number and letter pairs with tasks that fade away after time. Fulfill the rask for each field right every time.|❌|
 |Numeric Estimation|Math|Estimate the equation to different numbers or values.|❌|
 |Cube folding|Brain|Picking the right cube to an unfolded cube or pick the right unfold to a folded cube.|❌|
+
+✔️ Done | 🚧 Work in progress | ❌ Planned
 
 *...more planned...*

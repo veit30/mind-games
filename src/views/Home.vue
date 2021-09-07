@@ -1,40 +1,17 @@
 <template>
   <div class="home">
-    <p>This is the home page</p>
-    <p>Select a game</p>
-    <ul>
-      <li><router-link to="/solve-up">Solve up</router-link></li>
-      <li><router-link to="/countdown-solver">Countdown Solver</router-link></li>
-      <li><router-link to="/sum-it-up">Sum it Up</router-link></li>
-      <li><router-link to="/memory">Memory</router-link></li>
-      <li><router-link to="/memory-matrix">Memory Matrix</router-link></li>
-    </ul>
+    Mind-Games
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import GameCard from '@/components/GameCard.vue';
 
-export default {
-  name: 'Home',
+@Options({
   components: {
-
-  }
-}
+    GameCard,
+  },
+})
+export default class Home extends Vue {}
 </script>
-
-<style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
-@import "../scss/_variables.scss";
-
-html, body {
-  font-family: 'Fira Sans', sans-serif;
-}
-
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-</style>

@@ -1,5 +1,10 @@
 <template>
   <div class="about">
-    <h1>This is Vue Mind Games to train your brain!🧠</h1>
+    <h1>Mind Games</h1>
+    <p>by Veit Schumacher</p>
   </div>
 </template>
+
+<style lang="scss" scoped>
+  
+</style>
