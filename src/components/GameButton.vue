@@ -8,17 +8,26 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { defineComponent } from "vue";
 
-export default class GameButton extends Vue {
-  @Prop({ type: String }) alternative!: string;
-  @Prop({ type: Boolean }) isLarge!: boolean;
+export default defineComponent({
+  name: "GameButton",
 
-  get extraClasses() {
-    return this.isLarge ? "game-button--large" : "";
-  }
-}
+  props: {
+    alternative: {
+      type: String,
+    },
+    isLarge: {
+      type: Boolean,
+    },
+  },
+
+  computed: {
+    extraClasses() {
+      return this.isLarge ? "game-button--large" : "";
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -26,13 +35,15 @@ button.game-button {
   background: $c-background-dark;
   outline: none;
   border: 1px solid $c-border-dark;
-  padding: 8px 8px;
+  padding: 8px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: $c-font;
   font-family: "Righteous", cursive;
   user-select: none;
+  font-size: 20px;
+  min-width: 130px;
 
   &:hover {
     background: $c-background-darker;

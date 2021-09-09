@@ -10,19 +10,22 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent } from "vue";
 import GameCard from "@/components/GameCard.vue";
 
-@Options({
+export default defineComponent({
+  name: "GameSelection",
+
   components: {
     GameCard,
   },
-})
-export default class Home extends Vue {
-  routeTo(game: string) {
-    this.$router.push(`/${game}`);
-  }
-}
+
+  methods: {
+    routeTo(game: string) {
+      this.$router.push(`/${game}`);
+    },
+  },
+});
 </script>
 
 <style lang="scss">

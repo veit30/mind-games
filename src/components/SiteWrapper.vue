@@ -8,16 +8,16 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { defineComponent } from "vue";
 import MindGamesHeader from "@/components/MindGamesHeader.vue";
 
-@Options({
+export default defineComponent({
+  name: "SiteWrapper",
+
   components: {
     MindGamesHeader,
   },
-})
-export default class SiteWrapper extends Vue {}
+});
 </script>
 
 <style lang="scss" scoped>

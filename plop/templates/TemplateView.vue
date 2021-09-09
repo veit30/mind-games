@@ -3,10 +3,23 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { defineComponent } from "vue";
 
-export default class TemplateView extends Vue {}
+export default defineComponent({
+  name: "TemplateView",
+
+  components: {},
+
+  data() {
+    return {};
+  },
+
+  props: {},
+
+  computed: {},
+
+  methods: {},
+});
 </script>
 
 <style lang="scss" scoped>

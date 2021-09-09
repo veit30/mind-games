@@ -5,12 +5,17 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { defineComponent } from "vue";
 
-export default class GameCard extends Vue {
-  @Prop({ type: String }) name!: string;
-}
+export default defineComponent({
+  name: "GameCard",
+
+  props: {
+    name: {
+      type: String,
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>

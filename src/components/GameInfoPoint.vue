@@ -1,19 +1,32 @@
 <template>
-  <div class="game-info-point" :class="colorClass"></div>
+  <div class="game-info-point" :class="colorClass">
+    <div class="game-info-point__popover">{{ infoText }}</div>
+  </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { defineComponent } from "vue";
 
-export default class GameInfoPoint extends Vue {
-  @Prop({ type: Boolean, default: false }) value!: boolean;
-  //implement popover
+export default defineComponent({
+  name: "GameInfoPoint",
 
-  get colorClass() {
-    return this.value ? "green" : "red";
-  }
-}
+  props: {
+    value: {
+      type: Boolean,
+      default: false,
+    },
+    infoText: {
+      type: String,
+      default: "",
+    },
+  },
+
+  computed: {
+    colorClass() {
+      return this.value ? "green" : "red";
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>

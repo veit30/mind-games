@@ -9,10 +9,11 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { defineComponent } from "vue";
 
-export default class MindGamesHeader extends Vue {}
+export default defineComponent({
+  name: "MindGamesHeader",
+});
 </script>
 
 <style lang="scss" scoped>

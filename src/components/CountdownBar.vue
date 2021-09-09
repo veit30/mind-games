@@ -7,12 +7,18 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { defineComponent } from "vue";
 
-export default class CountdownBar extends Vue {
-  countdown = 12;
-}
+export default defineComponent({
+
+  name: 'CountdownBar',
+
+  data() {
+    return {
+      countdown: 12 as number,
+    }
+  },
+})
 </script>
 
 <style lang="scss" scoped>

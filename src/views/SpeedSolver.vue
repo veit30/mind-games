@@ -7,7 +7,7 @@
         <game-button
           class="speed-solver__upper-button"
           alternative="B"
-          @click="routeToHome"
+          @click="this.$router.push('/')"
           >Back</game-button
         >
         <game-button
@@ -49,29 +49,54 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { defineComponent } from "vue";
 import GameButton from "@/components/GameButton.vue";
 import CountdownBar from "@/components/CountdownBar.vue";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
 
-@Options({
+export default defineComponent({
+  name: "SpeedSolver",
+
   components: {
     GameButton,
     CountdownBar,
     GameInfoPoint,
   },
-})
-export default class SpeedSolver extends Vue {
-  solutions: Array<number> = [0, 0];
-  equation = "1 + 1";
 
-  routeToHome() {}
+  data() {
+    return {
+      solutions: [0, 0] as Array<number>,
+      equation: "1+1" as string,
+    };
+  },
 
-  restart() {}
+  beforeMount() {
+    document.addEventListener("keydown", this.handleKeyDown, false);
+  },
 
-  commitSolution(index: number) {}
-}
+  beforeUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown, false);
+  },
+
+  methods: {
+    handleKeyDown(event: KeyboardEvent) {
+      switch (event.code) {
+        case "KeyB":
+          this.$router.push("/");
+          break;
+        case "KeyR":
+          this.restart();
+          break;
+      }
+    },
+
+    restart() {
+      console.log("restarted");
+    },
+
+    commitSolution(index: number) {},
+  },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -84,7 +109,7 @@ export default class SpeedSolver extends Vue {
   user-select: none;
 
   &__main-container {
-    margin-top: 200px;
+    margin-top: 155px;
     font-size: 60px;
     text-align: center;
   }
