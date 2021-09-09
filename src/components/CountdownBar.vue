@@ -23,14 +23,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .countdown-bar {
-  border: 1px solid $c-border-dark;
+  border: 1px solid $color-border-dark;
   height: 30px;
   width: 400px;
   z-index: 5;
   color: #fff;
 
   &__content {
-    background: $c-green;
+    background: $green;
     height: 100%;
     width: 80%;
     z-index: 4;
@@ -41,8 +41,7 @@ export default defineComponent({
     position: relative;
     top: -24px;
     left: 190px;
-    // color: $c-font-darker;
-    color: #fff;
+    color: $color-font;
   }
 }
 </style>

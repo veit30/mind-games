@@ -32,28 +32,29 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 button.game-button {
-  background: $c-background-dark;
+  background: $color-background-dark;
   outline: none;
-  border: 1px solid $c-border-dark;
+  border: 1px solid $color-border-dark;
   padding: 8px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: $c-font;
+  color: $color-font;
   font-family: "Righteous", cursive;
   user-select: none;
   font-size: 20px;
   min-width: 130px;
 
   &:hover {
-    background: $c-background-darker;
+    background: $color-background-darker;
     cursor: pointer;
   }
 }
 
 .game-button__alternative {
-  color: $c-font-dark;
-  font-family: "Archivo Black", sans-serif;
+  color: $color-font-dark;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-weight: 900;
 
   &.game-button--large {
     font-size: 26px;

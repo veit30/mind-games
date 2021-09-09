@@ -22,7 +22,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .site-wrapper {
-  background: $c-background-dark;
+  background: $color-background-dark;
   width: 100%;
   height: 100%;
   position: fixed;
@@ -32,7 +32,7 @@ export default defineComponent({
 .size-wrapper__background-line {
   width: 100%;
   position: fixed;
-  border-top: 1px solid $c-border-dark;
+  border-top: 1px solid $color-border-dark;
   z-index: -1;
 
   &:first-of-type {

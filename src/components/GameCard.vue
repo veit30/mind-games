@@ -22,11 +22,11 @@ export default defineComponent({
 .game-card {
   width: 425px;
   height: 245px;
-  border: 1px solid $c-border-dark;
-  background: $c-background-dark;
+  border: 1px solid $color-border-dark;
+  background: $color-background-dark;
 
   &:hover {
-    background: $c-background-darker;
+    background: $color-background-darker;
     cursor: pointer;
   }
 }

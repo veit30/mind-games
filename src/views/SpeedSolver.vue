@@ -21,12 +21,11 @@
         {{ equation }}
       </div>
       <div class="speed-solver__points-container">
-        <game-info-point :value="true" />
-        <game-info-point :value="true" />
-        <game-info-point :value="true" />
-        <game-info-point :value="true" />
-        <game-info-point :value="true" />
-        <game-info-point :value="true" />
+        <game-info-point :value="true">Info Text</game-info-point>
+        <game-info-point :value="true">Info Text länger</game-info-point>
+        <game-info-point :value="true">Info Text infooooooo</game-info-point>
+        <game-info-point :value="true">Info Text</game-info-point>
+
       </div>
       <div class="speed-solver__button-container">
         <game-button
@@ -66,7 +65,7 @@ export default defineComponent({
   data() {
     return {
       solutions: [0, 0] as Array<number>,
-      equation: "1+1" as string,
+      equation: "1 + 1" as string,
     };
   },
 
@@ -80,12 +79,20 @@ export default defineComponent({
 
   methods: {
     handleKeyDown(event: KeyboardEvent) {
+      console.log(event.code);
+
       switch (event.code) {
         case "KeyB":
           this.$router.push("/");
           break;
         case "KeyR":
           this.restart();
+          break;
+        case "ArrowRight":
+          this.commitSolution(1);
+          break;
+        case "Arrowleft":
+          this.commitSolution(0);
           break;
       }
     },
@@ -140,8 +147,8 @@ export default defineComponent({
   }
 
   &__container {
-    border: 1px solid $c-border-dark;
-    background: $c-background-dark;
+    border: 1px solid $color-border-dark;
+    background: $color-background-dark;
     width: 550px;
     height: 750px;
     margin-top: 30px;

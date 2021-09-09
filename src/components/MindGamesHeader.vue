@@ -1,27 +1,44 @@
 <template>
   <div class="mind-games-header">
     <div class="header__container" @click="$router.push('/')">
-      <h1 class="mind-games-header__headline">MiNd</h1>
+      <h1 class="mind-games-header__headline">{{ headlineValues[0] }}</h1>
       <div class="mind-games-header__headline-separator"></div>
-      <h1 class="mind-games-header__headline">GAmES</h1>
+      <h1 class="mind-games-header__headline">{{ headlineValues[1] }}</h1>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { wordVariants } from "@/helpers/helpers";
 
 export default defineComponent({
   name: "MindGamesHeader",
+
+  data() {
+    return {
+      headlineValues: ["MiNd", "GAmES"] as Array<string>,
+    };
+  },
+
+  mounted() {
+    this.spinHeadline();
+  },
+
+  methods: {
+    spinHeadline() {
+      //TODO: text scrable for headline
+    },
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 .mind-games-header {
-  background: $c-background-darker;
+  background: $color-background-darker;
   width: 100%;
   text-align: center;
-  color: $c-font;
+  color: $color-font;
   padding: 38px 5%;
   user-select: none;
   cursor: pointer;

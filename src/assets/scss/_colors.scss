@@ -1,12 +1,20 @@
-$c-background-dark: #131214;
-$c-background-darker: #090909;
+/* GLOBAL COLORS */
+$black: #101010;
+$grey-50: #474747;
+$grey-10: #131214;
+$white: #ffffff;
+$green: #6dd85b;
+$red: #ef6060;
 
-$c-border-dark: #474747;
 
-$c-font: #fff;
-$c-font-darker: #090909;
-$c-font-dark: #474747;
+/* Tokens */
 
-$c-green: #6dd85b;
-//6dd85b
-$c-red: #EF6060;
+$color-background-dark: $grey-10;
+$color-background-darker: $black;
+
+$color-border-dark: $grey-50;
+$color-border-darker: $black;
+
+$color-font: $white;
+$color-font-darker: $black;
+$color-font-dark: $grey-50;
