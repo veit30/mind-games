@@ -1,24 +1,53 @@
 <template>
   <div class="countdown-bar">
-    <div class="countdown-bar__content"></div>
-    <p class="countdown-bar__value">{{ countdown }}</p>
-    <!-- {{countdown}} -->
+    <div
+      class="countdown-bar__content"
+      :class="colorClass"
+      :style="barWidthStyle"
+    ></div>
+    <p class="countdown-bar__value">{{ current }}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { roundDecimal } from "@/helpers/util";
 
 export default defineComponent({
+  name: "CountdownBar",
 
-  name: 'CountdownBar',
-
-  data() {
-    return {
-      countdown: 12 as number,
-    }
+  props: {
+    max: {
+      type: Number,
+      required: true,
+    },
+    current: {
+      type: Number,
+      required: true,
+    },
   },
-})
+
+  computed: {
+    colorClass() {
+      let ratio = this.current / this.max;
+      if (ratio >= 0.25) {
+        return "green";
+      } else if (ratio <= 0.05) {
+        return "red";
+      } else {
+        return "orange";
+      }
+    },
+    barWidthStyle() {
+      let ratio = (this.current / this.max) * 100;
+      ratio = roundDecimal(ratio, 2);
+      return `width: ${100 - ratio}%`;
+    },
+    roundedCurrent() {
+      return Math.round(this.current);
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -30,10 +59,21 @@ export default defineComponent({
   color: #fff;
 
   &__content {
-    background: $green;
     height: 100%;
-    width: 80%;
+    // width: 80%;
     z-index: 4;
+
+    &.green {
+      background: $green;
+    }
+
+    &.orange {
+      background: $orange;
+    }
+
+    &.red {
+      background: $red;
+    }
   }
 
   &__value {

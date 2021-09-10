@@ -1,5 +1,5 @@
 <template>
-  <button class="game-button" @click="$emit('click')">
+  <button class="game-button" :class="borderClass" @click="$emit('click')">
     <span :class="extraClasses"><slot></slot></span>
     <span class="game-button__alternative" :class="extraClasses">{{
       alternative
@@ -20,11 +20,17 @@ export default defineComponent({
     isLarge: {
       type: Boolean,
     },
+    borderless: {
+      type: Boolean,
+    },
   },
 
   computed: {
     extraClasses() {
       return this.isLarge ? "game-button--large" : "";
+    },
+    borderClass() {
+      return this.borderless ? "game-button--borderless" : "";
     },
   },
 });
@@ -49,15 +55,24 @@ button.game-button {
     background: $color-background-darker;
     cursor: pointer;
   }
+
+  &--borderless {
+    border: none;
+
+    &:hover {
+      background: $color-background-dark;
+      color: $color-font--hover;
+    }
+  }
 }
 
 .game-button__alternative {
   color: $color-font-dark;
-  font-family: 'Alegreya Sans', sans-serif;
+  font-family: "Alegreya Sans", sans-serif;
   font-weight: 900;
 
   &.game-button--large {
-    font-size: 26px;
+    font-size: 30px;
   }
 }
 

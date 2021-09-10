@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { wordVariants } from "@/helpers/helpers";
+import { wordVariants } from "@/helpers/util";
 
 export default defineComponent({
   name: "MindGamesHeader",
@@ -28,6 +28,8 @@ export default defineComponent({
   methods: {
     spinHeadline() {
       //TODO: text scrable for headline
+      let variants = wordVariants("game");
+      return null;
     },
   },
 });
@@ -39,9 +41,10 @@ export default defineComponent({
   width: 100%;
   text-align: center;
   color: $color-font;
-  padding: 38px 5%;
+  padding: 38px 0;
   user-select: none;
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
 
   &__headline {
     font-family: "Major Mono Display", monospace;
@@ -55,5 +58,9 @@ export default defineComponent({
       display: inline-block;
     }
   }
+}
+
+.header__container {
+  cursor: pointer;
 }
 </style>

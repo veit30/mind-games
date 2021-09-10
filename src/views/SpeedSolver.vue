@@ -2,7 +2,7 @@
   <div class="speed-solver">
     <h2 class="speed-solver__headline">Speed Solver</h2>
     <div class="speed-solver__container">
-      <countdown-bar class="speed-solver__countdown" />
+      <countdown-bar class="speed-solver__countdown" :max="60" :current="25" />
       <div class="speed-solver__button-container margin-horizontal--large">
         <game-button
           class="speed-solver__upper-button"
@@ -18,29 +18,41 @@
         >
       </div>
       <div class="speed-solver__main-container">
-        {{ equation }}
+        <game-button
+          v-if="isGameOver"
+          class="speed-solver__start-button"
+          alternative="S"
+          :borderless="true"
+          :is-large="true"
+          @click="restart"
+          >Start Game</game-button
+        >
+        <p v-else>{{ task.get() }}</p>
       </div>
       <div class="speed-solver__points-container">
-        <game-info-point :value="true">Info Text</game-info-point>
-        <game-info-point :value="true">Info Text länger</game-info-point>
-        <game-info-point :value="true">Info Text infooooooo</game-info-point>
-        <game-info-point :value="true">Info Text</game-info-point>
-
+        <game-info-point
+          v-for="result in results"
+          :key="result.task.get()"
+          :value="result.userSolution === result.task.solution"
+          >{{
+            `${result.task.get()} = ${result.userSolution}`
+          }}</game-info-point
+        >
       </div>
-      <div class="speed-solver__button-container">
+      <div v-if="solutions.length" class="speed-solver__button-container">
         <game-button
           class="speed-solver__action-button"
           alternative="←"
           @click="commitSolution(0)"
           :is-large="true"
-          >{{ solutions[0] }}</game-button
+          >{{ solutions[0].value }}</game-button
         >
         <game-button
           class="speed-solver__action-button"
           alternative="→"
           @click="commitSolution(1)"
           :is-large="true"
-          >{{ solutions[1] }}</game-button
+          >{{ solutions[1].value }}</game-button
         >
       </div>
     </div>
@@ -52,6 +64,9 @@ import { defineComponent } from "vue";
 import GameButton from "@/components/GameButton.vue";
 import CountdownBar from "@/components/CountdownBar.vue";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
+import Task from "@/data/Task";
+import type { Solution } from "@/data/Task";
+import { randomIntInRange } from "@/helpers/util";
 
 export default defineComponent({
   name: "SpeedSolver",
@@ -64,8 +79,10 @@ export default defineComponent({
 
   data() {
     return {
-      solutions: [0, 0] as Array<number>,
-      equation: "1 + 1" as string,
+      solutions: [] as Array<Solution>,
+      task: new Task() as Task,
+      isGameOver: true,
+      results: [] as any[],
     };
   },
 
@@ -79,29 +96,47 @@ export default defineComponent({
 
   methods: {
     handleKeyDown(event: KeyboardEvent) {
-      console.log(event.code);
+      //TODO: visually represent keypress on buttons
+      //this might require keydown and keyup events
 
       switch (event.code) {
         case "KeyB":
           this.$router.push("/");
           break;
         case "KeyR":
+        case "KeyS":
           this.restart();
           break;
         case "ArrowRight":
           this.commitSolution(1);
           break;
-        case "Arrowleft":
+        case "ArrowLeft":
           this.commitSolution(0);
           break;
       }
     },
 
     restart() {
-      console.log("restarted");
+      this.isGameOver = false;
+      this.results = [];
+      this.nextTask();
     },
 
-    commitSolution(index: number) {},
+    nextTask() {
+      this.task = new Task();
+      this.solutions = this.task.getPossibleSolutions(2);
+    },
+
+    commitSolution(index: number) {
+      console.log(index);
+
+      this.results.push({
+        task: this.task,
+        userSolution: this.solutions[index].value,
+      });
+
+      this.nextTask();
+    },
   },
 });
 </script>
@@ -128,6 +163,10 @@ export default defineComponent({
   &__action-button {
     width: 50%;
     height: 100px;
+  }
+
+  &__start-button {
+    margin: 0 auto;
   }
 
   &__countdown {
