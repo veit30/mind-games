@@ -2,7 +2,7 @@
   <div class="speed-solver">
     <h2 class="speed-solver__headline">Speed Solver</h2>
     <div class="speed-solver__container">
-      <countdown-bar class="speed-solver__countdown" />
+      <countdown-bar class="speed-solver__countdown" :max="60" :current="25" />
       <div class="speed-solver__button-container margin-horizontal--large">
         <game-button
           class="speed-solver__upper-button"
@@ -18,14 +18,22 @@
         >
       </div>
       <div class="speed-solver__main-container">
-        {{ equation }}
+        <game-button
+          v-if="isGameOver"
+          class="speed-solver__start-button"
+          alternative="S"
+          :borderless="true"
+          :is-large="true"
+          @click="restart"
+          >Start Game</game-button
+        >
+        <p v-else>{{ equation }}</p>
       </div>
       <div class="speed-solver__points-container">
         <game-info-point :value="true">Info Text</game-info-point>
         <game-info-point :value="true">Info Text länger</game-info-point>
         <game-info-point :value="true">Info Text infooooooo</game-info-point>
         <game-info-point :value="true">Info Text</game-info-point>
-
       </div>
       <div class="speed-solver__button-container">
         <game-button
@@ -52,6 +60,8 @@ import { defineComponent } from "vue";
 import GameButton from "@/components/GameButton.vue";
 import CountdownBar from "@/components/CountdownBar.vue";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
+import { generateEquation } from "@/helpers/equationGenerator";
+import { EQUATION_DIFFICULTY } from "@/helpers/equationGenerator";
 
 export default defineComponent({
   name: "SpeedSolver",
@@ -65,7 +75,8 @@ export default defineComponent({
   data() {
     return {
       solutions: [0, 0] as Array<number>,
-      equation: "1 + 1" as string,
+      equation: "1 + 1",
+      isGameOver: true,
     };
   },
 
@@ -79,13 +90,15 @@ export default defineComponent({
 
   methods: {
     handleKeyDown(event: KeyboardEvent) {
-      console.log(event.code);
+      //TODO: visually represent keypress on buttons
+      //this might require keydown and keyup events
 
       switch (event.code) {
         case "KeyB":
           this.$router.push("/");
           break;
         case "KeyR":
+        case "KeyS":
           this.restart();
           break;
         case "ArrowRight":
@@ -98,10 +111,13 @@ export default defineComponent({
     },
 
     restart() {
-      console.log("restarted");
+      this.isGameOver = false;
+      this.equation = generateEquation(2, EQUATION_DIFFICULTY.EASY);
     },
 
-    commitSolution(index: number) {},
+    commitSolution(index: number) {
+      return index;
+    },
   },
 });
 </script>
@@ -128,6 +144,10 @@ export default defineComponent({
   &__action-button {
     width: 50%;
     height: 100px;
+  }
+
+  &__start-button {
+    margin: 0 auto;
   }
 
   &__countdown {

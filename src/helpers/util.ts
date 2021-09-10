@@ -7,8 +7,6 @@ export function wordVariants(word: string): Array<string> {
   for (let i = 0; i < possibilities; i++) {
     current = "";
     for (let c = 0; c < word.length; c++) {
-      const val = possibilities % (c + 2);
-
       const a = 2 ** (c + 1);
       const b = a + i;
       const d = b % a;
@@ -19,4 +17,17 @@ export function wordVariants(word: string): Array<string> {
     final.push(current);
   }
   return final;
+}
+
+export function roundDecimal(num: number, decimals: number): number {
+  const quotient = 10 ** decimals;
+  return Math.round((num + Number.EPSILON) * quotient) / quotient;
+}
+
+export function randomIntInRange(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function randomFromArray(arr: Array<unknown>): unknown {
+  return arr[Math.floor(Math.random() * arr.length)];
 }
