@@ -5,7 +5,7 @@
       :class="colorClass"
       :style="barWidthStyle"
     ></div>
-    <p class="countdown-bar__value">{{ current }}</p>
+    <p class="countdown-bar__value">{{ countdownText }}</p>
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default defineComponent({
 
   computed: {
     colorClass() {
-      let ratio = this.current / this.max;
+      let ratio = this.max > 0 ? this.current / this.max : 0;
       if (ratio >= 0.25) {
         return "green";
       } else if (ratio <= 0.05) {
@@ -39,12 +39,15 @@ export default defineComponent({
       }
     },
     barWidthStyle() {
-      let ratio = (this.current / this.max) * 100;
+      let ratio = this.max > 0 ? (this.current / this.max) * 100 : 100;
       ratio = roundDecimal(ratio, 2);
       return `width: ${100 - ratio}%`;
     },
     roundedCurrent() {
-      return Math.round(this.current);
+      return Math.floor(this.current);
+    },
+    countdownText() {
+      return this.current <= 0 ? "" : this.roundedCurrent;
     },
   },
 });

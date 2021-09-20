@@ -1,5 +1,5 @@
 <template>
-  <button class="game-button" :class="borderClass" @click="$emit('click')">
+  <button class="game-button" :class="borderClass">
     <span :class="extraClasses"><slot></slot></span>
     <span class="game-button__alternative" :class="extraClasses">{{
       alternative

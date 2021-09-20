@@ -2,7 +2,11 @@
   <div class="speed-solver">
     <h2 class="speed-solver__headline">Speed Solver</h2>
     <div class="speed-solver__container">
-      <countdown-bar class="speed-solver__countdown" :max="60" :current="25" />
+      <countdown-bar
+        class="speed-solver__countdown"
+        :max="gameCountdown.length"
+        :current="gameCountdown.exactValue"
+      />
       <div class="speed-solver__button-container margin-horizontal--large">
         <game-button
           class="speed-solver__upper-button"
@@ -19,7 +23,7 @@
       </div>
       <div class="speed-solver__main-container">
         <game-button
-          v-if="isGameOver"
+          v-if="isGameOver && isFirstGame"
           class="speed-solver__start-button"
           alternative="S"
           :borderless="true"
@@ -27,28 +31,46 @@
           @click="restart"
           >Start Game</game-button
         >
-        <p v-else>{{ equation }}</p>
+        <div
+          v-else-if="isGameOver && !isFirstGame"
+          class="speed-solver__game-over-box"
+        >
+          <p>Game Over</p>
+          <p>
+            Points: <span :class="pointsClass">{{ gamePoints }}</span>
+          </p>
+        </div>
+        <p v-else-if="isPreCountdownRunning">
+          {{ initialCountdown.value === 0 ? "" : initialCountdown.value }}
+        </p>
+        <p v-else>{{ task.get() }}</p>
       </div>
       <div class="speed-solver__points-container">
-        <game-info-point :value="true">Info Text</game-info-point>
-        <game-info-point :value="true">Info Text länger</game-info-point>
-        <game-info-point :value="true">Info Text infooooooo</game-info-point>
-        <game-info-point :value="true">Info Text</game-info-point>
+        <game-info-point
+          v-for="result in results"
+          :key="result.task.get()"
+          :value="result.userSolution === result.task.solution"
+          >{{
+            `${result.task.get()} = ${result.userSolution}`
+          }}</game-info-point
+        >
       </div>
-      <div class="speed-solver__button-container">
+      <div v-if="showSolutionButtons" class="speed-solver__button-container">
         <game-button
           class="speed-solver__action-button"
           alternative="←"
           @click="commitSolution(0)"
           :is-large="true"
-          >{{ solutions[0] }}</game-button
+          style="border-left: 0; border-bottom: 0"
+          >{{ solutions[0].value }}</game-button
         >
         <game-button
           class="speed-solver__action-button"
           alternative="→"
           @click="commitSolution(1)"
           :is-large="true"
-          >{{ solutions[1] }}</game-button
+          style="border-right: 0; border-bottom: 0; border-left: 0"
+          >{{ solutions[1].value }}</game-button
         >
       </div>
     </div>
@@ -60,8 +82,12 @@ import { defineComponent } from "vue";
 import GameButton from "@/components/GameButton.vue";
 import CountdownBar from "@/components/CountdownBar.vue";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
-import { generateEquation } from "@/helpers/equationGenerator";
-import { EQUATION_DIFFICULTY } from "@/helpers/equationGenerator";
+import Task from "@/data/Task";
+import type { Solution } from "@/data/Task";
+import { randomIntInRange } from "@/helpers/util";
+import Countdown from "@/data/Countdown";
+
+type TaskResult = { task: Task; userSolution: number };
 
 export default defineComponent({
   name: "SpeedSolver",
@@ -74,9 +100,14 @@ export default defineComponent({
 
   data() {
     return {
-      solutions: [0, 0] as Array<number>,
-      equation: "1 + 1",
+      gameCountdown: new Countdown() as Countdown,
+      gameTimer: 0 as number,
+      initialCountdown: new Countdown(3) as Countdown,
+      isFirstGame: true,
       isGameOver: true,
+      results: [] as TaskResult[],
+      solutions: [] as Array<Solution>,
+      task: {} as Task,
     };
   },
 
@@ -104,19 +135,97 @@ export default defineComponent({
         case "ArrowRight":
           this.commitSolution(1);
           break;
-        case "Arrowleft":
+        case "ArrowLeft":
           this.commitSolution(0);
           break;
       }
     },
 
     restart() {
+      this.isFirstGame = false;
+      clearInterval(this.gameTimer);
+      this.gameCountdown.reset();
+      this.initialCountdown.reset();
       this.isGameOver = false;
-      this.equation = generateEquation(2, EQUATION_DIFFICULTY.EASY);
+      this.initialCountdown.start();
+      this.results = [];
+      this.solutions = [];
+      this.nextTask();
+
+      this.gameTimer = setTimeout(() => {
+        this.gameCountdown = new Countdown(60);
+        this.gameCountdown.start();
+      }, 3000);
+    },
+
+    endGame() {
+      this.isGameOver = true;
+    },
+
+    nextTask() {
+      this.task = new Task();
+      this.solutions = this.task.getPossibleSolutions(2);
     },
 
     commitSolution(index: number) {
-      return index;
+      if (this.isGameOver) return;
+      this.results.push({
+        task: this.task,
+        userSolution: this.solutions[index].value,
+      });
+
+      this.nextTask();
+    },
+  },
+
+  computed: {
+    isPreCountdownRunning(): boolean {
+      return !this.isGameOver && !this.initialCountdown.isOver;
+    },
+
+    showSolutionButtons(): boolean {
+      return (
+        this.solutions.length > 0 &&
+        !this.isPreCountdownRunning &&
+        !this.isGameOver
+      );
+    },
+
+    gamePoints(): number {
+      let points = 0;
+      for (let result of this.results) {
+        if (result.task.solution === result.userSolution) {
+          points += 1;
+        } else {
+          points -= 1;
+        }
+      }
+      return points;
+    },
+
+    pointsClass() {
+      if (this.gamePoints < 0) {
+        return "points-0";
+      } else if (this.gamePoints >= 0 && this.gamePoints < 25) {
+        return "points-1";
+      } else if (this.gamePoints >= 25 && this.gamePoints < 40) {
+        return "points-2";
+      } else if (this.gamePoints >= 40 && this.gamePoints < 60) {
+        return "points-3";
+      } else {
+        return "points-4";
+      }
+    },
+  },
+
+  watch: {
+    gameCountdown: {
+      deep: true,
+      handler(countdown) {
+        if (countdown.isOver) {
+          this.endGame();
+        }
+      },
     },
   },
 });
@@ -132,9 +241,13 @@ export default defineComponent({
   user-select: none;
 
   &__main-container {
-    margin-top: 155px;
+    margin-top: 100px;
     font-size: 60px;
     text-align: center;
+
+    button {
+      margin-top: 55px;
+    }
   }
 
   &__upper-button {
@@ -162,7 +275,10 @@ export default defineComponent({
   &__points-container {
     margin-top: auto;
     margin-bottom: 20px;
+    margin-right: 30px;
+    margin-left: 30px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
   }
 
@@ -174,6 +290,39 @@ export default defineComponent({
     margin-top: 30px;
     display: flex;
     flex-direction: column;
+  }
+
+  &__game-over-box {
+    p {
+      margin-bottom: 10px;
+      margin-top: 10px;
+
+      &:nth-of-type(2n) {
+        font-size: 32px;
+      }
+    }
+
+    span {
+      &.points-0 {
+        color: $red;
+      }
+
+      &.points-1 {
+        color: $white;
+      }
+
+      &.points-2 {
+        color: $green;
+      }
+
+      &.points-3 {
+        color: $blue;
+      }
+
+      &.points-4 {
+        color: $violet;
+      }
+    }
   }
 }
 
