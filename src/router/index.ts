@@ -44,6 +44,24 @@ const routes: Array<RouteRecordRaw> = [
       ],
     },
   },
+  {
+    path: "/chain-solver",
+    name: "ChainSolver",
+    component: () => import("../views/ChainSolver.vue"),
+    meta: {
+      title: "Mind Games - Chain Solver",
+      metaTags: [
+        {
+          name: "description",
+          content: "Mind Games -> Chain Solver",
+        },
+        {
+          property: "og:description",
+          content: "Mind Games -> Chain Solver",
+        },
+      ],
+    },
+  },
 ];
 
 const router = createRouter({

@@ -6,13 +6,14 @@ const games = [
     symbol: "speed-solver",
   },
   {
-    name: "Game Placeholder",
-    description: "This is a game placeholder.",
-    route: "",
+    name: "Chain Solver",
+    description: "Solve a large task that is build up step by step.",
+    route: "chain-solver",
+    symbol: "chain-solver",
   },
   {
-    name: "Game Placeholder",
-    description: "This is a game placeholder.",
+    name: "Sample Game",
+    description: "This is for testing",
     route: "",
   },
   {

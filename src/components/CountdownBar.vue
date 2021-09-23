@@ -18,14 +18,6 @@ export default defineComponent({
   name: "CountdownBar",
 
   props: {
-    max: {
-      type: Number,
-      required: true,
-    },
-    current: {
-      type: Number,
-      required: true,
-    },
     countdown: {
       type: Countdown,
       required: true,
@@ -34,7 +26,10 @@ export default defineComponent({
 
   computed: {
     colorClass() {
-      let ratio = this.max > 0 ? this.current / this.max : 0;
+      let ratio =
+        this.countdown.max > 0
+          ? this.countdown.exactValue / this.countdown.max
+          : 0;
       if (ratio >= 0.15) {
         return "green";
       } else if (ratio <= 0.05) {
@@ -44,15 +39,18 @@ export default defineComponent({
       }
     },
     barWidthStyle() {
-      let ratio = this.max > 0 ? (this.current / this.max) * 100 : 100;
+      let ratio =
+        this.countdown.max > 0
+          ? (this.countdown.exactValue / this.countdown.max) * 100
+          : 100;
       ratio = roundDecimal(ratio, 2);
       return `width: ${100 - ratio}%`;
     },
     roundedCurrent() {
-      return Math.floor(this.current);
+      return Math.floor(this.countdown.exactValue);
     },
     countdownText() {
-      return this.current <= 0 ? "" : this.roundedCurrent;
+      return this.countdown.exactValue <= 0 ? "" : this.roundedCurrent;
     },
   },
 });
