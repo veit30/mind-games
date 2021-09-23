@@ -1,44 +1,82 @@
 <template>
-  <button>
-    <slot></slot>
+  <button class="game-button" :class="borderClass">
+    <span :class="extraClasses"><slot></slot></span>
+    <span class="game-button__alternative" :class="extraClasses">{{
+      alternative
+    }}</span>
   </button>
 </template>
 
-<script>
-// @ is an alias to /src
+<script lang="ts">
+import { defineComponent } from "vue";
 
-export default {
-  name: 'GameButton'
-}
+export default defineComponent({
+  name: "GameButton",
+
+  props: {
+    alternative: {
+      type: String,
+    },
+    isLarge: {
+      type: Boolean,
+    },
+    borderless: {
+      type: Boolean,
+    },
+  },
+
+  computed: {
+    extraClasses() {
+      return this.isLarge ? "game-button--large" : "";
+    },
+    borderClass() {
+      return this.borderless ? "game-button--borderless" : "";
+    },
+  },
+});
 </script>
 
-<style scoped lang="scss">
-  @import "../scss/_variables.scss";
+<style lang="scss" scoped>
+button.game-button {
+  background: $color-background-dark;
+  outline: none;
+  border: 1px solid $color-border-dark;
+  padding: 8px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $color-font;
+  font-family: "Righteous", cursive;
+  user-select: none;
+  font-size: 20px;
+  min-width: 130px;
 
-  button {
-    min-width: 90px;
-    min-height: 90px;
-    background: $button-color;
-    font-size: 2em;
-    color: white;
-    border-radius: 7px;
-    border: none;
-    box-shadow: 0 7px 0px $button-shadow;
-    display: inline-block;
-    transition: all .1s;
-    position: relative;
-    padding: 20px 25px;
-    position: relative;
-    top: 0;
+  &:hover {
+    background: $color-background-darker;
     cursor: pointer;
-    margin:0 20px;
-    outline: none;
-    text-shadow: 0 2px 0px $button-shadow;
   }
 
-  button:active {
-    top: 3px;
-    box-shadow: 0 2px 0px $button-shadow;
-    transition: all .1s;
+  &--borderless {
+    border: none;
+
+    &:hover {
+      background: $color-background-dark;
+      color: $color-font--hover;
+    }
   }
+}
+
+.game-button__alternative {
+  color: $color-font-dark;
+  font-family: "Alegreya Sans", sans-serif;
+  font-weight: 900;
+
+  &.game-button--large {
+    font-size: 30px;
+  }
+}
+
+.game-button--large {
+  font-size: 34px;
+}
 </style>

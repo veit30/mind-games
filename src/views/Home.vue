@@ -1,40 +1,57 @@
 <template>
   <div class="home">
-    <p>This is the home page</p>
-    <p>Select a game</p>
-    <ul>
-      <li><router-link to="/solve-up">Solve up</router-link></li>
-      <li><router-link to="/countdown-solver">Countdown Solver</router-link></li>
-      <li><router-link to="/sum-it-up">Sum it Up</router-link></li>
-      <li><router-link to="/memory">Memory</router-link></li>
-      <li><router-link to="/memory-matrix">Memory Matrix</router-link></li>
-    </ul>
+    <h2 class="home__header">Game Selection</h2>
+    <div class="home__game-container">
+      <game-card v-for="game in games" :key="game.name" v-bind="game" />
+    </div>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
+<script lang="ts">
+import { defineComponent } from "vue";
+import GameCard from "@/components/GameCard.vue";
+import games from "@/data/games";
 
-export default {
-  name: 'Home',
+export default defineComponent({
+  name: "GameSelection",
+
+  data() {
+    return {
+      games,
+    };
+  },
+
   components: {
+    GameCard,
+  },
 
-  }
-}
+  methods: {
+    routeTo(game: string) {
+      this.$router.push(`/${game}`);
+    },
+  },
+});
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
-@import "../scss/_variables.scss";
+.home {
+  text-align: center;
+  font-family: "Righteous", cursive;
 
-html, body {
-  font-family: 'Fira Sans', sans-serif;
+  &__game-container {
+    display: flex;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 30px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  &__header {
+    font-size: 36px;
+    margin-top: 40px;
+    margin-left: 15%;
+    text-align: start;
+  }
 }
-
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
 </style>
