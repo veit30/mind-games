@@ -2,9 +2,7 @@
   <div class="home">
     <h2 class="home__header">Game Selection</h2>
     <div class="home__game-container">
-      <game-card name="Speed Solver" @click="routeTo('speed-solver')" />
-      <game-card name="Speed Solver" />
-      <game-card name="Speed Solver" />
+      <game-card v-for="game in games" :key="game.name" v-bind="game" />
     </div>
   </div>
 </template>
@@ -12,9 +10,16 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import GameCard from "@/components/GameCard.vue";
+import games from "@/data/games";
 
 export default defineComponent({
   name: "GameSelection",
+
+  data() {
+    return {
+      games,
+    };
+  },
 
   components: {
     GameCard,
@@ -37,11 +42,16 @@ export default defineComponent({
     display: flex;
     width: 70%;
     margin: 0 auto;
+    margin-top: 30px;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   &__header {
-    margin-top: 20px;
+    font-size: 36px;
+    margin-top: 40px;
+    margin-left: 15%;
+    text-align: start;
   }
 }
 </style>

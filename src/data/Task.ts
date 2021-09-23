@@ -24,7 +24,7 @@ export default class Task {
     this._difficulty = difficulty;
   }
 
-  get() {
+  get(): string {
     return this.buildTask(this._task).replace("*", "×").replace("/", "÷");
   }
 
@@ -37,7 +37,7 @@ export default class Task {
   }
 
   getPossibleSolutions(amount: number): Array<Solution> {
-    const solutions: Solution[] = Array.from({ length: amount - 1 }, (x, i) => {
+    const solutions: Solution[] = Array.from({ length: amount - 1 }, () => {
       const fakeTask = this._task.slice();
       const modifyIndex = randomIntInRange(1, this._taskLength);
       let numberIndex = 0;
@@ -57,7 +57,7 @@ export default class Task {
     return shuffleArray(solutions);
   }
 
-  protected setOperatorByDifficulty() {
+  protected setOperatorByDifficulty(): void {
     switch (this._difficulty) {
       case DIFFICULTY.EASY:
         this._operators = [OPERATOR.SUBTRACT, OPERATOR.ADD, OPERATOR.MULTIPLY];
@@ -90,7 +90,7 @@ export default class Task {
     }
   }
 
-  new() {
+  new(): void {
     this._task = [];
     this.setOperatorByDifficulty();
     this.generateTask();

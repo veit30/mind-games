@@ -15,11 +15,11 @@ export default class Equation extends Task {
     this._difficulty = difficulty;
   }
 
-  get() {
+  get(): string {
     return this._equation.join(" ");
   }
 
-  new() {
+  new(): void {
     this.setOperatorByDifficulty();
   }
 }

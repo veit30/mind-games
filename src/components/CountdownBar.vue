@@ -12,6 +12,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { roundDecimal } from "@/helpers/util";
+import Countdown from "@/data/Countdown";
 
 export default defineComponent({
   name: "CountdownBar",
@@ -25,12 +26,16 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    countdown: {
+      type: Countdown,
+      required: true,
+    },
   },
 
   computed: {
     colorClass() {
       let ratio = this.max > 0 ? this.current / this.max : 0;
-      if (ratio >= 0.25) {
+      if (ratio >= 0.15) {
         return "green";
       } else if (ratio <= 0.05) {
         return "red";

@@ -10,7 +10,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { wordVariants } from "@/helpers/util";
 
 export default defineComponent({
   name: "MindGamesHeader",
@@ -26,11 +25,7 @@ export default defineComponent({
   },
 
   methods: {
-    spinHeadline() {
-      //TODO: text scrable for headline
-      let variants = wordVariants("game");
-      return null;
-    },
+    //TODO: text scrable for headline
   },
 });
 </script>

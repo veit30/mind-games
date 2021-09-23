@@ -1,12 +1,12 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import type { RouteRecordNormalized } from "vue-router";
-import GameSelection from "../views/GameSelection.vue";
+import Home from "../views/Home.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "GameSelection",
-    component: GameSelection,
+    name: "Home",
+    component: Home,
     meta: {
       title: "Mind Games",
       metaTags: [
@@ -51,10 +51,6 @@ const router = createRouter({
   routes,
 });
 
-type MetaTagsData = {
-  meta: { metaTags: Array<{ name: string; content: string }> };
-};
-type MetaTitle = { meta: { title: string } };
 type MetaTag = { [key: string]: string };
 
 router.beforeEach((to, from, next) => {

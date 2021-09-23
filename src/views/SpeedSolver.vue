@@ -6,6 +6,7 @@
         class="speed-solver__countdown"
         :max="gameCountdown.length"
         :current="gameCountdown.exactValue"
+        :countdown="gameCountdown"
       />
       <div class="speed-solver__button-container margin-horizontal--large">
         <game-button
@@ -84,7 +85,6 @@ import CountdownBar from "@/components/CountdownBar.vue";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
 import Task from "@/data/Task";
 import type { Solution } from "@/data/Task";
-import { randomIntInRange } from "@/helpers/util";
 import Countdown from "@/data/Countdown";
 
 type TaskResult = { task: Task; userSolution: number };
@@ -100,7 +100,7 @@ export default defineComponent({
 
   data() {
     return {
-      gameCountdown: new Countdown() as Countdown,
+      gameCountdown: new Countdown(60) as Countdown,
       gameTimer: 0 as number,
       initialCountdown: new Countdown(3) as Countdown,
       isFirstGame: true,
