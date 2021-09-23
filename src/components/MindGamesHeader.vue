@@ -20,10 +20,6 @@ export default defineComponent({
     };
   },
 
-  mounted() {
-    this.spinHeadline();
-  },
-
   methods: {
     //TODO: text scrable for headline
   },

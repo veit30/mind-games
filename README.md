@@ -25,7 +25,7 @@ plop
 # Minigames
 
 |Name|Type|Desciption|Game Mechanics|UI/UX|
-|:-|:-|:-|:-|
+|:-|:-|:-|:-|:-|
 |Speed Solver|Math|Solve as many (easy) math equations in 60 seconds|🚧|🚧|
 |Solve Up|Math|A large equations is building up step by step. Goal is to memorize the last numbers and calculate the whole.|❌|❌|
 |Sum it Up|Math|Given is a grid of numbers that need to be summed up as quick as possible. Grid is getting bigger with difficulty|❌|❌|
