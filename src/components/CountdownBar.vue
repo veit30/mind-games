@@ -31,11 +31,11 @@ export default defineComponent({
           ? this.countdown.exactValue / this.countdown.max
           : 0;
       if (ratio >= 0.15) {
-        return "green";
+        return "background--green";
       } else if (ratio <= 0.05) {
-        return "red";
+        return "background--red";
       } else {
-        return "orange";
+        return "background--orange";
       }
     },
     barWidthStyle() {
@@ -47,7 +47,7 @@ export default defineComponent({
       return `width: ${100 - ratio}%`;
     },
     roundedCurrent() {
-      return Math.floor(this.countdown.exactValue);
+      return Math.ceil(this.countdown.exactValue);
     },
     countdownText() {
       return this.countdown.exactValue <= 0 ? "" : this.roundedCurrent;
@@ -62,24 +62,10 @@ export default defineComponent({
   height: 30px;
   width: 400px;
   z-index: 5;
-  color: #fff;
 
   &__content {
     height: 100%;
-    // width: 80%;
     z-index: 4;
-
-    &.green {
-      background: $green;
-    }
-
-    &.orange {
-      background: $orange;
-    }
-
-    &.red {
-      background: $red;
-    }
   }
 
   &__value {

@@ -70,12 +70,15 @@ const actionButtons: ActionButtonOptions[] = [
     alternative: "←",
     label: "",
     clickEvent: "commit-solution-1",
+    isFullSize: false,
   },
   {
-    name: "solution1",
+    name: "solution2",
     alternative: "→",
     label: "",
     clickEvent: "commit-solution-2",
+    isFullSize: false,
+    hasExtraBorder: true,
   },
 ];
 
@@ -92,7 +95,7 @@ export default defineComponent({
   data() {
     return {
       actionButtons,
-      gameCountdown: new Countdown(300) as Countdown,
+      gameCountdown: new Countdown(60) as Countdown,
       gameTimer: 0 as number,
       initialCountdown: new Countdown(3) as Countdown,
       isFirstGame: true,
@@ -145,7 +148,7 @@ export default defineComponent({
       this.nextTask();
 
       this.gameTimer = setTimeout(() => {
-        this.gameCountdown = new Countdown(300);
+        this.gameCountdown = new Countdown(60);
         this.gameCountdown.start();
       }, 3000);
     },
@@ -155,7 +158,7 @@ export default defineComponent({
     },
 
     nextTask() {
-      this.task = new Task();
+      this.task.new();
       this.solutions = this.task.getPossibleSolutions(2);
     },
 

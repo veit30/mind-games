@@ -11,7 +11,8 @@ type TaskSegment = string | number;
 export type Solution = { value: number; isValid: boolean };
 
 export default class Task {
-  constructor() {
+  constructor(length = 2) {
+    this._taskLength = length;
     this.new();
   }
 
@@ -90,7 +91,10 @@ export default class Task {
     }
   }
 
-  new(): void {
+  new(length?: number): void {
+    if (length) {
+      this._taskLength = length;
+    }
     this._task = [];
     this.setOperatorByDifficulty();
     this.generateTask();

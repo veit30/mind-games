@@ -25,6 +25,14 @@ hr {
   }
 }
 
+.border {
+  &-left {
+    &--dark {
+      border-left: 1px solid $color-border-dark;
+    }
+  }
+}
+
 .color {
   &--red {
     color: $red;
@@ -44,5 +52,23 @@ hr {
 
   &--violet {
     color: $violet;
+  }
+}
+
+.background {
+  &--white {
+    background: $white;
+  }
+
+  &--green {
+    background: $green;
+  }
+
+  &--orange {
+    background: $orange;
+  }
+
+  &--red {
+    background: $red;
   }
 }

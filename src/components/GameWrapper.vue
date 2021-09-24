@@ -20,12 +20,19 @@
       <div class="game-wrapper__main-container">
         <slot></slot>
       </div>
+      <div class="game-wrapper__down-draw"></div>
       <slot name="middle"></slot>
-      <div class="game-wrapper__button-container">
+      <div class="game-wrapper__action-button-container">
         <game-button
           v-for="button in actionButtons"
           :key="button.name"
           class="game-wrapper__action-button"
+          :class="[
+            button.isFullSize
+              ? 'game-wrapper__action-button--full'
+              : 'game-wrapper__action-button--default',
+            button.hasExtraBorder ? 'border-left--dark' : '',
+          ]"
           :is-large="true"
           @click="$emit(button.clickEvent)"
           :alternative="button.alternative"
@@ -97,6 +104,12 @@ export default defineComponent({
     justify-content: space-between;
   }
 
+  &__action-button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
   &__top-button {
     min-width: 100px;
   }
@@ -110,16 +123,32 @@ export default defineComponent({
       margin-top: 55px;
     }
   }
+
+  &__down-draw {
+    margin-top: auto;
+  }
 }
 
 // Overwrite default game button styles
 button.game-wrapper__action-button {
-  flex-grow: 1;
+  flex-basis: 50%;
   height: 100px;
   border-top: 1px solid $color-border-dark;
 
-  &:not(:first-child) {
-    border-left: 1px solid $color-border-dark;
+  &.border {
+    &-left {
+      &--dark {
+        border-left: 1px solid $color-border-dark;
+      }
+    }
+  }
+
+  &--full {
+    flex-basis: 100%;
+  }
+
+  &--default {
+    flex-basis: 50%;
   }
 
   &:hover {

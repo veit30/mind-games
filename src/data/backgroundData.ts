@@ -1,5 +1,5 @@
 const backgroundData = {
-  SpeedSolver: [
+  game: [
     {
       style: "top: 450px;",
     },
