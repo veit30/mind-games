@@ -29,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/speed-solver",
     name: "SpeedSolver",
-    component: () => import("../views/SpeedSolver.vue"),
+    component: () => import("../views/games/SpeedSolver.vue"),
     meta: {
       title: "Mind Games - Speed Solver",
       metaTags: [
@@ -47,7 +47,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/chain-solver",
     name: "ChainSolver",
-    component: () => import("../views/ChainSolver.vue"),
+    component: () => import("../views/games/ChainSolver.vue"),
     meta: {
       title: "Mind Games - Chain Solver",
       metaTags: [

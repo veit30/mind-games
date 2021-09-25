@@ -1,6 +1,6 @@
 <template>
   <div class="timer-box">
-    <p class="timer-box__value" :class="colorClass">{{ value }}</p>
+    <p class="timer-box__value" :class="colorClass">{{ time }}</p>
   </div>
 </template>
 
@@ -24,18 +24,30 @@ export default defineComponent({
 
   computed: {
     colorClass() {
-      if (this.timer.value > this.threshold) {
+      if (this.timer.isStopped) {
+        return "color--grey";
+      }
+      if (this.timer.seconds > this.threshold) {
         return "color--red";
       } else if (
-        this.timer.value > this.threshold * 0.85 &&
-        this.timer.value <= this.threshold
+        this.timer.seconds > this.threshold * 0.85 &&
+        this.timer.seconds <= this.threshold
       ) {
         return "color--orange";
       }
-      return "";
+      return "color--white";
+    },
+    time() {
+      return this.timer.time;
     },
     value() {
-      return this.timer.time;
+      return this.timer.value;
+    },
+    seconds() {
+      return this.timer.seconds;
+    },
+    minutes() {
+      return this.timer.minutes;
     },
   },
 });
@@ -44,11 +56,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .timer-box {
   border: 1px solid $color-border-dark;
-  height: 30px;
-  width: 50px;
+  height: 40px;
+  width: 65px;
   z-index: 5;
   text-align: center;
   position: relative;
+  white-space: nowrap;
+  overflow: hidden;
 
   &__value {
     position: absolute;
@@ -56,7 +70,6 @@ export default defineComponent({
     left: 50%;
     transform: translate(-50%, -50%);
     margin: 0;
-    color: $color-font;
   }
 }
 </style>
