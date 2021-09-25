@@ -156,8 +156,6 @@ export default class Task {
   }
 
   new(length?: number): void {
-    console.log(324234);
-
     this._taskLength = length || this._taskLength;
     this._task = [];
     this.setOperatorByDifficulty();

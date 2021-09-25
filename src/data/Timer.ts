@@ -3,7 +3,7 @@ export default class Timer {
   private _startTime = 0;
   private _currentTime = 0;
   private _timer = 0;
-  private _isStopped = false;
+  private _isStopped = true;
 
   start(): void {
     this._startTime = new Date().getTime();

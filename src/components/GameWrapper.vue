@@ -1,6 +1,8 @@
 <template>
   <div class="game-wrapper">
-    <h2 class="game-wrapper__headline">{{ title }}</h2>
+    <div class="game-wrapper__headline-container">
+      <h2 class="game-wrapper__headline">{{ title }}</h2>
+    </div>
     <div class="game-wrapper__container">
       <slot name="top"></slot>
       <div class="game-wrapper__button-container margin-horizontal--large">
@@ -182,6 +184,17 @@ export default defineComponent({
 
   &__headline {
     font-size: 32px;
+  }
+
+  &__headline-container {
+    text-align: center;
+    border: 1px solid $color-border-dark;
+    width: 550px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $color-background-dark;
   }
 
   &__container {

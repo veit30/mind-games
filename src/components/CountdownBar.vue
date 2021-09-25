@@ -26,6 +26,9 @@ export default defineComponent({
 
   computed: {
     colorClass() {
+      if (!this.countdown.isRunning) {
+        return "";
+      }
       let ratio =
         this.countdown.max > 0
           ? this.countdown.exactValue / this.countdown.max
