@@ -31,10 +31,10 @@ export default defineComponent({
   computed: {
     backgroundLines(): Array<{ style: string }> {
       switch (this.$route.name) {
-        case "SpeedSolver":
-          return backgroundData[this.$route.name];
-        default:
+        case "Home":
           return this.calcLines();
+        default:
+          return backgroundData["game"];
       }
     },
   },

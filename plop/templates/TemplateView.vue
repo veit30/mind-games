@@ -16,6 +16,14 @@ export default defineComponent({
 
   props: {},
 
+  beforeMount() {
+    document.addEventListener("keydown", this.handleKeyDown, false);
+  },
+
+  beforeUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown, false);
+  },
+
   computed: {},
 
   methods: {},

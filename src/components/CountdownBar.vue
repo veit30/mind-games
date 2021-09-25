@@ -18,14 +18,6 @@ export default defineComponent({
   name: "CountdownBar",
 
   props: {
-    max: {
-      type: Number,
-      required: true,
-    },
-    current: {
-      type: Number,
-      required: true,
-    },
     countdown: {
       type: Countdown,
       required: true,
@@ -34,25 +26,34 @@ export default defineComponent({
 
   computed: {
     colorClass() {
-      let ratio = this.max > 0 ? this.current / this.max : 0;
+      if (!this.countdown.isRunning) {
+        return "";
+      }
+      let ratio =
+        this.countdown.max > 0
+          ? this.countdown.exactValue / this.countdown.max
+          : 0;
       if (ratio >= 0.15) {
-        return "green";
+        return "background--green";
       } else if (ratio <= 0.05) {
-        return "red";
+        return "background--red";
       } else {
-        return "orange";
+        return "background--orange";
       }
     },
     barWidthStyle() {
-      let ratio = this.max > 0 ? (this.current / this.max) * 100 : 100;
+      let ratio =
+        this.countdown.max > 0
+          ? (this.countdown.exactValue / this.countdown.max) * 100
+          : 100;
       ratio = roundDecimal(ratio, 2);
       return `width: ${100 - ratio}%`;
     },
     roundedCurrent() {
-      return Math.floor(this.current);
+      return Math.ceil(this.countdown.exactValue);
     },
     countdownText() {
-      return this.current <= 0 ? "" : this.roundedCurrent;
+      return this.countdown.exactValue <= 0 ? "" : this.roundedCurrent;
     },
   },
 });
@@ -64,24 +65,10 @@ export default defineComponent({
   height: 30px;
   width: 400px;
   z-index: 5;
-  color: #fff;
 
   &__content {
     height: 100%;
-    // width: 80%;
     z-index: 4;
-
-    &.green {
-      background: $green;
-    }
-
-    &.orange {
-      background: $orange;
-    }
-
-    &.red {
-      background: $red;
-    }
   }
 
   &__value {

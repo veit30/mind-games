@@ -1,7 +1,7 @@
 <template>
-  <button class="game-button" :class="borderClass">
-    <span :class="extraClasses"><slot></slot></span>
-    <span class="game-button__alternative" :class="extraClasses">{{
+  <button class="game-button" :class="extraClasses">
+    <span><slot></slot></span>
+    <span v-if="alternative.length" class="game-button__alternative">{{
       alternative
     }}</span>
   </button>
@@ -16,21 +16,24 @@ export default defineComponent({
   props: {
     alternative: {
       type: String,
+      default: "",
     },
     isLarge: {
       type: Boolean,
     },
-    borderless: {
+    isBorderless: {
       type: Boolean,
     },
   },
 
   computed: {
     extraClasses() {
-      return this.isLarge ? "game-button--large" : "";
-    },
-    borderClass() {
-      return this.borderless ? "game-button--borderless" : "";
+      return {
+        "game-button--large": this.isLarge && this.alternative.length <= 2,
+        "game-button--large-small-alt":
+          this.isLarge && this.alternative.length > 2,
+        "game-button--borderless": this.isBorderless,
+      };
     },
   },
 });
@@ -64,19 +67,27 @@ button.game-button {
       color: $color-font--hover;
     }
   }
+
+  &--large {
+    font-size: 34px;
+
+    .game-button__alternative {
+      font-size: 30px;
+    }
+  }
+
+  &--large-small-alt {
+    font-size: 34px;
+
+    .game-button__alternative {
+      font-size: 20px;
+    }
+  }
 }
 
 .game-button__alternative {
   color: $color-font-dark;
   font-family: "Alegreya Sans", sans-serif;
   font-weight: 900;
-
-  &.game-button--large {
-    font-size: 30px;
-  }
-}
-
-.game-button--large {
-  font-size: 34px;
 }
 </style>

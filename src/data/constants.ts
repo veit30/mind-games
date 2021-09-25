@@ -13,3 +13,10 @@ export const OPERATOR = {
   LARGER: ">",
   EQUAL: "=",
 } as const;
+
+export const GAME_STATE = {
+  PENDING: 1,
+  DONE: 2,
+  UNDECIDED: 3,
+  ERROR: 4,
+} as const;

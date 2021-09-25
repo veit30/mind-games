@@ -22,6 +22,10 @@ export default class Countdown {
     return this._isOver;
   }
 
+  get max(): number {
+    return this._countdownLength;
+  }
+
   start(): void {
     this._isOver = false;
     this._startTime = new Date().getTime();
@@ -44,14 +48,21 @@ export default class Countdown {
       this.reset();
     }
     cancelAnimationFrame(this._timer);
-    this._timer = requestAnimationFrame(() => this.loop());
+    if (!this._isOver) {
+      this._timer = requestAnimationFrame(() => this.loop());
+    }
   }
 
   reset(): void {
     cancelAnimationFrame(this._timer);
+    this._timer = NaN;
     this._currentValue = 0;
     this._startTime = 0;
     this._exactValue = 0;
+  }
+
+  get isRunning(): boolean {
+    return !this._isOver && this._currentValue !== 0;
   }
 
   set length(len: number) {
