@@ -17,12 +17,44 @@
           >Restart</game-button
         >
       </div>
-      <div class="game-wrapper__main-container">
+      <div
+        v-if="!isGameOver && !isPreCountdownRunning"
+        class="game-wrapper__main-container"
+      >
         <slot></slot>
       </div>
+      <div
+        v-if="isGameOver || isPreCountdownRunning"
+        class="game-wrapper__game-info-container"
+      >
+        <game-button
+          v-if="isFirstGame && !isPreCountdownRunning"
+          class="game-wrapper__start-button"
+          alternative="S"
+          :is-borderless="true"
+          :is-large="true"
+          @click="$emit('restart')"
+          >Start Game</game-button
+        >
+        <div
+          v-else-if="!isFirstGame && !isPreCountdownRunning"
+          class="game-wrapper__game-over-box"
+        >
+          <p>Game Over</p>
+          <p>
+            Points: <span :class="pointsClass">{{ points }}</span>
+          </p>
+        </div>
+        <p v-else>
+          {{ preCountdown.value === 0 ? "" : preCountdown.value }}
+        </p>
+      </div>
       <div class="game-wrapper__down-draw"></div>
-      <slot name="middle"></slot>
-      <div class="game-wrapper__action-button-container">
+      <slot v-if="!isPreCountdownRunning" name="middle"></slot>
+      <div
+        v-if="!isPreCountdownRunning"
+        class="game-wrapper__action-button-container"
+      >
         <game-button
           v-for="button in actionButtons"
           :key="button.name"
@@ -36,7 +68,7 @@
           :is-large="true"
           @click="$emit(button.clickEvent)"
           :alternative="button.alternative"
-          :borderless="true"
+          :is-borderless="true"
         >
           {{ button.label }}
         </game-button>
@@ -49,6 +81,7 @@
 import { defineComponent, PropType } from "vue";
 import GameButton from "@/components/GameButton.vue";
 import type { ActionButtonOptions } from "@/data/types";
+import Countdown from "@/data/Countdown";
 
 export default defineComponent({
   name: "GameWrapper",
@@ -58,21 +91,68 @@ export default defineComponent({
   },
 
   data() {
-    return {};
+    return {
+      preCountdown: new Countdown(3) as Countdown,
+      preTimer: 0,
+    };
   },
 
   props: {
     actionButtons: {
-      type: Object as PropType<Array<ActionButtonOptions>>,
+      type: Array as PropType<ActionButtonOptions[]>,
+      default: () => [],
     },
     title: {
       type: String,
+      default: "",
+    },
+    points: {
+      type: Number,
+      default: 0,
+    },
+    pointsClass: {
+      type: String,
+      default: "color--white",
+    },
+    isGameOver: {
+      type: Boolean,
+      required: true,
+    },
+    counter: {
+      type: Number,
+      required: true,
     },
   },
 
-  computed: {},
+  computed: {
+    isPreCountdownRunning(): boolean {
+      return this.preCountdown.isRunning;
+    },
+    isFirstGame(): boolean {
+      return this.counter < 1;
+    },
+  },
 
   methods: {},
+
+  watch: {
+    counter(newVal, oldVal) {
+      console.log(newVal);
+
+      if (newVal > oldVal) {
+        this.preCountdown.reset();
+        this.preCountdown.start();
+      }
+    },
+    preCountdown: {
+      deep: true,
+      handler(newVal) {
+        if (newVal.isOver) {
+          this.$emit("precountdown-over");
+        }
+      },
+    },
+  },
 });
 </script>
 
@@ -84,6 +164,21 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   user-select: none;
+
+  &__start-button {
+    margin: 0 auto;
+  }
+
+  &__game-over-box {
+    p {
+      margin-bottom: 10px;
+      margin-top: 10px;
+
+      &:nth-of-type(2n) {
+        font-size: 32px;
+      }
+    }
+  }
 
   &__headline {
     font-size: 32px;
@@ -115,6 +210,12 @@ export default defineComponent({
   }
 
   &__main-container {
+    margin-top: 100px;
+    font-size: 60px;
+    text-align: center;
+  }
+
+  &__game-info-container {
     margin-top: 100px;
     font-size: 60px;
     text-align: center;

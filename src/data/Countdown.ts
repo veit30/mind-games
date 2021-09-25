@@ -61,6 +61,10 @@ export default class Countdown {
     this._exactValue = 0;
   }
 
+  get isRunning(): boolean {
+    return !this._isOver && this._currentValue !== 0;
+  }
+
   set length(len: number) {
     this._countdownLength = len;
   }

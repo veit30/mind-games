@@ -1,6 +1,11 @@
 <template>
   <game-wrapper
     title="Speed Solver"
+    :is-game-over="isGameOver"
+    :counter="restartCounter"
+    :points="gamePoints"
+    :points-class="gamePointsClass"
+    @precountdown-over="startGameCountdown"
     @restart="restart"
     @commit-solution-1="commitSolution(0)"
     @commit-solution-2="commitSolution(1)"
@@ -13,28 +18,7 @@
       />
     </template>
     <template #default>
-      <game-button
-        v-if="isGameOver && isFirstGame"
-        class="speed-solver__start-button"
-        alternative="S"
-        :borderless="true"
-        :is-large="true"
-        @click="restart"
-        >Start Game</game-button
-      >
-      <div
-        v-else-if="isGameOver && !isFirstGame"
-        class="speed-solver__game-over-box"
-      >
-        <p>Game Over</p>
-        <p>
-          Points: <span :class="pointsClass">{{ gamePoints }}</span>
-        </p>
-      </div>
-      <p v-else-if="isPreCountdownRunning">
-        {{ initialCountdown.value === 0 ? "" : initialCountdown.value }}
-      </p>
-      <p v-else>{{ task.get() }}</p>
+      <p>{{ task.get() }}</p>
     </template>
     <template #middle>
       <div class="speed-solver__points-container">
@@ -53,7 +37,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import GameButton from "@/components/GameButton.vue";
 import CountdownBar from "@/components/CountdownBar.vue";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
 import GameWrapper from "@/components/GameWrapper.vue";
@@ -83,13 +66,12 @@ const actionButtons: ActionButtonOptions[] = [
 ];
 
 /*
- * SpeedSolver v1.0.0
+ * SpeedSolver v1.0.1
  */
 export default defineComponent({
   name: "SpeedSolver",
 
   components: {
-    GameButton,
     CountdownBar,
     GameInfoPoint,
     GameWrapper,
@@ -99,13 +81,12 @@ export default defineComponent({
     return {
       actionButtons,
       gameCountdown: new Countdown(60) as Countdown,
-      gameTimer: 0 as number,
       initialCountdown: new Countdown(3) as Countdown,
-      isFirstGame: true,
       isGameOver: true,
+      restartCounter: 0,
       results: [] as TaskResult[],
       solutions: [] as Array<Solution>,
-      task: {} as Task,
+      task: new Task() as Task,
     };
   },
 
@@ -140,8 +121,7 @@ export default defineComponent({
     },
 
     restart() {
-      this.isFirstGame = false;
-      clearInterval(this.gameTimer);
+      this.restartCounter += 1;
       this.gameCountdown.reset();
       this.initialCountdown.reset();
       this.isGameOver = false;
@@ -149,11 +129,10 @@ export default defineComponent({
       this.results = [];
       this.solutions = [];
       this.nextTask();
+    },
 
-      this.gameTimer = setTimeout(() => {
-        this.gameCountdown = new Countdown(60);
-        this.gameCountdown.start();
-      }, 3000);
+    startGameCountdown() {
+      this.gameCountdown.start();
     },
 
     endGame() {
@@ -161,10 +140,10 @@ export default defineComponent({
     },
 
     nextTask() {
-      this.task.new();
+      this.task = new Task();
       this.solutions = this.task.getPossibleSolutions(2);
-      this.actionButtons[0].label = this.solutions[0].value;
-      this.actionButtons[1].label = this.solutions[1].value;
+      this.actionButtons[0].label = "" + this.solutions[0].value;
+      this.actionButtons[1].label = "" + this.solutions[1].value;
     },
 
     commitSolution(index: number) {
@@ -173,7 +152,6 @@ export default defineComponent({
         task: this.task,
         userSolution: this.solutions[index].value,
       });
-
       this.nextTask();
     },
   },
@@ -182,16 +160,13 @@ export default defineComponent({
     currentActionButtons(): ActionButtonOptions[] {
       return this.showSolutionButtons ? actionButtons : [];
     },
+
     isPreCountdownRunning(): boolean {
       return !this.isGameOver && !this.initialCountdown.isOver;
     },
 
     showSolutionButtons(): boolean {
-      return (
-        this.solutions.length > 0 &&
-        !this.isPreCountdownRunning &&
-        !this.isGameOver
-      );
+      return this.solutions.length > 0 && !this.isGameOver;
     },
 
     gamePoints(): number {

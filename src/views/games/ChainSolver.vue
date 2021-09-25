@@ -1,77 +1,51 @@
 <template>
-  <div class="chain-solver">
-    <game-wrapper
-      title="Chain Solver"
-      @restart="restart"
-      @next="nextStep"
-      @commit-solution-1="commitSolution(0)"
-      @commit-solution-2="commitSolution(1)"
-      :actionButtons="currentActionButtons"
-    >
-      <template #top>
-        <timer-box
-          class="chain-solver__timer"
-          :timer="gameTimer"
-          :threshold="gameTimeThreshold"
+  <game-wrapper
+    title="Chain Solver"
+    :is-game-over="isGameOver"
+    :counter="restartCounter"
+    :points="gamePoints"
+    :points-class="gamePointsClass"
+    @precountdown-over="startGameTimer"
+    @restart="restart"
+    @next="nextStep"
+    @commit-solution-1="commitSolution(0)"
+    @commit-solution-2="commitSolution(1)"
+    :actionButtons="currentActionButtons"
+  >
+    <template #top>
+      <timer-box
+        class="chain-solver__timer"
+        :timer="gameTimer"
+        :threshold="gameTimeThreshold"
+      />
+    </template>
+    <template #default>
+      <p>{{ isFinalStep ? "=" : task.taskSteps[stepIndex] }}</p>
+    </template>
+    <template #middle>
+      <div v-if="!isGameOver" class="chain-solver__steps-container">
+        <game-step-indicator
+          v-for="step in gameSteps"
+          :key="step.name"
+          :step="step"
         />
-      </template>
-      <template #default>
-        <game-button
-          v-if="isGameOver && isFirstGame"
-          class="chain-solver__start-button"
-          alternative="S"
-          :borderless="true"
-          :is-large="true"
-          @click="restart"
-          >Start Game</game-button
-        >
-        <div
-          v-else-if="isGameOver && !isFirstGame"
-          class="chain-solver__game-over-box"
-        >
-          <p>Game Over</p>
-          <p>
-            Points: <span :class="pointsClass">{{ gamePoints }}</span>
-          </p>
-        </div>
-        <p v-else-if="isPreCountdownRunning">
-          {{ preGameCountdown.value === 0 ? "" : preGameCountdown.value }}
-        </p>
-        <p v-else>{{ isFinalStep ? "=" : task.taskSteps[stepIndex] }}</p>
-      </template>
-      <template #middle>
-        <div
-          v-if="!isPreCountdownRunning"
-          class="chain-solver__steps-container"
-        >
-          <game-step-indicator
-            v-for="step in gameSteps"
-            :key="step.name"
-            :step="step"
-          />
-        </div>
-        <div
-          v-if="!isPreCountdownRunning"
-          class="chain-solver__steps-container"
-        >
-          <game-step-indicator
-            v-for="step in gamePhases"
-            :key="step.name"
-            :step="step"
-          />
-        </div>
-      </template>
-    </game-wrapper>
-  </div>
+      </div>
+      <div v-if="!isGameOver" class="chain-solver__steps-container">
+        <game-step-indicator
+          v-for="step in gamePhases"
+          :key="step.name"
+          :step="step"
+        />
+      </div>
+    </template>
+  </game-wrapper>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import GameButton from "@/components/GameButton.vue";
 import TimerBox from "@/components/TimerBox.vue";
 import GameWrapper from "@/components/GameWrapper.vue";
 import Timer from "@/data/Timer";
-import Countdown from "@/data/Countdown";
 import Task from "@/data/Task";
 import type { Solution } from "@/data/Task";
 import type { ActionButtonOptions, GameStep } from "@/data/types";
@@ -104,13 +78,12 @@ const actionButtons: ActionButtonOptions[] = [
 ];
 
 /*
- * ChainSolver v1.0.0
+ * ChainSolver v1.0.1
  */
 export default defineComponent({
   name: "ChainSolver",
 
   components: {
-    GameButton,
     TimerBox,
     GameWrapper,
     GameStepIndicator,
@@ -123,12 +96,9 @@ export default defineComponent({
       gameSteps: [] as GameStep[],
       gameTimer: new Timer() as Timer,
       gameTimeThreshold: 115,
-      isFirstGame: true,
       isGameOver: true,
-      lastSolutionCorrect: false,
       phaseIndex: 0,
-      preGameCountdown: new Countdown(3) as Countdown,
-      preGameTimeout: 0 as number,
+      restartCounter: 0,
       solutions: [] as Array<Solution>,
       stepIndex: 0,
       task: new Task(8, true, 10) as Task,
@@ -145,7 +115,7 @@ export default defineComponent({
 
   computed: {
     currentActionButtons(): ActionButtonOptions[] {
-      if (this.isPreCountdownRunning || this.isGameOver) return [];
+      if (this.isGameOver) return [];
       if (!this.isFinalStep) {
         return this.actionButtons.slice(0, 1);
       }
@@ -173,15 +143,7 @@ export default defineComponent({
       return this.stepIndex >= this.gameSteps.length;
     },
 
-    isGameRunning(): boolean {
-      return !this.isPreCountdownRunning && !this.isFinalStep;
-    },
-
-    isPreCountdownRunning(): boolean {
-      return !this.isGameOver && !this.preGameCountdown.isOver;
-    },
-
-    pointsClass() {
+    gamePointsClass() {
       if (this.gamePoints < 5) {
         return "color--red";
       } else if (this.gamePoints >= 4 && this.gamePoints < 8) {
@@ -223,20 +185,17 @@ export default defineComponent({
     },
 
     restart() {
-      this.isFirstGame = false;
+      this.restartCounter += 1;
       this.phaseIndex = 0;
       this.stepIndex = 0;
       this.resetGamePhases();
       this.resetGameSteps();
-      clearInterval(this.preGameTimeout);
       this.gameTimer.reset();
-      this.preGameCountdown.reset();
       this.isGameOver = false;
-      this.preGameCountdown.start();
+    },
 
-      this.preGameTimeout = setTimeout(() => {
-        this.gameTimer.start();
-      }, 3000);
+    startGameTimer() {
+      this.gameTimer.start();
     },
 
     nextStep() {
@@ -284,7 +243,7 @@ export default defineComponent({
           this.$router.push("/");
           break;
         case "Space":
-          this.isGameRunning && this.nextStep();
+          !this.isFinalStep && this.nextStep();
           break;
         case "KeyR":
         case "KeyS":
