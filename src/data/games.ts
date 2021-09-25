@@ -13,21 +13,6 @@ const games = [
     symbol: "chain-solver",
     version: "1.0.0",
   },
-  {
-    name: "Sample Game",
-    description: "This is for testing",
-    route: "",
-  },
-  {
-    name: "Game Placeholder",
-    description: "This is a game placeholder.",
-    route: "",
-  },
-  {
-    name: "Game Placeholder",
-    description: "This is a game placeholder.",
-    route: "",
-  },
 ];
 
 export default games;

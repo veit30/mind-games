@@ -139,8 +139,6 @@ export default defineComponent({
 
   watch: {
     counter(newVal, oldVal) {
-      console.log(newVal);
-
       if (newVal > oldVal) {
         this.preCountdown.reset();
         this.preCountdown.start();

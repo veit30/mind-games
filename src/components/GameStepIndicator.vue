@@ -27,7 +27,7 @@ export default defineComponent({
         case GAME_STATE.ERROR:
           return "background--red";
         default:
-          return "background--white";
+          return "empty";
       }
     },
   },
@@ -39,5 +39,9 @@ export default defineComponent({
   height: 4px;
   margin: 0 10px;
   flex-grow: 1;
+
+  &.empty {
+    border: 1px solid $color-border-dark;
+  }
 }
 </style>
