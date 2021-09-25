@@ -82,6 +82,9 @@ const actionButtons: ActionButtonOptions[] = [
   },
 ];
 
+/*
+ * SpeedSolver v1.0.0
+ */
 export default defineComponent({
   name: "SpeedSolver",
 
@@ -160,6 +163,8 @@ export default defineComponent({
     nextTask() {
       this.task.new();
       this.solutions = this.task.getPossibleSolutions(2);
+      this.actionButtons[0].label = this.solutions[0].value;
+      this.actionButtons[1].label = this.solutions[1].value;
     },
 
     commitSolution(index: number) {
@@ -221,15 +226,9 @@ export default defineComponent({
       deep: true,
       handler(countdown) {
         if (countdown.isOver) {
-          console.log("end game");
-          // TODO: investigate why this countdown is still running
           this.endGame();
         }
       },
-    },
-    solutions(newVal) {
-      this.actionButtons[0].label = newVal[0].value;
-      this.actionButtons[1].label = newVal[1].value;
     },
   },
 });

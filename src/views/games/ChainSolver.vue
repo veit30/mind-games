@@ -103,6 +103,9 @@ const actionButtons: ActionButtonOptions[] = [
   },
 ];
 
+/*
+ * ChainSolver v1.0.0
+ */
 export default defineComponent({
   name: "ChainSolver",
 
@@ -156,7 +159,7 @@ export default defineComponent({
       });
 
       if (points > 6) {
-        let r = this.gameTimer.seconds - 65;
+        let r = this.gameTimer.seconds - (this.gameTimeThreshold - 40);
         r = r < 0 ? 0 : r;
         let f = Math.ceil(r / 10);
         f = f > 5 ? 0 : f;
