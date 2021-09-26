@@ -5,8 +5,9 @@
     :counter="restartCounter"
     :points="gamePoints"
     :points-class="gamePointsClass"
-    @restart="restart"
     :actionButtons="currentActionButtons"
+    @precountdown-over="start"
+    @restart="restart"
   >
     <template #top> </template>
 
@@ -55,17 +56,18 @@ export default defineComponent({
       let points = 0;
       return points;
     },
-    gamePoutnsClass(): string {
+    gamePointsClass(): string {
       return "";
     },
   },
 
   methods: {
     restart(): void {
-      return;
+      this.restartCounter += 1;
+      this.isGameOver = false;
     },
     endGame(): void {
-      return;
+      this.gameIsOver = true;
     },
     handleKeyDown(event: KeyboardEvent) {
       event.preventDefault();

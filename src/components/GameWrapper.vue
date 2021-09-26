@@ -54,7 +54,7 @@
       <div class="game-wrapper__down-draw"></div>
       <slot v-if="!isPreCountdownRunning" name="bottom"></slot>
       <div
-        v-if="!isPreCountdownRunning"
+        v-if="!isPreCountdownRunning && !isGameOver"
         class="game-wrapper__action-button-container"
       >
         <game-button

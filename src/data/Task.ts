@@ -1,11 +1,7 @@
-import { DIFFICULTY, OPERATOR, OPERATOR_COLLECTION } from "@/data/constants";
-import { Difficulty, Operator, OperatorCollection } from "@/data/types";
+import { DIFFICULTY, OPERATOR_COLLECTION } from "@/data/constants";
+import { Difficulty, Operator } from "@/data/types";
 import { evaluate } from "mathjs";
-import {
-  randomFromArray,
-  randomIntInRange,
-  shuffleArray,
-} from "@/helpers/util";
+import { randomFromArray, randomIntInRange, shuffleArray } from "@/helper/util";
 
 type TaskSegment = string | number;
 export type Solution = { value: number; isValid: boolean };
@@ -16,7 +12,7 @@ export default class Task {
     options?: {
       isStepped?: boolean;
       numberRange?: number;
-      operators?: OperatorCollection;
+      operators?: Operator[];
     }
   ) {
     this._taskLength = length > 1 ? length : 2;
@@ -30,7 +26,7 @@ export default class Task {
 
   private _task: Array<TaskSegment> = [];
   protected _difficulty: Difficulty = DIFFICULTY.EASY;
-  protected _operators: OperatorCollection = OPERATOR_COLLECTION.AVERAGE;
+  protected _operators: Operator[] = OPERATOR_COLLECTION.AVERAGE;
   private _taskLength: number;
   private _isStepped = false;
   private _numberRange = 10;
@@ -51,6 +47,18 @@ export default class Task {
     return evaluate(this.buildTask());
   }
 
+  get length(): number {
+    return this._taskLength;
+  }
+
+  set length(length: number) {
+    this._taskLength = length;
+  }
+
+  get operators(): Operator[] {
+    return this._operators;
+  }
+
   get taskSteps(): string[] {
     const steps = [];
     let taskStep = "";
@@ -68,6 +76,15 @@ export default class Task {
       }
     }
     return steps;
+  }
+
+  get segmentsWithSign(): string[] {
+    return this.taskSteps.map((seg) => {
+      if (seg.startsWith("+") || seg.startsWith("×") || seg.startsWith("÷")) {
+        return seg.slice(1);
+      }
+      return seg;
+    });
   }
 
   buildTask(taskSegments?: TaskSegment[]): string {

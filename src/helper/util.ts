@@ -1,3 +1,5 @@
+import type { MetaData } from "@/data/types";
+
 export function wordVariants(word: string): Array<string> {
   const final = [];
   let current = "";
@@ -63,4 +65,25 @@ export function shuffleArray<T>(arr: Array<T>): T[] {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
+}
+
+/**
+ * Generates meta data for a view that will be used by
+ * the router.
+ * @param {string} content of the game
+ */
+export function getMetaByContent(content: string): MetaData {
+  return {
+    title: content,
+    metaTags: [
+      {
+        name: "description",
+        content: content,
+      },
+      {
+        property: "og:description",
+        content: content,
+      },
+    ],
+  };
 }

@@ -5,12 +5,12 @@
     :counter="restartCounter"
     :points="gamePoints"
     :points-class="gamePointsClass"
+    :actionButtons="currentActionButtons"
     @precountdown-over="startGameTimer"
     @restart="restart"
     @next="nextStep"
     @commit-solution-1="commitSolution(0)"
     @commit-solution-2="commitSolution(1)"
-    :actionButtons="currentActionButtons"
   >
     <template #top>
       <timer-box
@@ -264,10 +264,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .chain-solver {
-  &__start-button {
-    margin: 0 auto;
-  }
-
   &__timer {
     margin: 40px auto;
   }
@@ -278,17 +274,6 @@ export default defineComponent({
     margin-left: 30px;
     display: flex;
     justify-content: center;
-  }
-
-  &__game-over-box {
-    p {
-      margin-bottom: 10px;
-      margin-top: 10px;
-
-      &:nth-of-type(2n) {
-        font-size: 32px;
-      }
-    }
   }
 }
 </style>
