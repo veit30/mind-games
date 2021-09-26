@@ -1,8 +1,16 @@
-import { DIFFICULTY, OPERATOR, GAME_STATE } from "@/data/constants";
+import {
+  DIFFICULTY,
+  OPERATOR,
+  GAME_STATE,
+  OPERATOR_COLLECTION,
+} from "@/data/constants";
 
 export type Difficulty = typeof DIFFICULTY[keyof typeof DIFFICULTY];
 
 export type Operator = typeof OPERATOR[keyof typeof OPERATOR];
+
+export type OperatorCollection =
+  typeof OPERATOR_COLLECTION[keyof typeof OPERATOR_COLLECTION];
 
 export type ActionButtonOptions = {
   name: string;

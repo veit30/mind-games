@@ -20,7 +20,7 @@
     <template #default>
       <p>{{ task.get() }}</p>
     </template>
-    <template #middle>
+    <template #bottom>
       <div class="speed-solver__points-container">
         <game-info-point
           v-for="result in results"

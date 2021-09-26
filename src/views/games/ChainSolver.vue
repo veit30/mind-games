@@ -22,7 +22,7 @@
     <template #default>
       <p>{{ isFinalStep ? "=" : task.taskSteps[stepIndex] }}</p>
     </template>
-    <template #middle>
+    <template #bottom>
       <div v-if="!isGameOver" class="chain-solver__steps-container">
         <game-step-indicator
           v-for="step in gameSteps"
@@ -49,7 +49,7 @@ import Timer from "@/data/Timer";
 import Task from "@/data/Task";
 import type { Solution } from "@/data/Task";
 import type { ActionButtonOptions, GameStep } from "@/data/types";
-import { GAME_STATE } from "@/data/constants";
+import { GAME_STATE, OPERATOR_COLLECTION } from "@/data/constants";
 import GameStepIndicator from "@/components/GameStepIndicator.vue";
 
 const actionButtons: ActionButtonOptions[] = [
@@ -98,7 +98,10 @@ export default defineComponent({
       restartCounter: 0,
       solutions: [] as Array<Solution>,
       stepIndex: 0,
-      task: new Task(8, true, 10) as Task,
+      task: new Task(8, {
+        isStepped: true,
+        operators: OPERATOR_COLLECTION.BASIC,
+      }) as Task,
       version: "1.0.1",
     };
   },

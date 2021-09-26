@@ -12,7 +12,7 @@
 
     <template #default> </template>
 
-    <template #middle> </template>
+    <template #bottom> </template>
   </game-wrapper>
 </template>
 

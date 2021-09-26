@@ -1,5 +1,5 @@
-import { DIFFICULTY, OPERATOR } from "@/data/constants";
-import { Difficulty, Operator } from "@/data/types";
+import { DIFFICULTY, OPERATOR, OPERATOR_COLLECTION } from "@/data/constants";
+import { Difficulty, Operator, OperatorCollection } from "@/data/types";
 import { evaluate } from "mathjs";
 import {
   randomFromArray,
@@ -11,18 +11,28 @@ type TaskSegment = string | number;
 export type Solution = { value: number; isValid: boolean };
 
 export default class Task {
-  constructor(length = 2, isStepped = false, numberRange?: number) {
-    this._taskLength = length > 0 ? length : 2;
-    this._isStepped = isStepped;
-    this._numberRange = numberRange || 10;
+  constructor(
+    length = 2,
+    options?: {
+      isStepped?: boolean;
+      numberRange?: number;
+      operators?: OperatorCollection;
+    }
+  ) {
+    this._taskLength = length > 1 ? length : 2;
+    if (options) {
+      this._isStepped = options.isStepped || false;
+      this._numberRange = options.numberRange || 10;
+      this._operators = options.operators || OPERATOR_COLLECTION.AVERAGE;
+    }
     this.new();
   }
 
   private _task: Array<TaskSegment> = [];
   protected _difficulty: Difficulty = DIFFICULTY.EASY;
-  protected _operators: Array<Operator> = [];
+  protected _operators: OperatorCollection = OPERATOR_COLLECTION.AVERAGE;
   private _taskLength: number;
-  private _isStepped: boolean;
+  private _isStepped = false;
   private _numberRange = 10;
 
   set difficulty(difficulty: Difficulty) {
@@ -114,37 +124,10 @@ export default class Task {
     return shuffleArray(solutions);
   }
 
-  protected setOperatorByDifficulty(): void {
-    // ignore difficulty when stepped
-    if (this._isStepped) {
-      this._operators = [OPERATOR.SUBTRACT, OPERATOR.ADD];
-      return;
-    }
-
-    switch (this._difficulty) {
-      case DIFFICULTY.EASY:
-        this._operators = [OPERATOR.SUBTRACT, OPERATOR.ADD, OPERATOR.MULTIPLY];
-        break;
-      case DIFFICULTY.MEDIUM:
-        this._operators = [
-          OPERATOR.SUBTRACT,
-          OPERATOR.ADD,
-          OPERATOR.MULTIPLY,
-          OPERATOR.DEVIDE,
-        ];
-        break;
-      case DIFFICULTY.HARD:
-        this._operators = [
-          OPERATOR.SUBTRACT,
-          OPERATOR.ADD,
-          OPERATOR.MULTIPLY,
-          OPERATOR.DEVIDE,
-        ];
-        break;
-    }
-  }
-
-  private generateTask() {
+  new(length?: number): void {
+    this._taskLength = length || this._taskLength;
+    this._task = [];
+    // TODO: consider difficulty
     const taskSegments = this._taskLength * 2 - 1;
     for (let i = 0; i < taskSegments; i++) {
       this._task.push(
@@ -153,12 +136,5 @@ export default class Task {
           : randomFromArray(this._operators)
       );
     }
-  }
-
-  new(length?: number): void {
-    this._taskLength = length || this._taskLength;
-    this._task = [];
-    this.setOperatorByDifficulty();
-    this.generateTask();
   }
 }
