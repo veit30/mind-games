@@ -8,6 +8,10 @@ module.exports = function (plop) {
       path: "src/views/{{pascalCase name}}.vue",
       templateFile: "plop/templates/TemplateView.vue",
     },
+    games: {
+      path: "src/views/games/{{pascalCase name}}.vue",
+      templateFile: "plop/templates/TemplateGame.vue",
+    },
   };
 
   plop.setGenerator("view", {
@@ -36,6 +40,42 @@ module.exports = function (plop) {
         path: template.views.path,
         pattern: /template-view/g,
         template: "{{kebabCase name}}",
+      },
+    ],
+  });
+
+  plop.setGenerator("game", {
+    description: "game generator",
+    prompts: [
+      {
+        type: "input",
+        name: "name",
+        message: "Game name:",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: template.games.path,
+        templateFile: template.games.templateFile,
+      },
+      {
+        type: "modify",
+        path: template.games.path,
+        pattern: /TemplateGame/g,
+        template: "{{pascalCase name}}",
+      },
+      {
+        type: "modify",
+        path: template.games.path,
+        pattern: /template-game/g,
+        template: "{{kebabCase name}}",
+      },
+      {
+        type: "modify",
+        path: template.games.path,
+        pattern: /GAME_TITLE/g,
+        template: "{{titleCase name}}",
       },
     ],
   });

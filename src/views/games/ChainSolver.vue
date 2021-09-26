@@ -77,9 +77,6 @@ const actionButtons: ActionButtonOptions[] = [
   },
 ];
 
-/*
- * ChainSolver v1.0.1
- */
 export default defineComponent({
   name: "ChainSolver",
 
@@ -102,6 +99,7 @@ export default defineComponent({
       solutions: [] as Array<Solution>,
       stepIndex: 0,
       task: new Task(8, true, 10) as Task,
+      version: "1.0.1",
     };
   },
 

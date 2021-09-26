@@ -65,9 +65,6 @@ const actionButtons: ActionButtonOptions[] = [
   },
 ];
 
-/*
- * SpeedSolver v1.0.1
- */
 export default defineComponent({
   name: "SpeedSolver",
 
@@ -87,6 +84,7 @@ export default defineComponent({
       results: [] as TaskResult[],
       solutions: [] as Array<Solution>,
       task: new Task() as Task,
+      version: "1.0.1",
     };
   },
 
