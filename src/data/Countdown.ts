@@ -37,7 +37,7 @@ export default class Countdown {
     const now = new Date().getTime();
     const distance = now - this._startTime;
 
-    const exact = (distance % (1000 * 60)) / 1000;
+    const exact = distance / 1000;
     const seconds = Math.floor(exact);
 
     this._currentValue = this._countdownLength - seconds;
