@@ -1,7 +1,12 @@
 import { DIFFICULTY, OPERATOR_COLLECTION } from "@/data/constants";
 import { Difficulty, Operator } from "@/data/types";
 import { evaluate } from "mathjs";
-import { randomFromArray, randomIntInRange, shuffleArray } from "@/helper/util";
+import {
+  randomFromArray,
+  randomIntInRange,
+  shuffleArray,
+  randomBooleanByLikelihood,
+} from "@/helper/util";
 
 type TaskSegment = string | number;
 export type Solution = { value: number; isValid: boolean };
@@ -153,5 +158,18 @@ export default class Task {
           : randomFromArray(this._operators)
       );
     }
+  }
+
+  replaceOperator(
+    oldOperator: Operator,
+    newOperator: Operator,
+    likelihood: number
+  ): void {
+    this._task = this._task.map((segment: TaskSegment) => {
+      if (segment === oldOperator && randomBooleanByLikelihood(likelihood)) {
+        segment = newOperator;
+      }
+      return segment;
+    });
   }
 }

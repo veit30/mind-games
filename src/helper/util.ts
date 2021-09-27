@@ -59,7 +59,7 @@ export function randomFromArray<T>(arr: Array<T>): T {
  * Shuffles array in place. ES6 version
  * @param {Array} arr items An array containing the items.
  */
-export function shuffleArray<T>(arr: Array<T>): T[] {
+export function shuffleArray<T>(arr: T[]): T[] {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -86,4 +86,17 @@ export function getMetaByContent(content: string): MetaData {
       },
     ],
   };
+}
+
+/**
+ * Returns a true with the provided likelihood.
+ * @param {number} likelihood of a true to be returned
+ */
+export function randomBooleanByLikelihood(likelihood: number): boolean {
+  likelihood = Math.abs(likelihood) > 1 ? 1 : Math.abs(likelihood);
+  let possibilities = Array.from({ length: 1 / likelihood }, () => false);
+  possibilities[0] = true;
+  possibilities = shuffleArray(possibilities);
+  const index = Math.floor(Math.random() * possibilities.length);
+  return possibilities[index];
 }

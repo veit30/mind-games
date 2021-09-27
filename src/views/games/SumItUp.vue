@@ -79,7 +79,7 @@ export default defineComponent({
     return {
       actionButtons,
       isGameOver: true,
-      gameCountdown: new Countdown(60) as Countdown,
+      gameCountdown: new Countdown(90) as Countdown,
       restartCounter: 0,
       results: [] as TaskResult[],
       solutions: [] as Solution[],
@@ -111,13 +111,11 @@ export default defineComponent({
     gamePoints(): number {
       let points = 0;
       for (let result of this.results) {
+        if (!result.solution.isValid) continue;
         let additionalPoints = Math.sqrt(result.task.length) - 1;
         additionalPoints += result.task.operators.includes(OPERATOR.SUBTRACT)
           ? 1
           : 0;
-        if (!result.solution.isValid) {
-          additionalPoints -= 1;
-        }
         points += additionalPoints;
       }
       return points;
@@ -155,18 +153,19 @@ export default defineComponent({
     },
     nextTask() {
       let completedTasks = this.results.length;
-      if (completedTasks > 0 && completedTasks % 8 === 0) {
+      if (completedTasks > 0 && completedTasks % 10 === 0) {
         this.increment += 1;
       }
       let taskLength = this.increment * this.increment;
-      if (completedTasks > 0 && completedTasks % 4 === 0) {
-        this.task = new Task(taskLength, {
-          operators: OPERATOR_COLLECTION.BASIC,
-        });
-      } else {
-        this.task = new Task(taskLength, {
-          operators: OPERATOR_COLLECTION.ADD,
-        });
+      this.task = new Task(taskLength, {
+        operators: OPERATOR_COLLECTION.ADD,
+      });
+      if (completedTasks > 0 && completedTasks % 3 === 0) {
+        this.task.replaceOperator(
+          OPERATOR.ADD,
+          OPERATOR.SUBTRACT,
+          1 / taskLength
+        );
       }
       this.solutions = this.task.getPossibleSolutions(2);
       this.actionButtons[0].label = `${this.solutions[0].value}`;

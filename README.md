@@ -13,7 +13,7 @@ Run locally:
 npm run serve
 ```
 
-Generate a new component or view (using [plop](https://plopjs.com/)):
+Generate a new component, game or view (using [plop](https://plopjs.com/)):
 ```
 # install plop globally
 npm i -g plop
@@ -28,7 +28,7 @@ plop
 |:-|:-|:-|:-|
 |Speed Solver|Math|Solve as many (easy) math equations in 60 seconds|✔️|
 |Chain Solver|Math|A large equations is building up step by step. Goal is to memorize the last numbers and calculate the whole.|✔️|
-|Sum it Up|Math|Given is a grid of numbers that need to be summed up as quick as possible. Grid is getting bigger with difficulty|🚧|
+|Sum it Up|Math|Given is a grid of numbers that need to be summed up as quick as possible. Grid is getting bigger with difficulty|✔️|
 |Memory|Memory|Simple memory with different cards (with emojis on it)|❌|
 |Solve it!|Math|Given are multiple equations where some numbers are hidden by pictures.|❌|
 |Count the cubes|Brain|Given is a 3d picture of a formation of cubes. Goal is to count the cubes asap.|❌|
@@ -41,7 +41,7 @@ plop
 |Solver Chain 2|Math|Like Solver Chain but with 2 equations side by side|❌|
 |Memory Highlight|Memory|Highlights the possible same fields.|❌|
 |Match quick|Speed|Match the previous symbol qickly|❌|
-|Order matters|Memory|Picking somethong in the right order. (on Matrix or somewhere else)|❌|
+|Order matters|Memory|Picking something in the right order. (on Matrix or somewhere else)|❌|
 |Task Switching|Brain|Given are 2 Number and letter pairs with tasks that fade away after time. Fulfill the task for each field right every time.|❌|
 |Numeric Estimation|Math|Estimate the equation to different numbers or values.|❌|
 |Cube folding|Brain|Picking the right cube to an unfolded cube or pick the right unfold to a folded cube.|❌|
