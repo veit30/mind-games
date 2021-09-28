@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { roundDecimal } from "@/helpers/util";
+import { roundDecimal } from "@/helper/util";
 import Countdown from "@/data/Countdown";
 
 export default defineComponent({

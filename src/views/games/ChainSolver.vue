@@ -5,12 +5,12 @@
     :counter="restartCounter"
     :points="gamePoints"
     :points-class="gamePointsClass"
+    :actionButtons="currentActionButtons"
     @precountdown-over="startGameTimer"
     @restart="restart"
     @next="nextStep"
     @commit-solution-1="commitSolution(0)"
     @commit-solution-2="commitSolution(1)"
-    :actionButtons="currentActionButtons"
   >
     <template #top>
       <timer-box
@@ -22,7 +22,7 @@
     <template #default>
       <p>{{ isFinalStep ? "=" : task.taskSteps[stepIndex] }}</p>
     </template>
-    <template #middle>
+    <template #bottom>
       <div v-if="!isGameOver" class="chain-solver__steps-container">
         <game-step-indicator
           v-for="step in gameSteps"
@@ -49,7 +49,7 @@ import Timer from "@/data/Timer";
 import Task from "@/data/Task";
 import type { Solution } from "@/data/Task";
 import type { ActionButtonOptions, GameStep } from "@/data/types";
-import { GAME_STATE } from "@/data/constants";
+import { GAME_STATE, OPERATOR_COLLECTION } from "@/data/constants";
 import GameStepIndicator from "@/components/GameStepIndicator.vue";
 
 const actionButtons: ActionButtonOptions[] = [
@@ -77,9 +77,6 @@ const actionButtons: ActionButtonOptions[] = [
   },
 ];
 
-/*
- * ChainSolver v1.0.1
- */
 export default defineComponent({
   name: "ChainSolver",
 
@@ -101,7 +98,11 @@ export default defineComponent({
       restartCounter: 0,
       solutions: [] as Array<Solution>,
       stepIndex: 0,
-      task: new Task(8, true, 10) as Task,
+      task: new Task(8, {
+        isStepped: true,
+        operators: OPERATOR_COLLECTION.BASIC,
+      }) as Task,
+      version: "1.0.1",
     };
   },
 
@@ -263,10 +264,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .chain-solver {
-  &__start-button {
-    margin: 0 auto;
-  }
-
   &__timer {
     margin: 40px auto;
   }
@@ -277,17 +274,6 @@ export default defineComponent({
     margin-left: 30px;
     display: flex;
     justify-content: center;
-  }
-
-  &__game-over-box {
-    p {
-      margin-bottom: 10px;
-      margin-top: 10px;
-
-      &:nth-of-type(2n) {
-        font-size: 32px;
-      }
-    }
   }
 }
 </style>

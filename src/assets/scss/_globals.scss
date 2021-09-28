@@ -79,4 +79,8 @@ hr {
   &--red {
     background: $red;
   }
+
+  &--empty {
+    border: 1px solid $color-border-dark;
+  }
 }

@@ -1,66 +1,38 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import type { RouteRecordNormalized } from "vue-router";
 import Home from "../views/Home.vue";
+import { getMetaByContent } from "@/helper/util.ts";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
     component: Home,
-    meta: {
-      title: "Mind Games",
-      metaTags: [
-        {
-          name: "description",
-          content: "Mind Games",
-        },
-        {
-          property: "og:description",
-          content: "Mind Games",
-        },
-      ],
-    },
+    meta: getMetaByContent("Mind Games"),
   },
   {
     path: "/about",
     name: "About",
     component: () => import("../views/About.vue"),
+    meta: getMetaByContent("Mind Games - About"),
   },
   {
     path: "/speed-solver",
     name: "SpeedSolver",
     component: () => import("../views/games/SpeedSolver.vue"),
-    meta: {
-      title: "Mind Games - Speed Solver",
-      metaTags: [
-        {
-          name: "description",
-          content: "Mind Games -> Speed Solver",
-        },
-        {
-          property: "og:description",
-          content: "Mind Games -> Speed Solver",
-        },
-      ],
-    },
+    meta: getMetaByContent("Mind Games - Speed Solver"),
   },
   {
     path: "/chain-solver",
     name: "ChainSolver",
     component: () => import("../views/games/ChainSolver.vue"),
-    meta: {
-      title: "Mind Games - Chain Solver",
-      metaTags: [
-        {
-          name: "description",
-          content: "Mind Games -> Chain Solver",
-        },
-        {
-          property: "og:description",
-          content: "Mind Games -> Chain Solver",
-        },
-      ],
-    },
+    meta: getMetaByContent("Mind Games - Chain Solver"),
+  },
+  {
+    path: "/sum-it-up",
+    name: "SumItUp",
+    component: () => import("../views/games/SumItUp.vue"),
+    meta: getMetaByContent("Mind Games - Sum It Up"),
   },
 ];
 
