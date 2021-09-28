@@ -34,14 +34,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .game-card {
-  width: 31%;
-  height: 220px;
+  width: 100%;
+  height: 13.75rem;
   border: 1px solid $color-border-dark;
   background: $color-background-dark;
   text-decoration: none;
   color: $color-font;
   text-align: start;
-  margin-bottom: 40px;
+  margin-bottom: 1rem;
 
   &:hover {
     background: $color-background-darker;
@@ -49,14 +49,20 @@ export default defineComponent({
   }
 
   &__name {
-    margin: 20px 0 10px 20px;
-    font-size: 28px;
+    padding: 1.25rem 1.25rem 0 1.25rem;
+    font-size: 1.5rem;
   }
 
   &__description {
-    margin: 10px 0 0 20px;
+    padding: 0.625rem 1.25rem;
     color: $color-font-dark;
-    font-size: 16px;
+    font-size: 0.825rem;
+  }
+}
+
+@media only screen and (min-width: 500px) {
+  .game-card {
+    width: 31%;
   }
 }
 </style>

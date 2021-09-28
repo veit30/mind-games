@@ -44,15 +44,16 @@ button.game-button {
   background: $color-background-dark;
   outline: none;
   border: 1px solid $color-border-dark;
-  padding: 8px 24px;
+  padding: 0.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: $color-font;
-  font-family: "Righteous", cursive;
+  font-family: $font-main;
+  font-weight: 500;
   user-select: none;
-  font-size: 20px;
-  min-width: 130px;
+  font-size: 1.25rem;
+  min-width: 9rem;
 
   &:hover {
     background: $color-background-darker;
@@ -69,25 +70,50 @@ button.game-button {
   }
 
   &--large {
-    font-size: 34px;
+    font-size: 2rem;
 
     .game-button__alternative {
-      font-size: 30px;
+      font-size: 1.75rem;
     }
   }
 
   &--large-small-alt {
-    font-size: 34px;
+    font-size: 2rem;
 
     .game-button__alternative {
-      font-size: 20px;
+      font-size: 1.25rem;
     }
   }
 }
 
 .game-button__alternative {
   color: $color-font-dark;
-  font-family: "Alegreya Sans", sans-serif;
+  font-family: $font-secondary;
+  font-style: italic;
   font-weight: 900;
 }
+
+// @media only screen and (min-width: 600px) {
+//   button.game-button {
+//     padding: 0.5rem 1.5rem;
+//     min-width: 6rem;
+//     font-size: 1rem;
+//
+//     &--large {
+//       font-size: 2rem;
+//
+//       .game-button__alternative {
+//         font-size: 1.75rem;
+//       }
+//     }
+//
+//     &--large-small-alt {
+//       font-size: 2rem;
+//
+//       .game-button__alternative {
+//         font-size: 1.25rem;
+//       }
+//     }
+//   }
+// }
 </style>

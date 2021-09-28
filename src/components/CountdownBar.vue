@@ -63,8 +63,9 @@ export default defineComponent({
 .countdown-bar {
   border: 1px solid $color-border-dark;
   height: 30px;
-  width: 400px;
+  width: calc(100% - 6rem);
   z-index: 5;
+  margin: 3rem auto;
 
   &__content {
     height: 100%;
@@ -74,9 +75,16 @@ export default defineComponent({
   &__value {
     margin: 0;
     position: relative;
+    display: flex;
+    justify-content: center;
     top: -24px;
-    left: 190px;
     color: $color-font;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .countdown-bar {
+    width: calc(100% - 10rem);
   }
 }
 </style>

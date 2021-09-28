@@ -100,16 +100,20 @@ export default defineComponent({
 
       switch (event.code) {
         case "KeyB":
+          event.preventDefault();
           this.$router.push("/");
           break;
         case "KeyR":
         case "KeyS":
+          event.preventDefault();
           this.restart();
           break;
         case "ArrowRight":
+          event.preventDefault();
           this.commitSolution(1);
           break;
         case "ArrowLeft":
+          event.preventDefault();
           this.commitSolution(0);
           break;
       }

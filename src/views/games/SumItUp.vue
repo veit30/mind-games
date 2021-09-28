@@ -180,19 +180,22 @@ export default defineComponent({
       this.nextTask();
     },
     handleKeyDown(event: KeyboardEvent) {
-      event.preventDefault();
       switch (event.code) {
         case "KeyB":
+          event.preventDefault();
           this.$router.push("/");
           break;
         case "KeyR":
         case "KeyS":
+          event.preventDefault();
           this.restart();
           break;
         case "ArrowRight":
+          event.preventDefault();
           this.commitSolution(1);
           break;
         case "ArrowLeft":
+          event.preventDefault();
           this.commitSolution(0);
           break;
       }
@@ -221,10 +224,6 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-  }
-
-  &__countdown {
-    margin: 40px auto;
   }
 }
 </style>

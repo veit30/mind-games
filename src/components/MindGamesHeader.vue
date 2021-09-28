@@ -32,15 +32,15 @@ export default defineComponent({
   width: 100%;
   text-align: center;
   color: $color-font;
-  padding: 38px 0;
+  padding: 2.375rem 0;
   user-select: none;
   display: flex;
   justify-content: center;
 
   &__headline {
-    font-family: "Major Mono Display", monospace;
+    font-family: $font-title;
     font-weight: 400;
-    font-size: 64px;
+    font-size: 3.3rem;
     margin: 0;
     display: inline-block;
 

@@ -19,7 +19,7 @@ export default defineComponent({
 
 <style lang="scss">
 #app {
-  font-family: "Righteous", cursive;
+  font-family: $font-main;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

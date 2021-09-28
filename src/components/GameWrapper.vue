@@ -158,7 +158,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .game-wrapper {
-  margin-top: 30px;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -171,24 +171,24 @@ export default defineComponent({
 
   &__game-over-box {
     p {
-      margin-bottom: 10px;
-      margin-top: 10px;
+      margin-bottom: 0.625rem;
+      margin-top: 0.625rem;
 
       &:nth-of-type(2n) {
-        font-size: 32px;
+        font-size: 2rem;
       }
     }
   }
 
   &__headline {
-    font-size: 32px;
+    font-size: 2rem;
+    padding: 1rem 0;
   }
 
   &__headline-container {
     text-align: center;
     border: 1px solid $color-border-dark;
-    width: 550px;
-    height: 70px;
+    width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -197,10 +197,10 @@ export default defineComponent({
 
   &__container {
     border: 1px solid $color-border-dark;
+    border-top: 0px;
     background: $color-background-dark;
-    width: 550px;
-    height: 750px;
-    margin-top: 30px;
+    width: 90%;
+    height: calc(100vh - 17.5rem);
     display: flex;
     flex-direction: column;
   }
@@ -208,6 +208,8 @@ export default defineComponent({
   &__button-container {
     display: flex;
     justify-content: space-between;
+    margin-left: 3rem;
+    margin-right: 3rem;
   }
 
   &__action-button-container {
@@ -217,27 +219,59 @@ export default defineComponent({
   }
 
   &__top-button {
-    min-width: 100px;
+    min-width: 6.25rem;
   }
 
   &__main-container {
-    margin-top: 100px;
-    font-size: 60px;
+    margin-top: 4.25rem;
+    font-size: 3.75rem;
     text-align: center;
   }
 
   &__game-info-container {
-    margin-top: 100px;
-    font-size: 60px;
+    margin-top: 4.25rem;
+    font-size: 3.75rem;
     text-align: center;
 
     button {
-      margin-top: 55px;
+      margin-top: 3.5rem;
     }
   }
 
   &__down-draw {
     margin-top: auto;
+  }
+}
+
+/* MEDIA QUERY */
+
+@media only screen and (min-width: 900px) {
+  .game-wrapper {
+    &__container {
+      width: 50%;
+    }
+
+    &__headline-container {
+      width: 50%;
+    }
+
+    &__main-container {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    &__game-info-container {
+      margin-top: 6rem;
+
+      button {
+        margin-top: 0.5rem;
+      }
+    }
+
+    &__button-container {
+      margin-left: 5rem;
+      margin-right: 5rem;
+    }
   }
 }
 

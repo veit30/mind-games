@@ -1,12 +1,13 @@
 <template>
   <div class="site-wrapper">
     <mind-games-header />
-    <hr
+    <!-- TODO refactor lines -->
+    <!-- <hr
       v-for="line in backgroundLines"
       :key="line.style"
       :style="line.style"
       class="size-wrapper__background-line"
-    />
+    /> -->
     <slot></slot>
   </div>
 </template>
