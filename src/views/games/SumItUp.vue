@@ -16,7 +16,7 @@
     </template>
 
     <template #default>
-      <game-squares :items="currentItems" />
+      <game-squares class="sum-it-up__game-squares" :items="currentItems" />
     </template>
 
     <template #bottom>
@@ -111,12 +111,16 @@ export default defineComponent({
     gamePoints(): number {
       let points = 0;
       for (let result of this.results) {
-        if (!result.solution.isValid) continue;
         let additionalPoints = Math.sqrt(result.task.length) - 1;
-        additionalPoints += result.task.operators.includes(OPERATOR.SUBTRACT)
-          ? 1
-          : 0;
-        points += additionalPoints;
+        if (!result.solution.isValid) {
+          additionalPoints = -1 * Math.floor(additionalPoints / 2);
+          points += additionalPoints;
+        } else {
+          additionalPoints += result.task.operators.includes(OPERATOR.SUBTRACT)
+            ? 1
+            : 0;
+          points += additionalPoints;
+        }
       }
       return points;
     },
@@ -224,6 +228,10 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  &__game-squares {
+    margin-top: 1rem;
   }
 }
 </style>

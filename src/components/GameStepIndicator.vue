@@ -36,8 +36,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .game-step-indicator {
-  height: 4px;
-  margin: 0 10px;
+  height: 0.25rem;
+  margin: 0 0.5rem;
   flex-grow: 1;
 }
 </style>

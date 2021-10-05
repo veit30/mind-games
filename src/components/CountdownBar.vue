@@ -62,10 +62,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .countdown-bar {
   border: 1px solid $color-border-dark;
-  height: 30px;
+  height: 2rem;
   width: calc(100% - 6rem);
   z-index: 5;
-  margin: 3rem auto;
+  margin: 2rem auto;
 
   &__content {
     height: 100%;
@@ -73,11 +73,12 @@ export default defineComponent({
   }
 
   &__value {
-    margin: 0;
     position: relative;
     display: flex;
     justify-content: center;
-    top: -24px;
+    font-size: 1rem;
+    margin: 0;
+    top: -1.5rem;
     color: $color-font;
   }
 }

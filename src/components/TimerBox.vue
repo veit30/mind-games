@@ -56,8 +56,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .timer-box {
   border: 1px solid $color-border-dark;
-  height: 40px;
-  width: 65px;
+  height: 2.5rem;
+  width: 6rem;
   z-index: 5;
   text-align: center;
   position: relative;
@@ -66,6 +66,7 @@ export default defineComponent({
 
   &__value {
     position: absolute;
+    font-size: 1rem;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

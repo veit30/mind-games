@@ -48,6 +48,7 @@ button.game-button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   color: $color-font;
   font-family: $font-main;
   font-weight: 500;

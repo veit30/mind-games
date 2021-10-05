@@ -47,7 +47,7 @@
             Points: <span :class="pointsClass">{{ points }}</span>
           </p>
         </div>
-        <p v-else>
+        <p v-else class="game-wrapper__pregame-countdown">
           {{ preCountdown.value === 0 ? "" : preCountdown.value }}
         </p>
       </div>
@@ -203,6 +203,7 @@ export default defineComponent({
     height: calc(100vh - 17.5rem);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   &__button-container {
@@ -240,6 +241,10 @@ export default defineComponent({
 
   &__down-draw {
     margin-top: auto;
+  }
+
+  &__pregame-countdown {
+    margin-top: 0px;
   }
 }
 

@@ -269,7 +269,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .chain-solver {
   &__timer {
-    margin: 40px auto;
+    margin: 2rem auto;
   }
 
   &__steps-container {
