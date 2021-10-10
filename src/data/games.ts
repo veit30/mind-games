@@ -11,33 +11,13 @@ const games = [
   },
   {
     name: "Sum It Up",
-    description: "Add up the numbers in the squares",
+    description: "Add up the numbers in the squares.",
     route: "sum-it-up",
   },
   {
-    name: "Sum It Up",
-    description: "Add up the numbers in the squares",
-    route: "sum-it-up",
-  },
-  {
-    name: "Sum It Up",
-    description: "Add up the numbers in the squares",
-    route: "sum-it-up",
-  },
-  {
-    name: "Sum It Up",
-    description: "Add up the numbers in the squares",
-    route: "sum-it-up",
-  },
-  {
-    name: "Sum It Up",
-    description: "Add up the numbers in the squares",
-    route: "sum-it-up",
-  },
-  {
-    name: "Sum It Up",
-    description: "Add up the numbers in the squares",
-    route: "sum-it-up",
+    name: "Memory Matrix",
+    description: "Memorise the pattern.",
+    route: "memory-matrix",
   },
 ];
 

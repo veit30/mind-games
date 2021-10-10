@@ -5,7 +5,7 @@
     :counter="restartCounter"
     :points="gamePoints"
     :points-class="gamePointsClass"
-    :actionButtons="currentActionButtons"
+    :action-buttons="currentActionButtons"
     @precountdown-over="start"
     @restart="restart"
   >
@@ -36,7 +36,6 @@ export default defineComponent({
       actionButtons,
       isGameOver: true,
       restartCounter: 0,
-      version: "1.0.0",
     };
   },
 
@@ -49,7 +48,7 @@ export default defineComponent({
   },
 
   computed: {
-    currentActionButtons() {
+    currentActionButtons(): ActionButtonOptions[] {
       return [];
     },
     gamePoints(): number {
@@ -67,16 +66,17 @@ export default defineComponent({
       this.isGameOver = false;
     },
     endGame(): void {
-      this.gameIsOver = true;
+      this.isGameOver = true;
     },
     handleKeyDown(event: KeyboardEvent) {
-      event.preventDefault();
       switch (event.code) {
         case "KeyB":
+          event.preventDefault();
           this.$router.push("/");
           break;
         case "KeyR":
         case "KeyS":
+          event.preventDefault();
           this.restart();
           break;
       }

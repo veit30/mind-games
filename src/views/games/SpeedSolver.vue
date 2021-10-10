@@ -5,7 +5,7 @@
     :counter="restartCounter"
     :points="gamePoints"
     :points-class="gamePointsClass"
-    :actionButtons="actionButtons"
+    :action-buttons="actionButtons"
     @precountdown-over="startGameCountdown"
     @restart="restart"
     @commit-solution-1="commitSolution(0)"

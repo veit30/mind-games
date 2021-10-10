@@ -5,7 +5,7 @@
     :counter="restartCounter"
     :points="gamePoints"
     :points-class="gamePointsClass"
-    :actionButtons="currentActionButtons"
+    :action-buttons="currentActionButtons"
     @precountdown-over="startGameTimer"
     @restart="restart"
     @next="nextStep"

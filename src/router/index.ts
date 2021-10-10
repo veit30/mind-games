@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import type { RouteRecordNormalized } from "vue-router";
 import Home from "../views/Home.vue";
-import { getMetaByContent } from "@/helper/util.ts";
+import { getMetaByContent } from "@/helper/util";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -33,6 +33,12 @@ const routes: Array<RouteRecordRaw> = [
     name: "SumItUp",
     component: () => import("../views/games/SumItUp.vue"),
     meta: getMetaByContent("Mind Games - Sum It Up"),
+  },
+  {
+    path: "/memory-matrix",
+    name: "MemoryMatrix",
+    component: () => import("../views/games/MemoryMatrix.vue"),
+    meta: getMetaByContent("Mind Games - Memory Matrix"),
   },
 ];
 

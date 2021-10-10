@@ -19,8 +19,6 @@ import type { SquareItem } from "@/data/types";
 export default defineComponent({
   name: "GameSquares",
 
-  components: {},
-
   data() {
     return {
       maxWidth: 15,
