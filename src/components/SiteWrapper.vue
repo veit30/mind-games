@@ -1,13 +1,12 @@
 <template>
   <div class="site-wrapper">
     <mind-games-header />
-    <!-- TODO refactor lines -->
-    <!-- <hr
+    <hr
       v-for="line in backgroundLines"
       :key="line.style"
       :style="line.style"
       class="size-wrapper__background-line"
-    /> -->
+    />
     <slot></slot>
   </div>
 </template>
@@ -30,22 +29,12 @@ export default defineComponent({
   },
 
   computed: {
+    //TODO: remove in future when not needed
     backgroundLines(): Array<{ style: string }> {
       switch (this.$route.name) {
-        case "Home":
-          return this.calcLines();
         default:
           return backgroundData["game"];
       }
-    },
-  },
-
-  methods: {
-    calcLines(): Array<{ style: string }> {
-      let numLines = Math.ceil(games.length / 3);
-      return Array.from({ length: numLines }, (line, i) => ({
-        style: `top: ${400 + 260 * i}px;`,
-      }));
     },
   },
 

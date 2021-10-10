@@ -37,7 +37,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import GameWrapper from "@/components/GameWrapper.vue";
-import type { ActionButtonOptions, TaskResult } from "@/data/types";
+import type { FlyOutActionButtonOptions, TaskResult } from "@/data/types";
 import { OPERATOR_COLLECTION, OPERATOR } from "@/data/constants";
 import CountdownBar from "@/components/CountdownBar.vue";
 import Task from "@/data/Task";
@@ -47,13 +47,15 @@ import GameSquares from "@/components/GameSquares.vue";
 import type { SquareItem } from "@/data/types";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
 
-const actionButtons: ActionButtonOptions[] = [
+const actionButtons: FlyOutActionButtonOptions[] = [
   {
     name: "solution1",
     alternative: "←",
     label: "",
     clickEvent: "commit-solution-1",
     isFullSize: false,
+    hasFlyOut: true,
+    flyOutTrigger: 0,
   },
   {
     name: "solution2",
@@ -62,6 +64,8 @@ const actionButtons: ActionButtonOptions[] = [
     clickEvent: "commit-solution-2",
     isFullSize: false,
     hasExtraBorder: true,
+    hasFlyOut: true,
+    flyOutTrigger: 0,
   },
 ];
 
@@ -181,6 +185,11 @@ export default defineComponent({
         task: this.task,
         solution: this.solutions[index],
       });
+      if (this.actionButtons[index].flyOutTrigger >= 0) {
+        this.actionButtons[index].flyOutTrigger += 1;
+      } else {
+        this.actionButtons[index].flyOutTrigger = 0;
+      }
       this.nextTask();
     },
     handleKeyDown(event: KeyboardEvent) {

@@ -61,15 +61,6 @@ button.game-button {
     cursor: pointer;
   }
 
-  &--borderless {
-    border: none;
-
-    &:hover {
-      background: $color-background-dark;
-      color: $color-font--hover;
-    }
-  }
-
   &--large {
     font-size: 2rem;
 
@@ -85,6 +76,15 @@ button.game-button {
       font-size: 1.25rem;
     }
   }
+
+  &--borderless {
+    border: none;
+
+    &:hover {
+      background: $color-background-dark;
+      color: $color-font--hover;
+    }
+  }
 }
 
 .game-button__alternative {
@@ -94,27 +94,12 @@ button.game-button {
   font-weight: 900;
 }
 
-// @media only screen and (min-width: 600px) {
-//   button.game-button {
-//     padding: 0.5rem 1.5rem;
-//     min-width: 6rem;
-//     font-size: 1rem;
-//
-//     &--large {
-//       font-size: 2rem;
-//
-//       .game-button__alternative {
-//         font-size: 1.75rem;
-//       }
-//     }
-//
-//     &--large-small-alt {
-//       font-size: 2rem;
-//
-//       .game-button__alternative {
-//         font-size: 1.25rem;
-//       }
-//     }
-//   }
-// }
+.action-button:hover {
+  button.game-button {
+    &--borderless {
+      background: $color-background-darker;
+      color: $color-font;
+    }
+  }
+}
 </style>

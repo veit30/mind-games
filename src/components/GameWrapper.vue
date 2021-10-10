@@ -57,7 +57,7 @@
         v-if="!isPreCountdownRunning && !isGameOver"
         class="game-wrapper__action-button-container"
       >
-        <game-button
+        <action-button
           v-for="button in actionButtons"
           :key="button.name"
           class="game-wrapper__action-button"
@@ -71,9 +71,10 @@
           @click="$emit(button.clickEvent)"
           :alternative="button.alternative"
           :is-borderless="true"
-        >
-          {{ button.label }}
-        </game-button>
+          :has-fly-out="button.hasFlyOut ? true : false"
+          :label="button.label"
+          :fly-out-trigger="button.flyOutTrigger"
+        />
       </div>
     </div>
   </div>
@@ -84,12 +85,14 @@ import { defineComponent, PropType } from "vue";
 import GameButton from "@/components/GameButton.vue";
 import type { ActionButtonOptions } from "@/data/types";
 import Countdown from "@/data/Countdown";
+import ActionButton from "@/components/ActionButton.vue";
 
 export default defineComponent({
   name: "GameWrapper",
 
   components: {
     GameButton,
+    ActionButton,
   },
 
   data() {
@@ -224,13 +227,13 @@ export default defineComponent({
   }
 
   &__main-container {
-    margin-top: 4.25rem;
+    margin-top: 10vh;
     font-size: 3.75rem;
     text-align: center;
   }
 
   &__game-info-container {
-    margin-top: 4.25rem;
+    margin-top: 10vh;
     font-size: 3.75rem;
     text-align: center;
 
@@ -244,7 +247,7 @@ export default defineComponent({
   }
 
   &__pregame-countdown {
-    margin-top: 0px;
+    margin-top: 5vh;
   }
 }
 
@@ -261,8 +264,10 @@ export default defineComponent({
     }
 
     &__main-container {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
+      // margin-top: 1rem;
+      // margin-bottom: 1rem;
+      margin-top: 10vh;
+      margin-bottom: 10vh;
     }
 
     &__game-info-container {
@@ -281,12 +286,15 @@ export default defineComponent({
 }
 
 // Overwrite default game button styles
-button.game-wrapper__action-button {
+.game-wrapper__action-button {
   flex-basis: 50%;
-  height: 100px;
+  height: 6.25rem;
   border-top: 1px solid $color-border-dark;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-  &.border {
+  button.border {
     &-left {
       &--dark {
         border-left: 1px solid $color-border-dark;

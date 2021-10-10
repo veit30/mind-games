@@ -51,6 +51,7 @@ export default defineComponent({
     overflow-y: scroll;
     border: 1px solid $color-border-dark;
     border-top: 0px;
+    background: $color-background-dark;
   }
 
   &__headline {

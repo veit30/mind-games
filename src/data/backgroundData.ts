@@ -1,13 +1,10 @@
 const backgroundData = {
   game: [
     {
-      style: "top: 205px;",
+      style: "top: 40vh;",
     },
     {
-      style: "top: 420px;",
-    },
-    {
-      style: "top: 840px;",
+      style: "top: 80vh;",
     },
   ],
 };
