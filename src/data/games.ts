@@ -14,6 +14,31 @@ const games = [
     description: "Add up the numbers in the squares",
     route: "sum-it-up",
   },
+  {
+    name: "Sum It Up",
+    description: "Add up the numbers in the squares",
+    route: "sum-it-up",
+  },
+  {
+    name: "Sum It Up",
+    description: "Add up the numbers in the squares",
+    route: "sum-it-up",
+  },
+  {
+    name: "Sum It Up",
+    description: "Add up the numbers in the squares",
+    route: "sum-it-up",
+  },
+  {
+    name: "Sum It Up",
+    description: "Add up the numbers in the squares",
+    route: "sum-it-up",
+  },
+  {
+    name: "Sum It Up",
+    description: "Add up the numbers in the squares",
+    route: "sum-it-up",
+  },
 ];
 
 export default games;

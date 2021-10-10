@@ -238,22 +238,26 @@ export default defineComponent({
     },
 
     handleKeyDown(event: KeyboardEvent) {
-      event.preventDefault();
       switch (event.code) {
         case "KeyB":
+          event.preventDefault();
           this.$router.push("/");
           break;
         case "Space":
+          event.preventDefault();
           !this.isFinalStep && this.nextStep();
           break;
         case "KeyR":
         case "KeyS":
+          event.preventDefault();
           this.restart();
           break;
         case "ArrowRight":
+          event.preventDefault();
           this.isFinalStep && this.commitSolution(1);
           break;
         case "ArrowLeft":
+          event.preventDefault();
           this.isFinalStep && this.commitSolution(0);
           break;
       }
@@ -265,7 +269,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .chain-solver {
   &__timer {
-    margin: 40px auto;
+    margin: 2rem auto;
   }
 
   &__steps-container {

@@ -23,8 +23,8 @@ export default defineComponent({
 
   data() {
     return {
-      maxWidth: 268,
-      itemMargin: 2,
+      maxWidth: 15,
+      itemMargin: 0.125,
     };
   },
 
@@ -42,17 +42,27 @@ export default defineComponent({
       return Math.floor((this.maxWidth - margins) / itemsPerRow);
     },
     itemStyle() {
-      return `width: ${this.itemWidth}px; height: ${
+      return `width: ${this.itemWidth}rem; height: ${
         this.itemWidth
-      }px; margin: ${this.itemMargin}px; font-size: ${Math.floor(
+      }rem; margin: ${this.itemMargin}rem; font-size: ${
         this.itemWidth / 2
-      )}px;`;
+      }rem;`;
     },
     containerStyle() {
-      return `width: ${this.maxWidth}px;`;
+      return `width: ${this.maxWidth}rem;`;
     },
     itemColorClass() {
       return "background--empty";
+    },
+  },
+
+  watch: {
+    items(newVal) {
+      if (newVal.length >= 25) {
+        this.maxWidth = 13;
+      } else {
+        this.maxWidth = 15;
+      }
     },
   },
 

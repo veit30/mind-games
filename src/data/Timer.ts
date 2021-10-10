@@ -42,11 +42,7 @@ export default class Timer {
   get time(): string {
     const min = Math.floor(this.seconds / 60);
     const sec = this.seconds % 60;
-    return min > 0
-      ? sec < 10
-        ? `${min} : 0${sec}`
-        : `${min} : ${sec}`
-      : `${sec}`;
+    return min > 0 ? (sec < 10 ? `${min}:0${sec}` : `${min}:${sec}`) : `${sec}`;
   }
 
   get minutes(): number {
