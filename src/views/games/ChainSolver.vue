@@ -20,7 +20,9 @@
       />
     </template>
     <template #default>
-      <p>{{ isFinalStep ? "=" : task.taskSteps[stepIndex] }}</p>
+      <p class="chain-solver__task">
+        {{ isFinalStep ? "=" : task.taskSteps[stepIndex] }}
+      </p>
     </template>
     <template #bottom>
       <div v-if="!isGameOver" class="chain-solver__steps-container">
@@ -278,6 +280,12 @@ export default defineComponent({
     margin-left: 30px;
     display: flex;
     justify-content: center;
+  }
+
+  &__task {
+    font-size: 4rem;
+    text-align: center;
+    margin-top: 6rem;
   }
 }
 </style>

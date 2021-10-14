@@ -28,14 +28,14 @@ export class GameMatrixItem {
 
 export default class GameMatrix {
   constructor(items?: GameMatrixItem[]) {
-    this.items = items || [];
+    this._items = items || [];
     if (items && items.length) {
-      this._width = Math.ceil(Math.sqrt(this.items.length));
+      this._width = Math.ceil(Math.sqrt(this._items.length));
       this._height = Math.ceil(items.length / this._width);
     }
   }
 
-  items: GameMatrixItem[] = [];
+  _items: GameMatrixItem[] = [];
   _width = 0;
   _height = 0;
 
@@ -47,21 +47,31 @@ export default class GameMatrix {
     return this._height;
   }
 
+  set items(items: GameMatrixItem[]) {
+    this._items = items;
+    this._width = Math.ceil(Math.sqrt(this._items.length));
+    this._height = Math.ceil(items.length / this._width);
+  }
+
+  get items(): GameMatrixItem[] {
+    return this._items;
+  }
+
   get(id: number): GameMatrixItem | null {
     return (
-      this.items.find((item) => {
+      this._items.find((item) => {
         return item.id === id;
       }) ?? null
     );
   }
 
   addItem(item: GameMatrixItem): void {
-    this.items.push(item);
+    this._items.push(item);
   }
 
   compareTo(matrix: GameMatrix): boolean {
-    for (let i = 0; i < matrix.items.length; i++) {
-      if (matrix.items[i].value !== this.items[i].value) {
+    for (let i = 0; i < matrix._items.length; i++) {
+      if (matrix._items[i].value !== this._items[i].value) {
         return false;
       }
     }
@@ -77,19 +87,19 @@ export default class GameMatrix {
     const length = width * height;
     this._height = height;
     this._width = width;
-    this.items = Array.from(
+    this._items = Array.from(
       { length: length },
       (x, i) => new GameMatrixItem(defaultValue, i, isClickable || false)
     );
   }
 
   shuffle(): void {
-    this.items = shuffleArray(this.items);
+    this._items = shuffleArray(this._items);
   }
 
   //TODO: refactor for more usecases
   changeItemValue(amount: number, value: GameMatrixItemValue): void {
-    this.items = this.items.map((item, idx) => {
+    this._items = this._items.map((item, idx) => {
       if (idx < amount) {
         item.value = value;
       }

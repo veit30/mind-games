@@ -16,7 +16,7 @@
     </template>
 
     <template #default>
-      <game-squares class="sum-it-up__game-squares" :items="currentItems" />
+      <game-matrix-display class="sum-it-up__matrix" :matrix="gameMatrix" />
     </template>
 
     <template #bottom>
@@ -43,9 +43,10 @@ import CountdownBar from "@/components/CountdownBar.vue";
 import Task from "@/data/Task";
 import type { Solution } from "@/data/Task";
 import Countdown from "@/data/Countdown";
-import GameSquares from "@/components/GameSquares.vue";
 import type { SquareItem } from "@/data/types";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
+import GameMatrixDisplay from "@/components/GameMatrixDisplay.vue";
+import GameMatrix, { GameMatrixItem } from "@/data/GameMatrix";
 
 const actionButtons: FlyOutActionButtonOptions[] = [
   {
@@ -75,8 +76,8 @@ export default defineComponent({
   components: {
     GameWrapper,
     CountdownBar,
-    GameSquares,
     GameInfoPoint,
+    GameMatrixDisplay,
   },
 
   data() {
@@ -89,7 +90,7 @@ export default defineComponent({
       solutions: [] as Solution[],
       task: new Task(2, { operators: OPERATOR_COLLECTION.ADD }),
       increment: 2,
-      version: "1.0.0",
+      gameMatrix: new GameMatrix(),
     };
   },
 
@@ -178,6 +179,12 @@ export default defineComponent({
       this.solutions = this.task.getPossibleSolutions(2);
       this.actionButtons[0].label = `${this.solutions[0].value}`;
       this.actionButtons[1].label = `${this.solutions[1].value}`;
+      let items = this.task.segmentsWithSign.map(
+        (taskSegment: string, i: number) => {
+          return new GameMatrixItem(taskSegment, i);
+        }
+      );
+      this.gameMatrix.items = items;
     },
     commitSolution(index: number) {
       if (this.isGameOver) return;
@@ -240,7 +247,11 @@ export default defineComponent({
   }
 
   &__game-squares {
-    margin-top: 1rem;
+    margin-top: 4rem;
+  }
+
+  &__matrix {
+    margin-top: 4rem;
   }
 }
 </style>
