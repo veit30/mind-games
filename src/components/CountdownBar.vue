@@ -1,11 +1,11 @@
 <template>
-  <div class="countdown-bar">
+  <div class="countdown-bar" :class="{ small: isSmall }">
     <div
       class="countdown-bar__content"
       :class="colorClass"
       :style="barWidthStyle"
     ></div>
-    <p class="countdown-bar__value">{{ countdownText }}</p>
+    <p v-if="!isSmall" class="countdown-bar__value">{{ countdownText }}</p>
   </div>
 </template>
 
@@ -21,6 +21,10 @@ export default defineComponent({
     countdown: {
       type: Countdown,
       required: true,
+    },
+    isSmall: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -66,6 +70,10 @@ export default defineComponent({
   width: calc(100% - 6rem);
   z-index: 5;
   margin: 2rem auto;
+
+  &.small {
+    height: 0.5rem;
+  }
 
   &__content {
     height: 100%;

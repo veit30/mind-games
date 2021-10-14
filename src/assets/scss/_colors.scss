@@ -1,8 +1,11 @@
 /* GLOBAL COLORS */
 $black: #101010;
 $grey-10: #131214;
+$grey-20: #202020;
 $grey-40: #313131;
 $grey-50: #474747;
+$grey-60: #686868;
+$grey-70: #999999;
 $grey-80: #cccccc;
 $white: #ffffff;
 
@@ -14,6 +17,8 @@ $violet: #b523ff;
 
 /* Tokens */
 
+$color-background-light--hover: $grey-40;
+$color-background-light: $grey-80;
 $color-background-dark: $grey-10;
 $color-background-darker: $black;
 

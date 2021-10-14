@@ -226,14 +226,14 @@ export default defineComponent({
     min-width: 6.25rem;
   }
 
-  &__main-container {
-    margin-top: 10vh;
-    font-size: 3.75rem;
-    text-align: center;
-  }
+  // &__main-container {
+  //   margin-top: 10vh;
+  //   font-size: 3.75rem;
+  //   text-align: center;
+  // }
 
   &__game-info-container {
-    margin-top: 10vh;
+    margin-top: 6rem;
     font-size: 3.75rem;
     text-align: center;
 
@@ -263,12 +263,12 @@ export default defineComponent({
       width: 50%;
     }
 
-    &__main-container {
-      // margin-top: 1rem;
-      // margin-bottom: 1rem;
-      margin-top: 10vh;
-      margin-bottom: 10vh;
-    }
+    // &__main-container {
+    //   // margin-top: 1rem;
+    //   // margin-bottom: 1rem;
+    //   margin-top: 10vh;
+    //   margin-bottom: 10vh;
+    // }
 
     &__game-info-container {
       margin-top: 6rem;

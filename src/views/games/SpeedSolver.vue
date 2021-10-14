@@ -5,7 +5,7 @@
     :counter="restartCounter"
     :points="gamePoints"
     :points-class="gamePointsClass"
-    :actionButtons="actionButtons"
+    :action-buttons="actionButtons"
     @precountdown-over="startGameCountdown"
     @restart="restart"
     @commit-solution-1="commitSolution(0)"
@@ -18,7 +18,7 @@
       />
     </template>
     <template #default>
-      <p>{{ task.get() }}</p>
+      <p class="speed-solver__task">{{ task.get() }}</p>
     </template>
     <template #bottom>
       <div class="speed-solver__points-container">
@@ -217,6 +217,12 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  &__task {
+    font-size: 4rem;
+    text-align: center;
+    margin-top: 6rem;
   }
 }
 </style>

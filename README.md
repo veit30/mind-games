@@ -36,7 +36,8 @@ plop
 |Pick The Operator|Math|Pick the right operator of a equation.|❌|
 |Smaller Or Greater|Math|What is larger/smaller with equations and numbers|❌|
 |Brain Fu**|Brain|Pick the right word/color. Depending on task|❌|
-|Memory Matrix|Memory|Starting a matrix with some fields are filled. Matrix resets and goal is to fill all the fields that where filled before.|❌|
+|Memory Matrix|Memory|Memorize the pattern.|✔️|
+|Memory Matrix 2|Mameory|Like memory matrix but with colors|❌|
 |Count Up|Brain|Find the counting up numbers as quickly as possible.|❌|
 |Count Down|Brain|Find the counting down numbers as quickly as possible.|❌|
 |Order Matters|Memory|Picking something in the right order.|❌|

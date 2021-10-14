@@ -35,8 +35,6 @@ export type MetaData = {
 
 export type TaskResult = { task: Task; solution: Solution };
 
-export type SquareItem = { key: string; value: string | number | boolean };
-
 export function isFlyOutActionButtonOptions(
   item: ActionButtonOptions | FlyOutActionButtonOptions
 ): item is FlyOutActionButtonOptions {
