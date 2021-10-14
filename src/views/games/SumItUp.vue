@@ -43,7 +43,6 @@ import CountdownBar from "@/components/CountdownBar.vue";
 import Task from "@/data/Task";
 import type { Solution } from "@/data/Task";
 import Countdown from "@/data/Countdown";
-import type { SquareItem } from "@/data/types";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
 import GameMatrixDisplay from "@/components/GameMatrixDisplay.vue";
 import GameMatrix, { GameMatrixItem } from "@/data/GameMatrix";
@@ -103,16 +102,6 @@ export default defineComponent({
   },
 
   computed: {
-    currentItems(): SquareItem[] {
-      return this.task.segmentsWithSign.map(
-        (taskSegment: string, i: number) => {
-          return {
-            key: `task-part-${i}`,
-            value: taskSegment,
-          };
-        }
-      );
-    },
     gamePoints(): number {
       let points = 0;
       for (let result of this.results) {
