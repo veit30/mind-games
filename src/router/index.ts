@@ -2,6 +2,18 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import type { RouteRecordNormalized } from "vue-router";
 import Home from "../views/Home.vue";
 import { getMetaByContent } from "@/helper/util";
+import games from "@/data/games";
+
+function gameRoutes() {
+  return games.map((game) => {
+    return {
+      path: `/${game.route}`,
+      name: game.component,
+      component: () => import(`../views/games/${game.component}.vue`),
+      meta: getMetaByContent(`Mind Games - ${game.name}`),
+    };
+  });
+}
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -16,30 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/About.vue"),
     meta: getMetaByContent("Mind Games - About"),
   },
-  {
-    path: "/speed-solver",
-    name: "SpeedSolver",
-    component: () => import("../views/games/SpeedSolver.vue"),
-    meta: getMetaByContent("Mind Games - Speed Solver"),
-  },
-  {
-    path: "/chain-solver",
-    name: "ChainSolver",
-    component: () => import("../views/games/ChainSolver.vue"),
-    meta: getMetaByContent("Mind Games - Chain Solver"),
-  },
-  {
-    path: "/sum-it-up",
-    name: "SumItUp",
-    component: () => import("../views/games/SumItUp.vue"),
-    meta: getMetaByContent("Mind Games - Sum It Up"),
-  },
-  {
-    path: "/memory-matrix",
-    name: "MemoryMatrix",
-    component: () => import("../views/games/MemoryMatrix.vue"),
-    meta: getMetaByContent("Mind Games - Memory Matrix"),
-  },
+  ...gameRoutes(),
 ];
 
 const router = createRouter({

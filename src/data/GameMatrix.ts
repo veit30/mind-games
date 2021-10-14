@@ -93,6 +93,20 @@ export default class GameMatrix {
     );
   }
 
+  generateNumberMatrix(
+    width: number,
+    height: number,
+    isClickable?: boolean
+  ): void {
+    const length = width * height;
+    this._height = height;
+    this._width = width;
+    this._items = Array.from(
+      { length: length },
+      (x, i) => new GameMatrixItem(i + 1, i, isClickable || false)
+    );
+  }
+
   shuffle(): void {
     this._items = shuffleArray(this._items);
   }
