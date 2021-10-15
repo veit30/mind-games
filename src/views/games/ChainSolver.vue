@@ -1,10 +1,10 @@
 <template>
   <game-wrapper
     title="Chain Solver"
+    name="ChainSolver"
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :points="gamePoints"
-    :points-class="gamePointsClass"
     :action-buttons="currentActionButtons"
     @precountdown-over="startGameTimer"
     @restart="restart"
@@ -144,20 +144,6 @@ export default defineComponent({
 
     isFinalStep(): boolean {
       return this.stepIndex >= this.gameSteps.length;
-    },
-
-    gamePointsClass() {
-      if (this.gamePoints < 5) {
-        return "color--red";
-      } else if (this.gamePoints >= 4 && this.gamePoints < 8) {
-        return "color--white";
-      } else if (this.gamePoints >= 8 && this.gamePoints < 12) {
-        return "color--green";
-      } else if (this.gamePoints >= 12 && this.gamePoints < 15) {
-        return "color--blue";
-      } else {
-        return "color--violet";
-      }
     },
   },
 

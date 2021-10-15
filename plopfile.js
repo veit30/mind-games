@@ -11,6 +11,7 @@ module.exports = function (plop) {
     games: {
       path: "src/views/games/{{pascalCase name}}.vue",
       templateFile: "plop/templates/TemplateGame.vue",
+      gameListFile: "src/data/games.ts",
     },
   };
 
@@ -52,6 +53,22 @@ module.exports = function (plop) {
         name: "name",
         message: "Game name:",
       },
+      {
+        type: "input",
+        name: "description",
+        message: "Game description:",
+      },
+      {
+        type: "list",
+        name: "category",
+        message: "Game category:",
+        choices: [
+          "Math",
+          "Brain",
+          "Speed",
+          "Memory",
+        ]
+      }
     ],
     actions: [
       {
@@ -77,6 +94,19 @@ module.exports = function (plop) {
         pattern: /GAME_TITLE/g,
         template: "{{titleCase name}}",
       },
+      {
+        type: "modify",
+        path: template.games.gameListFile,
+        pattern: /\/\/nextGame/g,
+        template: `{
+    name: "{{titleCase name}}",
+    component: "{{kebabCase name}}",
+    description: "{{desciption}}",
+    route: "{{snakeCase name}}",
+    category: "{{category}}",
+  },
+  //nextGame`,
+      }
     ],
   });
 

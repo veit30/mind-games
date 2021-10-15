@@ -43,6 +43,7 @@ plop
 |Order Matters|Memory|Picking something in the right order.|❌|
 |Numeric Estimation|Math|Estimate the equation to different numbers or values.|❌|
 |Cube Folding|Brain|Picking the right cube to an unfolded cube or pick the right unfold to a folded cube.|❌|
+|Spot The Wrong|Brain|Spot the one wrong icon/emoji in a field of many|❌|
 
 ✔️ Done | 🚧 Work in progress | ❌ Planned
 

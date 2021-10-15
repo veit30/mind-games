@@ -57,6 +57,10 @@ export default class GameMatrix {
     return this._items;
   }
 
+  get size(): number {
+    return this._items.length;
+  }
+
   get(id: number): GameMatrixItem | null {
     return (
       this._items.find((item) => {
@@ -90,6 +94,20 @@ export default class GameMatrix {
     this._items = Array.from(
       { length: length },
       (x, i) => new GameMatrixItem(defaultValue, i, isClickable || false)
+    );
+  }
+
+  generateNumberMatrix(
+    width: number,
+    height: number,
+    isClickable?: boolean
+  ): void {
+    const length = width * height;
+    this._height = height;
+    this._width = width;
+    this._items = Array.from(
+      { length: length },
+      (x, i) => new GameMatrixItem(i + 1, i, isClickable || false)
     );
   }
 

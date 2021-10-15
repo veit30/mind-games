@@ -40,6 +40,10 @@ export default defineComponent({
       type: Number,
       default: 15,
     },
+    hasDisabledStyle: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
@@ -48,12 +52,11 @@ export default defineComponent({
       let margins = itemsPerRow * 2 * this.itemMargin;
       return parseFloat(((this.maxWidth - margins) / itemsPerRow).toFixed(4));
     },
+    itemFontSize(): number {
+      return parseFloat((this.itemWidth / 2).toFixed(4));
+    },
     generalItemStyles() {
-      return `width: ${this.itemWidth}rem; height: ${
-        this.itemWidth
-      }rem; margin: ${this.itemMargin}rem; font-size: ${parseFloat(
-        (this.itemWidth / 2).toFixed(4)
-      )}rem;`;
+      return `width: ${this.itemWidth}rem; height: ${this.itemWidth}rem; margin: ${this.itemMargin}rem; font-size: ${this.itemFontSize}rem;`;
     },
     containerStyle() {
       return `width: ${this.maxWidth}rem;`;
@@ -67,17 +70,21 @@ export default defineComponent({
       }
     },
     styleByItem(item: GameMatrixItem) {
-      if (item.type === "color" && (item.value as Color).value) {
-        return `${this.generalItemStyles} background: ${
-          (item.value as Color).value
-        };`;
+      let additionalStyles = "";
+      if ((item.value + "").length > 2) {
+        let fontSize = this.itemFontSize * 0.75;
+        additionalStyles += `font-size: ${fontSize}rem; `;
       }
-      return this.generalItemStyles;
+      if (item.type === "color" && (item.value as Color).value) {
+        additionalStyles += `background: ${(item.value as Color).value}; `;
+      }
+      return `${this.generalItemStyles} ${additionalStyles}`;
     },
     classByItem(item: GameMatrixItem) {
       // TODO: prepare for color classes
       return {
         clickable: item.isClickable,
+        disabled: !item.isClickable && this.hasDisabledStyle,
         "background--light": item.isActive,
       };
     },
@@ -102,6 +109,11 @@ export default defineComponent({
 
     &.clickable:hover {
       background: $grey-70;
+    }
+
+    &.disabled {
+      background: $grey-40;
+      color: $grey-70;
     }
   }
 }

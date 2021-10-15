@@ -1,6 +1,7 @@
 <template>
   <game-wrapper
     title="GAME_TITLE"
+    name="TemplateGame"
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :points="gamePoints"

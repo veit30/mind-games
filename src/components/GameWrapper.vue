@@ -86,6 +86,7 @@ import GameButton from "@/components/GameButton.vue";
 import type { ActionButtonOptions } from "@/data/types";
 import Countdown from "@/data/Countdown";
 import ActionButton from "@/components/ActionButton.vue";
+import { gamesPointThresholds } from "@/data/games";
 
 export default defineComponent({
   name: "GameWrapper",
@@ -99,6 +100,7 @@ export default defineComponent({
     return {
       preCountdown: new Countdown(3) as Countdown,
       preTimer: 0,
+      gamesPointThresholds,
     };
   },
 
@@ -111,13 +113,13 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    name: {
+      type: String,
+      default: "",
+    },
     points: {
       type: Number,
       default: 0,
-    },
-    pointsClass: {
-      type: String,
-      default: "color--white",
     },
     isGameOver: {
       type: Boolean,
@@ -135,6 +137,34 @@ export default defineComponent({
     },
     isFirstGame(): boolean {
       return this.counter < 1;
+    },
+    pointsClass(): string {
+      let thresholdOptions = this.gamesPointThresholds[this.name];
+      let thresholds = thresholdOptions.thresholds;
+      if (thresholdOptions && thresholdOptions.type === "absolute") {
+        if (this.points < thresholds[0]) {
+          return "color--red";
+        } else if (
+          this.points >= thresholds[0] &&
+          this.points < thresholds[1]
+        ) {
+          return "color--white";
+        } else if (
+          this.points >= thresholds[1] &&
+          this.points < thresholds[2]
+        ) {
+          return "color--green";
+        } else if (
+          this.points >= thresholds[2] &&
+          this.points < thresholds[3]
+        ) {
+          return "color--blue";
+        } else {
+          return "color--violet";
+        }
+      } else {
+        return "color--white";
+      }
     },
   },
 
