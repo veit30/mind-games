@@ -1,10 +1,10 @@
 <template>
   <game-wrapper
     title="Memory Matrix"
+    name="MemoryMatrix"
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :points="gamePoints"
-    :points-class="gamePointsClass"
     :action-buttons="currentActionButtons"
     @submit-matrix="submitMatrix"
     @precountdown-over="startMemorizeCountdown"
@@ -110,19 +110,6 @@ export default defineComponent({
     },
     gamePoints(): number {
       return this.round;
-    },
-    gamePointsClass(): string {
-      if (this.gamePoints < 3) {
-        return "color--red";
-      } else if (this.gamePoints >= 3 && this.gamePoints < 7) {
-        return "color--white";
-      } else if (this.gamePoints >= 6 && this.gamePoints < 11) {
-        return "color--green";
-      } else if (this.gamePoints >= 11 && this.gamePoints < 16) {
-        return "color--blue";
-      } else {
-        return "color--violet";
-      }
     },
     currentMatrix(): GameMatrix {
       if (this.gamePhase === 0) {

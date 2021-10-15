@@ -1,23 +1,42 @@
 <template>
   <game-wrapper
     title="Count Up"
+    name="CountUp"
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :points="gamePoints"
-    :points-class="gamePointsClass"
-    :action-buttons="currentActionButtons"
     @precountdown-over="newRound"
     @restart="restart"
   >
     <template #top>
-      <timer-box :timer="gameTimer" :threshold="gameTimeThreshold" />
+      <timer-box
+        class="count-up__timer"
+        :timer="gameTimer"
+        :threshold="gameTimeThreshold"
+      />
     </template>
 
     <template #default>
-      <game-matrix-display class="count-up__matrix" :matrix="gameMatrix" />
+      <game-matrix-display
+        class="count-up__matrix"
+        :matrix="gameMatrix"
+        :has-disabled-style="true"
+        :max-width="matrixDisplayWidth"
+        @item-click="confirmNumber"
+      />
     </template>
 
-    <template #bottom> </template>
+    <template #bottom>
+      <div class="count-up__false-count-container">
+        <game-info-point
+          v-for="point in falseCounts"
+          :key="point.id"
+          :value="false"
+        >
+          {{ point.info }}
+        </game-info-point>
+      </div>
+    </template>
   </game-wrapper>
 </template>
 
@@ -29,8 +48,9 @@ import GameMatrix from "@/data/GameMatrix";
 import GameMatrixDisplay from "@/components/GameMatrixDisplay.vue";
 import TimerBox from "@/components/TimerBox.vue";
 import Timer from "@/data/Timer";
+import GameInfoPoint from "@/components/GameInfoPoint.vue";
 
-const actionButtons: ActionButtonOptions[] = [];
+type FalseCountInfo = { id: number; info: string };
 
 export default defineComponent({
   name: "CountUp",
@@ -39,16 +59,18 @@ export default defineComponent({
     GameWrapper,
     GameMatrixDisplay,
     TimerBox,
+    GameInfoPoint,
   },
 
   data() {
     return {
-      actionButtons,
       isGameOver: true,
       restartCounter: 0,
       gameMatrix: new GameMatrix(),
       gameTimer: new Timer(),
-      gameTimeThreshold: 0,
+      gameTimeThreshold: 55,
+      falseCounts: [] as FalseCountInfo[],
+      numbersConfirmed: 0,
     };
   },
 
@@ -65,11 +87,12 @@ export default defineComponent({
       return [];
     },
     gamePoints(): number {
-      let points = 0;
+      let timerValue = this.gameTimer.seconds;
+      let points = 55 - (timerValue - 55) - this.falseCounts.length;
       return points;
     },
-    gamePointsClass(): string {
-      return "";
+    matrixDisplayWidth(): number {
+      return 25;
     },
   },
 
@@ -77,12 +100,37 @@ export default defineComponent({
     restart(): void {
       this.restartCounter += 1;
       this.isGameOver = false;
+      this.gameTimer.reset();
+      this.falseCounts = [];
+      this.numbersConfirmed = 0;
     },
     endGame(): void {
       this.isGameOver = true;
+      this.gameTimer.stop();
     },
     newRound() {
-      this.gameMatrix.generateNumberMatrix(5, 4, true);
+      this.gameMatrix.generateNumberMatrix(7, 7, true);
+      this.gameMatrix.shuffle();
+    },
+    confirmNumber(id: number) {
+      if (this.gameTimer.isStopped && this.numbersConfirmed === 0) {
+        this.gameTimer.start();
+      }
+      if (id === this.numbersConfirmed) {
+        let item = this.gameMatrix.get(id);
+        if (item) {
+          item.isClickable = false;
+        }
+        this.numbersConfirmed += 1;
+      } else {
+        this.falseCounts.push({
+          id: this.falseCounts.length,
+          info: `Wrong: ${this.numbersConfirmed} -> ${id + 1}`,
+        });
+      }
+      if (this.numbersConfirmed === this.gameMatrix.size) {
+        this.endGame();
+      }
     },
     handleKeyDown(event: KeyboardEvent) {
       switch (event.code) {
@@ -105,6 +153,19 @@ export default defineComponent({
 .count-up {
   &__matrix {
     margin-top: 4rem;
+  }
+
+  &__timer {
+    margin: 2rem auto;
+  }
+  &__false-count-container {
+    margin-top: auto;
+    margin-bottom: 20px;
+    margin-right: 30px;
+    margin-left: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 </style>

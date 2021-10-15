@@ -1,10 +1,10 @@
 <template>
   <game-wrapper
     title="Speed Solver"
+    name="SpeedSolver"
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :points="gamePoints"
-    :points-class="gamePointsClass"
     :action-buttons="actionButtons"
     @precountdown-over="startGameCountdown"
     @restart="restart"
@@ -173,20 +173,6 @@ export default defineComponent({
         }
       }
       return points;
-    },
-
-    gamePointsClass() {
-      if (this.gamePoints < 0) {
-        return "color--red";
-      } else if (this.gamePoints >= 0 && this.gamePoints < 25) {
-        return "color--white";
-      } else if (this.gamePoints >= 25 && this.gamePoints < 40) {
-        return "color--green";
-      } else if (this.gamePoints >= 40 && this.gamePoints < 60) {
-        return "color--blue";
-      } else {
-        return "color--violet";
-      }
     },
   },
 

@@ -1,10 +1,10 @@
 <template>
   <game-wrapper
     title="Sum It Up"
+    name="SumItUp"
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :points="gamePoints"
-    :points-class="gamePointsClass"
     :action-buttons="actionButtons"
     @precountdown-over="startGameCountdown"
     @restart="restart"
@@ -117,19 +117,6 @@ export default defineComponent({
         }
       }
       return points;
-    },
-    gamePointsClass(): string {
-      if (this.gamePoints < 5) {
-        return "color--red";
-      } else if (this.gamePoints >= 4 && this.gamePoints < 8) {
-        return "color--white";
-      } else if (this.gamePoints >= 8 && this.gamePoints < 12) {
-        return "color--green";
-      } else if (this.gamePoints >= 12 && this.gamePoints < 15) {
-        return "color--blue";
-      } else {
-        return "color--violet";
-      }
     },
   },
 

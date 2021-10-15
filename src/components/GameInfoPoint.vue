@@ -58,7 +58,7 @@ export default defineComponent({
     background: $color-background-darker;
     color: #fff;
     font-size: 14px;
-    font-family: "Righteous", cursive;
+    font-family: $font-main;
     padding: 20px 20px;
     position: absolute;
     left: 50%;

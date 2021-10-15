@@ -57,6 +57,10 @@ export default class GameMatrix {
     return this._items;
   }
 
+  get size(): number {
+    return this._items.length;
+  }
+
   get(id: number): GameMatrixItem | null {
     return (
       this._items.find((item) => {
