@@ -51,6 +51,7 @@ const actionButtons: FlyOutActionButtonOptions[] = [
   {
     name: "solution1",
     alternative: "←",
+    code: "ArrowLeft",
     label: "",
     clickEvent: "commit-solution-1",
     isFullSize: false,
@@ -60,6 +61,7 @@ const actionButtons: FlyOutActionButtonOptions[] = [
   {
     name: "solution2",
     alternative: "→",
+    code: "ArrowRight",
     label: "",
     clickEvent: "commit-solution-2",
     isFullSize: false,
@@ -91,14 +93,6 @@ export default defineComponent({
       increment: 2,
       gameMatrix: new GameMatrix(),
     };
-  },
-
-  beforeMount() {
-    document.addEventListener("keydown", this.handleKeyDown, false);
-  },
-
-  beforeUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown, false);
   },
 
   computed: {
@@ -174,27 +168,6 @@ export default defineComponent({
         this.actionButtons[index].flyOutTrigger = 0;
       }
       this.nextTask();
-    },
-    handleKeyDown(event: KeyboardEvent) {
-      switch (event.code) {
-        case "KeyB":
-          event.preventDefault();
-          this.$router.push("/");
-          break;
-        case "KeyR":
-        case "KeyS":
-          event.preventDefault();
-          this.restart();
-          break;
-        case "ArrowRight":
-          event.preventDefault();
-          this.commitSolution(1);
-          break;
-        case "ArrowLeft":
-          event.preventDefault();
-          this.commitSolution(0);
-          break;
-      }
     },
   },
   watch: {

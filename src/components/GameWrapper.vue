@@ -131,6 +131,14 @@ export default defineComponent({
     },
   },
 
+  beforeMount() {
+    document.addEventListener("keydown", this.handleKeyDown, false);
+  },
+
+  beforeUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown, false);
+  },
+
   computed: {
     isPreCountdownRunning(): boolean {
       return this.preCountdown.isRunning;
@@ -168,7 +176,27 @@ export default defineComponent({
     },
   },
 
-  methods: {},
+  methods: {
+    handleKeyDown(event: KeyboardEvent) {
+      switch (event.code) {
+        case "KeyB":
+          event.preventDefault();
+          this.$router.push("/");
+          break;
+        case "KeyR":
+        case "KeyS":
+          event.preventDefault();
+          this.$emit("restart");
+          break;
+      }
+      this.actionButtons.forEach((button) => {
+        if (button.code && button.code === event.code) {
+          event.preventDefault();
+          this.$emit(button.clickEvent);
+        }
+      });
+    },
+  },
 
   watch: {
     counter(newVal, oldVal) {

@@ -49,6 +49,7 @@ const actionButtons: FlyOutActionButtonOptions[] = [
   {
     name: "solution1",
     alternative: "←",
+    code: "ArrowLeft",
     label: "",
     clickEvent: "commit-solution-1",
     isFullSize: false,
@@ -58,6 +59,7 @@ const actionButtons: FlyOutActionButtonOptions[] = [
   {
     name: "solution2",
     alternative: "→",
+    code: "ArrowRight",
     label: "",
     clickEvent: "commit-solution-2",
     isFullSize: false,
@@ -89,40 +91,7 @@ export default defineComponent({
     };
   },
 
-  beforeMount() {
-    document.addEventListener("keydown", this.handleKeyDown, false);
-  },
-
-  beforeUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown, false);
-  },
-
   methods: {
-    handleKeyDown(event: KeyboardEvent) {
-      //TODO: visually represent keypress on buttons
-      //this might require keydown and keyup events
-
-      switch (event.code) {
-        case "KeyB":
-          event.preventDefault();
-          this.$router.push("/");
-          break;
-        case "KeyR":
-        case "KeyS":
-          event.preventDefault();
-          this.restart();
-          break;
-        case "ArrowRight":
-          event.preventDefault();
-          this.commitSolution(1);
-          break;
-        case "ArrowLeft":
-          event.preventDefault();
-          this.commitSolution(0);
-          break;
-      }
-    },
-
     restart() {
       this.restartCounter += 1;
       this.gameCountdown.reset();

@@ -9,6 +9,7 @@ export type Operator = typeof OPERATOR[keyof typeof OPERATOR];
 export type ActionButtonOptions = {
   name: string;
   alternative: string;
+  code?: string;
   label: string;
   clickEvent: string;
   isFullSize: boolean;

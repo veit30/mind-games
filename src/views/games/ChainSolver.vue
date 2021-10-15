@@ -58,6 +58,7 @@ const actionButtons: ActionButtonOptions[] = [
   {
     name: "next",
     alternative: "space",
+    code: "Space",
     label: "Weiter",
     clickEvent: "next",
     isFullSize: true,
@@ -65,6 +66,7 @@ const actionButtons: ActionButtonOptions[] = [
   {
     name: "solution1",
     alternative: "←",
+    code: "ArrowLeft",
     label: "",
     clickEvent: "commit-solution-1",
     isFullSize: false,
@@ -72,6 +74,7 @@ const actionButtons: ActionButtonOptions[] = [
   {
     name: "solution2",
     alternative: "→",
+    code: "ArrowRight",
     label: "",
     clickEvent: "commit-solution-2",
     isFullSize: false,
@@ -106,14 +109,6 @@ export default defineComponent({
       }) as Task,
       version: "1.0.1",
     };
-  },
-
-  beforeMount() {
-    document.addEventListener("keydown", this.handleKeyDown, false);
-  },
-
-  beforeUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown, false);
   },
 
   computed: {
@@ -188,6 +183,7 @@ export default defineComponent({
     },
 
     nextStep() {
+      if (this.isFinalStep) return;
       this.stepIndex += 1;
       if (this.stepIndex === this.gameSteps.length) {
         this.gameSteps[this.stepIndex - 1].state = GAME_STATE.DONE;
@@ -200,6 +196,7 @@ export default defineComponent({
     },
 
     commitSolution(index: number) {
+      if (!this.isFinalStep) return;
       this.phaseIndex += 1;
       this.stepIndex = -1;
       this.nextStep();
@@ -223,32 +220,6 @@ export default defineComponent({
       this.gameSteps = [];
       this.gameTimer.stop();
       this.isGameOver = true;
-    },
-
-    handleKeyDown(event: KeyboardEvent) {
-      switch (event.code) {
-        case "KeyB":
-          event.preventDefault();
-          this.$router.push("/");
-          break;
-        case "Space":
-          event.preventDefault();
-          !this.isFinalStep && this.nextStep();
-          break;
-        case "KeyR":
-        case "KeyS":
-          event.preventDefault();
-          this.restart();
-          break;
-        case "ArrowRight":
-          event.preventDefault();
-          this.isFinalStep && this.commitSolution(1);
-          break;
-        case "ArrowLeft":
-          event.preventDefault();
-          this.isFinalStep && this.commitSolution(0);
-          break;
-      }
     },
   },
 });

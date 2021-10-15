@@ -73,14 +73,6 @@ export default defineComponent({
     };
   },
 
-  beforeMount() {
-    document.addEventListener("keydown", this.handleKeyDown, false);
-  },
-
-  beforeUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown, false);
-  },
-
   computed: {
     gamePoints(): number {
       let timerValue = this.gameTimer.seconds;
@@ -130,19 +122,6 @@ export default defineComponent({
       }
       if (this.numbersConfirmed === this.gameMatrix.size) {
         this.endGame();
-      }
-    },
-    handleKeyDown(event: KeyboardEvent) {
-      switch (event.code) {
-        case "KeyB":
-          event.preventDefault();
-          this.$router.push("/");
-          break;
-        case "KeyR":
-        case "KeyS":
-          event.preventDefault();
-          this.restart();
-          break;
       }
     },
   },
