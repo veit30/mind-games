@@ -42,6 +42,13 @@ const games: Game[] = [
     route: "count-up",
     category: "Brain",
   },
+  {
+    name: "Count Down",
+    component: "CountDown",
+    description: "Count down the numbers in the right order.",
+    route: "count-down",
+    category: "Brain",
+  },
   //nextGame
 ];
 
@@ -78,6 +85,10 @@ export const gamesPointThresholds: { [key: string]: GamePointThreshold } = {
   CountUp: {
     type: "absolute",
     thresholds: [0, 20, 45, 55],
+  },
+  CountDown: {
+    type: "absolute",
+    thresholds: [0, 25, 48, 60],
   },
 };
 
