@@ -5,7 +5,6 @@
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :points="gamePoints"
-    :points-class="gamePointsClass"
     :action-buttons="currentActionButtons"
     @precountdown-over="start"
     @restart="restart"
@@ -55,9 +54,6 @@ export default defineComponent({
     gamePoints(): number {
       let points = 0;
       return points;
-    },
-    gamePointsClass(): string {
-      return "";
     },
   },
 

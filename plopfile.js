@@ -100,9 +100,9 @@ module.exports = function (plop) {
         pattern: /\/\/nextGame/g,
         template: `{
     name: "{{titleCase name}}",
-    component: "{{kebabCase name}}",
-    description: "{{desciption}}",
-    route: "{{snakeCase name}}",
+    component: "{{pascalCase name}}",
+    description: "{{description}}",
+    route: "{{kebabCase name}}",
     category: "{{category}}",
   },
   //nextGame`,
