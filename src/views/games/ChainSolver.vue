@@ -9,8 +9,7 @@
     @precountdown-over="startGameTimer"
     @restart="restart"
     @next="nextStep"
-    @commit-solution-1="commitSolution(0)"
-    @commit-solution-2="commitSolution(1)"
+    @commit-solution="commitSolution"
   >
     <template #top>
       <timer-box
@@ -60,7 +59,9 @@ const actionButtons: ActionButtonOptions[] = [
     alternative: "space",
     code: "Space",
     label: "Weiter",
-    clickEvent: "next",
+    clickEvent: {
+      event: "next",
+    },
     isFullSize: true,
   },
   {
@@ -68,7 +69,10 @@ const actionButtons: ActionButtonOptions[] = [
     alternative: "←",
     code: "ArrowLeft",
     label: "",
-    clickEvent: "commit-solution-1",
+    clickEvent: {
+      event: "commit-solution",
+      value: 0,
+    },
     isFullSize: false,
   },
   {
@@ -76,7 +80,10 @@ const actionButtons: ActionButtonOptions[] = [
     alternative: "→",
     code: "ArrowRight",
     label: "",
-    clickEvent: "commit-solution-2",
+    clickEvent: {
+      event: "commit-solution",
+      value: 1,
+    },
     isFullSize: false,
     hasExtraBorder: true,
   },

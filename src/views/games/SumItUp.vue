@@ -8,8 +8,7 @@
     :action-buttons="actionButtons"
     @precountdown-over="startGameCountdown"
     @restart="restart"
-    @commit-solution-1="commitSolution(0)"
-    @commit-solution-2="commitSolution(1)"
+    @commit-solution="commitSolution"
   >
     <template #top>
       <countdown-bar class="sum-it-up__countdown" :countdown="gameCountdown" />
@@ -23,11 +22,9 @@
       <div class="sum-it-up__points-container">
         <game-info-point
           v-for="result in results"
-          :key="result.task.get()"
-          :value="result.solution.isValid"
-          >{{
-            `${result.task.get()} = ${result.solution.value}`
-          }}</game-info-point
+          :key="result.id"
+          :value="result.value"
+          >{{ result.info }}</game-info-point
         >
       </div>
     </template>
@@ -37,7 +34,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import GameWrapper from "@/components/GameWrapper.vue";
-import type { FlyOutActionButtonOptions, TaskResult } from "@/data/types";
+import type { FlyOutActionButtonOptions, GameInfo } from "@/data/types";
 import { OPERATOR_COLLECTION, OPERATOR } from "@/data/constants";
 import CountdownBar from "@/components/CountdownBar.vue";
 import Task from "@/data/Task";
@@ -46,6 +43,7 @@ import Countdown from "@/data/Countdown";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
 import GameMatrixDisplay from "@/components/GameMatrixDisplay.vue";
 import GameMatrix, { GameMatrixItem } from "@/data/GameMatrix";
+import { countNumbers } from "@/helper/util";
 
 const actionButtons: FlyOutActionButtonOptions[] = [
   {
@@ -53,7 +51,10 @@ const actionButtons: FlyOutActionButtonOptions[] = [
     alternative: "←",
     code: "ArrowLeft",
     label: "",
-    clickEvent: "commit-solution-1",
+    clickEvent: {
+      event: "commit-solution",
+      value: 0,
+    },
     isFullSize: false,
     hasFlyOut: true,
     flyOutTrigger: 0,
@@ -63,7 +64,10 @@ const actionButtons: FlyOutActionButtonOptions[] = [
     alternative: "→",
     code: "ArrowRight",
     label: "",
-    clickEvent: "commit-solution-2",
+    clickEvent: {
+      event: "commit-solution",
+      value: 1,
+    },
     isFullSize: false,
     hasExtraBorder: true,
     hasFlyOut: true,
@@ -87,7 +91,7 @@ export default defineComponent({
       isGameOver: true,
       gameCountdown: new Countdown(90) as Countdown,
       restartCounter: 0,
-      results: [] as TaskResult[],
+      results: [] as GameInfo[],
       solutions: [] as Solution[],
       task: new Task(2, { operators: OPERATOR_COLLECTION.ADD }),
       increment: 2,
@@ -99,14 +103,12 @@ export default defineComponent({
     gamePoints(): number {
       let points = 0;
       for (let result of this.results) {
-        let additionalPoints = Math.sqrt(result.task.length) - 1;
-        if (!result.solution.isValid) {
+        let additionalPoints = Math.sqrt(countNumbers(result.info) - 1) - 1;
+        if (!result.value) {
           additionalPoints = -1 * Math.floor(additionalPoints / 2);
           points += additionalPoints;
         } else {
-          additionalPoints += result.task.operators.includes(OPERATOR.SUBTRACT)
-            ? 1
-            : 0;
+          additionalPoints += result.info.includes(OPERATOR.SUBTRACT) ? 1 : 0;
           points += additionalPoints;
         }
       }
@@ -159,8 +161,9 @@ export default defineComponent({
     commitSolution(index: number) {
       if (this.isGameOver) return;
       this.results.push({
-        task: this.task,
-        solution: this.solutions[index],
+        id: this.results.length,
+        info: `${this.task} = ${this.solutions[index].value}`,
+        value: this.solutions[index].isValid,
       });
       if (this.actionButtons[index].flyOutTrigger >= 0) {
         this.actionButtons[index].flyOutTrigger += 1;

@@ -8,7 +8,7 @@ import {
   randomBooleanByLikelihood,
 } from "@/helper/util";
 
-type TaskSegment = string | number;
+export type TaskSegment = Operator | number;
 export type Solution = { value: number; isValid: boolean };
 
 export default class Task {
@@ -29,7 +29,7 @@ export default class Task {
     this.new();
   }
 
-  private _task: Array<TaskSegment> = [];
+  protected _task: Array<TaskSegment> = [];
   protected _difficulty: Difficulty = DIFFICULTY.EASY;
   protected _operators: Operator[] = OPERATOR_COLLECTION.AVERAGE;
   private _taskLength: number;
@@ -44,7 +44,7 @@ export default class Task {
     this._isStepped = isStepped;
   }
 
-  get(): string {
+  toString(): string {
     return this.buildTask().replace("*", "×").replace("/", "÷");
   }
 

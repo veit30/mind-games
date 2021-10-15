@@ -49,6 +49,13 @@ const games: Game[] = [
     route: "count-down",
     category: "Brain",
   },
+  {
+    name: "Pick The Operator",
+    component: "PickTheOperator",
+    description: "Pick the right operator for a given equation.",
+    route: "pick-the-operator",
+    category: "Math",
+  },
   //nextGame
 ];
 
@@ -89,6 +96,10 @@ export const gamesPointThresholds: { [key: string]: GamePointThreshold } = {
   CountDown: {
     type: "absolute",
     thresholds: [0, 25, 48, 60],
+  },
+  PickTheOperator: {
+    type: "absolute",
+    thresholds: [0, 20, 40, 50],
   },
 };
 

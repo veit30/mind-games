@@ -1,3 +1,5 @@
+import { TaskSegment } from "./Task";
+
 export const DIFFICULTY = {
   EASY: 0,
   MEDIUM: 1,
@@ -29,4 +31,14 @@ export const OPERATOR_COLLECTION = {
   BASIC: [OPERATOR.ADD, OPERATOR.SUBTRACT],
   AVERAGE: [OPERATOR.ADD, OPERATOR.SUBTRACT, OPERATOR.MULTIPLY],
   FULL: [OPERATOR.ADD, OPERATOR.SUBTRACT, OPERATOR.MULTIPLY, OPERATOR.DEVIDE],
+};
+
+export const operatorMapper = (ts: TaskSegment): string => {
+  if (ts === "*") {
+    return "×";
+  } else if (ts === "/") {
+    return "÷";
+  } else {
+    return ts + "";
+  }
 };

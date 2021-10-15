@@ -47,7 +47,9 @@ const actionButtons: ActionButtonOptions[] = [
     name: "submit",
     alternative: "space",
     label: "Submit Matrix",
-    clickEvent: "submit-matrix",
+    clickEvent: {
+      event: "submit-matrix",
+    },
     isFullSize: true,
   },
 ];

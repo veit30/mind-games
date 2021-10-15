@@ -1,32 +1,37 @@
 <template>
   <game-wrapper
-    title="Speed Solver"
-    name="SpeedSolver"
+    title="Pick The Operator"
+    name="PickTheOperator"
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :points="gamePoints"
     :action-buttons="actionButtons"
-    @precountdown-over="startGameCountdown"
+    @commit-operator="commitOperator"
+    @precountdown-over="start"
     @restart="restart"
-    @commit-solution="commitSolution"
   >
     <template #top>
       <countdown-bar
-        class="speed-solver__countdown"
+        class="pick-the-operator__countdown"
         :countdown="gameCountdown"
       />
     </template>
+
     <template #default>
-      <p class="speed-solver__task">{{ task + "" }}</p>
+      <p class="pick-the-operator__equation">
+        {{ gameEquation.getWithoutOperator(0) }}
+      </p>
     </template>
+
     <template #bottom>
-      <div class="speed-solver__points-container">
+      <div class="pick-the-operator__points-container">
         <game-info-point
           v-for="result in results"
           :key="result.id"
           :value="result.value"
-          >{{ result.info }}</game-info-point
         >
+          {{ result.info }}
+        </game-info-point>
       </div>
     </template>
   </game-wrapper>
@@ -34,36 +39,48 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import CountdownBar from "@/components/CountdownBar.vue";
-import GameInfoPoint from "@/components/GameInfoPoint.vue";
 import GameWrapper from "@/components/GameWrapper.vue";
-import Task from "@/data/Task";
-import type { Solution } from "@/data/Task";
-import Countdown from "@/data/Countdown";
 import type { FlyOutActionButtonOptions, GameInfo } from "@/data/types";
+import CountdownBar from "@/components/CountdownBar.vue";
+import Countdown from "@/data/Countdown";
+import Equation from "@/data/Equation";
+import GameInfoPoint from "@/components/GameInfoPoint.vue";
 
 const actionButtons: FlyOutActionButtonOptions[] = [
   {
-    name: "solution1",
+    name: "operator1",
+    alternative: "↑",
+    code: "ArrowUp",
+    label: "×",
+    clickEvent: {
+      event: "commit-operator",
+      value: 0,
+    },
+    isFullSize: true,
+    hasFlyOut: true,
+    flyOutTrigger: 0,
+  },
+  {
+    name: "operator2",
     alternative: "←",
     code: "ArrowLeft",
-    label: "",
+    label: "-",
     clickEvent: {
-      event: "commit-solution",
-      value: 0,
+      event: "commit-operator",
+      value: 1,
     },
     isFullSize: false,
     hasFlyOut: true,
     flyOutTrigger: 0,
   },
   {
-    name: "solution2",
+    name: "operator3",
     alternative: "→",
     code: "ArrowRight",
-    label: "",
+    label: "+",
     clickEvent: {
-      event: "commit-solution",
-      value: 1,
+      event: "commit-operator",
+      value: 2,
     },
     isFullSize: false,
     hasExtraBorder: true,
@@ -73,65 +90,23 @@ const actionButtons: FlyOutActionButtonOptions[] = [
 ];
 
 export default defineComponent({
-  name: "SpeedSolver",
+  name: "PickTheOperator",
 
   components: {
+    GameWrapper,
     CountdownBar,
     GameInfoPoint,
-    GameWrapper,
   },
 
   data() {
     return {
       actionButtons,
-      gameCountdown: new Countdown(60) as Countdown,
       isGameOver: true,
       restartCounter: 0,
+      gameCountdown: new Countdown(60) as Countdown,
+      gameEquation: new Equation(),
       results: [] as GameInfo[],
-      solutions: [] as Solution[],
-      task: new Task() as Task,
     };
-  },
-
-  methods: {
-    restart() {
-      this.restartCounter += 1;
-      this.gameCountdown.reset();
-      this.isGameOver = false;
-      this.results = [];
-      this.solutions = [];
-      this.nextTask();
-    },
-
-    startGameCountdown() {
-      this.gameCountdown.start();
-    },
-
-    endGame() {
-      this.isGameOver = true;
-    },
-
-    nextTask() {
-      this.task = new Task();
-      this.solutions = this.task.getPossibleSolutions(2);
-      this.actionButtons[0].label = `${this.solutions[0].value}`;
-      this.actionButtons[1].label = `${this.solutions[1].value}`;
-    },
-
-    commitSolution(index: number) {
-      if (this.isGameOver) return;
-      this.results.push({
-        id: this.results.length,
-        info: `${this.task} = ${this.solutions[index].value}`,
-        value: this.solutions[index].isValid,
-      });
-      if (this.actionButtons[index].flyOutTrigger >= 0) {
-        this.actionButtons[index].flyOutTrigger += 1;
-      } else {
-        this.actionButtons[index].flyOutTrigger = 0;
-      }
-      this.nextTask();
-    },
   },
 
   computed: {
@@ -141,6 +116,49 @@ export default defineComponent({
         points += res.value ? 1 : -1;
       });
       return points;
+    },
+  },
+
+  methods: {
+    restart(): void {
+      this.restartCounter += 1;
+      this.isGameOver = false;
+      this.gameCountdown.reset();
+      this.results = [];
+    },
+
+    start() {
+      this.gameCountdown.start();
+      this.nextEquation();
+    },
+
+    nextEquation() {
+      this.gameEquation.new();
+    },
+
+    endGame(): void {
+      this.isGameOver = true;
+    },
+
+    commitOperator(index: number) {
+      if (this.isGameOver) return;
+      this.results.push({
+        id: this.results.length,
+        info: this.gameEquation.getWithReplacedOperator(
+          this.actionButtons[index].label,
+          0
+        ),
+        value: this.gameEquation.hasOperatorAtIndex(
+          this.actionButtons[index].label,
+          0
+        ),
+      });
+      if (this.actionButtons[index].flyOutTrigger >= 0) {
+        this.actionButtons[index].flyOutTrigger += 1;
+      } else {
+        this.actionButtons[index].flyOutTrigger = 0;
+      }
+      this.nextEquation();
     },
   },
 
@@ -158,7 +176,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.speed-solver {
+.pick-the-operator {
   &__countdown {
     margin: 2.5rem auto;
   }
@@ -173,7 +191,7 @@ export default defineComponent({
     justify-content: center;
   }
 
-  &__task {
+  &__equation {
     font-size: 4rem;
     text-align: center;
     margin-top: 6rem;

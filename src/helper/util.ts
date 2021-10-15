@@ -100,3 +100,12 @@ export function randomBooleanByLikelihood(likelihood: number): boolean {
   const index = Math.floor(Math.random() * possibilities.length);
   return possibilities[index];
 }
+
+export function countNumbers(str: string): number {
+  return str.split("").reduce((acc: number, cur: string) => {
+    if (parseInt(cur)) {
+      acc += 1;
+    }
+    return acc;
+  }, 0);
+}
