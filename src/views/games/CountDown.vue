@@ -1,7 +1,7 @@
 <template>
   <game-wrapper
-    title="Count Up"
-    name="CountUp"
+    title="Count Down"
+    name="CountDown"
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :points="gamePoints"
@@ -10,7 +10,7 @@
   >
     <template #top>
       <timer-box
-        class="count-up__timer"
+        class="count-down__timer"
         :timer="gameTimer"
         :threshold="gameTimeThreshold"
       />
@@ -18,7 +18,7 @@
 
     <template #default>
       <game-matrix-display
-        class="count-up__matrix"
+        class="count-down__matrix"
         :matrix="gameMatrix"
         :has-disabled-style="true"
         :max-width="matrixDisplayWidth"
@@ -27,7 +27,7 @@
     </template>
 
     <template #bottom>
-      <div class="count-up__false-count-container">
+      <div class="count-down__false-count-container">
         <game-info-point
           v-for="point in falseCounts"
           :key="point.id"
@@ -52,7 +52,7 @@ import GameInfoPoint from "@/components/GameInfoPoint.vue";
 type FalseCountInfo = { id: number; info: string };
 
 export default defineComponent({
-  name: "CountUp",
+  name: "CountDown",
 
   components: {
     GameWrapper,
@@ -67,7 +67,7 @@ export default defineComponent({
       restartCounter: 0,
       gameMatrix: new GameMatrix(),
       gameTimer: new Timer(),
-      gameTimeThreshold: 55,
+      gameTimeThreshold: 60,
       falseCounts: [] as FalseCountInfo[],
       numbersConfirmed: 0,
     };
@@ -116,7 +116,7 @@ export default defineComponent({
       if (this.gameTimer.isStopped && this.numbersConfirmed === 0) {
         this.gameTimer.start();
       }
-      if (id === this.numbersConfirmed) {
+      if (48 - id === this.numbersConfirmed) {
         let item = this.gameMatrix.get(id);
         if (item) {
           item.isClickable = false;
@@ -125,7 +125,7 @@ export default defineComponent({
       } else {
         this.falseCounts.push({
           id: this.falseCounts.length,
-          info: `Wrong: ${this.numbersConfirmed} -> ${id + 1}`,
+          info: `Wrong: ${50 - this.numbersConfirmed} -> ${id + 1}`,
         });
       }
       if (this.numbersConfirmed === this.gameMatrix.size) {
@@ -150,7 +150,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.count-up {
+.count-down {
   &__matrix {
     margin-top: 4rem;
   }
