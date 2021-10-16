@@ -131,6 +131,14 @@ export default defineComponent({
     },
   },
 
+  beforeMount() {
+    document.addEventListener("keydown", this.handleKeyDown, false);
+  },
+
+  beforeUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown, false);
+  },
+
   computed: {
     isPreCountdownRunning(): boolean {
       return this.preCountdown.isRunning;
@@ -140,8 +148,8 @@ export default defineComponent({
     },
     pointsClass(): string {
       let thresholdOptions = this.gamesPointThresholds[this.name];
-      let thresholds = thresholdOptions.thresholds;
       if (thresholdOptions && thresholdOptions.type === "absolute") {
+        let thresholds = thresholdOptions.thresholds;
         if (this.points < thresholds[0]) {
           return "color--red";
         } else if (
@@ -168,7 +176,27 @@ export default defineComponent({
     },
   },
 
-  methods: {},
+  methods: {
+    handleKeyDown(event: KeyboardEvent) {
+      switch (event.code) {
+        case "KeyB":
+          event.preventDefault();
+          this.$router.push("/");
+          break;
+        case "KeyR":
+        case "KeyS":
+          event.preventDefault();
+          this.$emit("restart");
+          break;
+      }
+      this.actionButtons.forEach((button) => {
+        if (button.code && button.code === event.code) {
+          event.preventDefault();
+          this.$emit(button.clickEvent.event, button.clickEvent.value);
+        }
+      });
+    },
+  },
 
   watch: {
     counter(newVal, oldVal) {

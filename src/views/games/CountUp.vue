@@ -31,7 +31,7 @@
         <game-info-point
           v-for="point in falseCounts"
           :key="point.id"
-          :value="false"
+          :value="point.value"
         >
           {{ point.info }}
         </game-info-point>
@@ -49,7 +49,7 @@ import TimerBox from "@/components/TimerBox.vue";
 import Timer from "@/data/Timer";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
 
-type FalseCountInfo = { id: number; info: string };
+type FalseCountInfo = { id: number; info: string; value: false };
 
 export default defineComponent({
   name: "CountUp",
@@ -71,14 +71,6 @@ export default defineComponent({
       falseCounts: [] as FalseCountInfo[],
       numbersConfirmed: 0,
     };
-  },
-
-  beforeMount() {
-    document.addEventListener("keydown", this.handleKeyDown, false);
-  },
-
-  beforeUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown, false);
   },
 
   computed: {
@@ -126,23 +118,11 @@ export default defineComponent({
         this.falseCounts.push({
           id: this.falseCounts.length,
           info: `Wrong: ${this.numbersConfirmed} -> ${id + 1}`,
+          value: false,
         });
       }
       if (this.numbersConfirmed === this.gameMatrix.size) {
         this.endGame();
-      }
-    },
-    handleKeyDown(event: KeyboardEvent) {
-      switch (event.code) {
-        case "KeyB":
-          event.preventDefault();
-          this.$router.push("/");
-          break;
-        case "KeyR":
-        case "KeyS":
-          event.preventDefault();
-          this.restart();
-          break;
       }
     },
   },

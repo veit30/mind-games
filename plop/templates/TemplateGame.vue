@@ -39,14 +39,6 @@ export default defineComponent({
     };
   },
 
-  beforeMount() {
-    document.addEventListener("keydown", this.handleKeyDown, false);
-  },
-
-  beforeUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown, false);
-  },
-
   computed: {
     currentActionButtons(): ActionButtonOptions[] {
       return [];
@@ -64,19 +56,6 @@ export default defineComponent({
     },
     endGame(): void {
       this.isGameOver = true;
-    },
-    handleKeyDown(event: KeyboardEvent) {
-      switch (event.code) {
-        case "KeyB":
-          event.preventDefault();
-          this.$router.push("/");
-          break;
-        case "KeyR":
-        case "KeyS":
-          event.preventDefault();
-          this.restart();
-          break;
-      }
     },
   },
 });
