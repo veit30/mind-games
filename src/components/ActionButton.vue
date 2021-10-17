@@ -7,8 +7,13 @@
     >
       {{ label }}
     </game-button>
-    <div v-if="showFlyOut" class="action-button__flyout" :class="flyOutClass">
-      {{ lastLabel }}
+    <div
+      v-for="f in flyOuts"
+      :key="f.key"
+      class="action-button__flyout"
+      :class="flyOutClass"
+    >
+      {{ f.value }}
     </div>
   </div>
 </template>
@@ -26,9 +31,8 @@ export default defineComponent({
 
   data() {
     return {
-      flyOutText: "Flyout",
+      flyOuts: [] as { key: number; value: string }[],
       lastLabel: "",
-      flyOutTriggered: false,
       flyOutTimeout: 0,
     };
   },
@@ -50,8 +54,9 @@ export default defineComponent({
     hasFlyOut: {
       type: Boolean,
     },
-    flyOutTrigger: {
+    actionCounter: {
       type: Number,
+      default: 0,
     },
   },
 
@@ -64,24 +69,26 @@ export default defineComponent({
           this.isLarge && this.alternative.length > 2,
       };
     },
-    showFlyOut() {
-      return this.hasFlyOut && this.flyOutTriggered;
-    },
   },
 
-  methods: {},
+  methods: {
+    handleClick() {
+      console.log(this.label);
+    },
+  },
 
   watch: {
     label(newVal, oldVal) {
       if (oldVal) this.lastLabel = oldVal;
     },
-    flyOutTrigger() {
-      clearTimeout(this.flyOutTimeout);
-      this.flyOutTimeout = 0;
-      this.flyOutTriggered = true;
-      this.flyOutTimeout = setTimeout(() => {
-        this.flyOutTriggered = false;
-      }, 500);
+    actionCounter(newVal) {
+      this.flyOuts.push({
+        key: newVal,
+        value: this.lastLabel,
+      });
+      if (this.flyOuts.length > 10) {
+        this.flyOuts = this.flyOuts.slice(-10);
+      }
     },
   },
 });

@@ -57,7 +57,7 @@ const actionButtons: FlyOutActionButtonOptions[] = [
     },
     isFullSize: false,
     hasFlyOut: true,
-    flyOutTrigger: 0,
+    actionCounter: 0,
   },
   {
     name: "solution2",
@@ -71,7 +71,7 @@ const actionButtons: FlyOutActionButtonOptions[] = [
     isFullSize: false,
     hasExtraBorder: true,
     hasFlyOut: true,
-    flyOutTrigger: 0,
+    actionCounter: 0,
   },
 ];
 
@@ -165,10 +165,10 @@ export default defineComponent({
         info: `${this.task} = ${this.solutions[index].value}`,
         value: this.solutions[index].isValid,
       });
-      if (this.actionButtons[index].flyOutTrigger >= 0) {
-        this.actionButtons[index].flyOutTrigger += 1;
+      if (this.actionButtons[index].actionCounter >= 0) {
+        this.actionButtons[index].actionCounter += 1;
       } else {
-        this.actionButtons[index].flyOutTrigger = 0;
+        this.actionButtons[index].actionCounter = 0;
       }
       this.nextTask();
     },
