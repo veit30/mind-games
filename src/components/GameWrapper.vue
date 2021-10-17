@@ -1,7 +1,30 @@
 <template>
   <div class="game-wrapper">
     <div class="game-wrapper__headline-container">
-      <h2 class="game-wrapper__headline">{{ title }}</h2>
+      <div class="game-wrapper__headline-side-container"></div>
+      <h2
+        class="game-wrapper__headline"
+        :class="{ 'game-wrapper__headline--long': title.length > 13 }"
+      >
+        {{ title }}
+      </h2>
+      <div class="game-wrapper__headline-side-container">
+        <button
+          class="game-wrapper__help-button"
+          :class="{ 'game-wrapper__help-button--small': title.length > 13 }"
+          @click="openModal"
+        >
+          ?
+        </button>
+        <modal
+          v-if="isHelpModalOpen"
+          headline="Help"
+          :sections="helpModalContent"
+          @close="isHelpModalOpen = false"
+        >
+          <component :is="gameHelperComponent" />
+        </modal>
+      </div>
     </div>
     <div class="game-wrapper__container">
       <slot name="top"></slot>
@@ -44,7 +67,7 @@
         >
           <p>Game Over</p>
           <p>
-            Points: <span :class="pointsClass">{{ points }}</span>
+            Score: <span :class="pointsClass">{{ points }}</span>
           </p>
         </div>
         <p v-else class="game-wrapper__pregame-countdown">
@@ -81,12 +104,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, defineAsyncComponent, PropType } from "vue";
 import GameButton from "@/components/GameButton.vue";
 import type { ActionButtonOptions } from "@/data/types";
 import Countdown from "@/data/Countdown";
 import ActionButton from "@/components/ActionButton.vue";
 import { gamesPointThresholds } from "@/data/games";
+import Modal from "@/components/Modal.vue";
 
 export default defineComponent({
   name: "GameWrapper",
@@ -94,6 +118,7 @@ export default defineComponent({
   components: {
     GameButton,
     ActionButton,
+    Modal,
   },
 
   data() {
@@ -101,6 +126,7 @@ export default defineComponent({
       preCountdown: new Countdown(3) as Countdown,
       preTimer: 0,
       gamesPointThresholds,
+      isHelpModalOpen: false,
     };
   },
 
@@ -140,6 +166,11 @@ export default defineComponent({
   },
 
   computed: {
+    gameHelperComponent() {
+      return defineAsyncComponent(
+        () => import(`@/components/gameHelp/${this.name}Help.vue`)
+      );
+    },
     isPreCountdownRunning(): boolean {
       return this.preCountdown.isRunning;
     },
@@ -196,6 +227,9 @@ export default defineComponent({
         }
       });
     },
+    openModal() {
+      this.isHelpModalOpen = true;
+    },
   },
 
   watch: {
@@ -244,6 +278,11 @@ export default defineComponent({
   &__headline {
     font-size: 2rem;
     padding: 1rem 0;
+
+    &--long {
+      font-size: 1.5rem;
+      padding: 1rem 0;
+    }
   }
 
   &__headline-container {
@@ -251,7 +290,7 @@ export default defineComponent({
     border: 1px solid $color-border-dark;
     width: 90%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     background: $color-background-dark;
   }
@@ -284,12 +323,6 @@ export default defineComponent({
     min-width: 6.25rem;
   }
 
-  // &__main-container {
-  //   margin-top: 10vh;
-  //   font-size: 3.75rem;
-  //   text-align: center;
-  // }
-
   &__game-info-container {
     margin-top: 6rem;
     font-size: 3.75rem;
@@ -307,6 +340,31 @@ export default defineComponent({
   &__pregame-countdown {
     margin-top: 5vh;
   }
+
+  &__help-button {
+    margin-right: 1rem;
+    padding: 0;
+    font-size: 2rem;
+    font-family: $font-title;
+    background: $color-background-dark;
+    outline: none;
+    border: none;
+    color: $white;
+    cursor: pointer;
+    float: right;
+
+    &--small {
+      font-size: 1.5rem;
+    }
+
+    &:hover {
+      color: $grey-80;
+    }
+  }
+
+  &__headline-side-container {
+    width: 10%;
+  }
 }
 
 /* MEDIA QUERY */
@@ -321,13 +379,6 @@ export default defineComponent({
       width: 50%;
     }
 
-    // &__main-container {
-    //   // margin-top: 1rem;
-    //   // margin-bottom: 1rem;
-    //   margin-top: 10vh;
-    //   margin-bottom: 10vh;
-    // }
-
     &__game-info-container {
       margin-top: 6rem;
 
@@ -339,6 +390,19 @@ export default defineComponent({
     &__button-container {
       margin-left: 5rem;
       margin-right: 5rem;
+    }
+
+    &__headline--long {
+      font-size: 2rem;
+      padding: 1rem 0;
+    }
+
+    &__help-button {
+      margin-right: 1.5rem;
+
+      &--small {
+        font-size: 2rem;
+      }
     }
   }
 }

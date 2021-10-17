@@ -112,3 +112,20 @@ hr {
 .clickable {
   cursor: pointer;
 }
+
+/* GAME HELP COMPONENTS */
+.game-help {
+  section {
+    text-align: start;
+    margin-top: 2rem;
+    font-size: 1rem;
+    h2 {
+      font-size: 2rem;
+      padding: 0.5rem 0;
+    }
+    h3 {
+      font-size: 1.5rem;
+      padding: 0.5rem 0;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { easeOutQuad, shuffleArray, wordVariants } from "@/helper/util";
+import { easeOutQuad, shuffleArray } from "@/helper/util";
 
 export default class WordScrambler {
   constructor(word: string, length: number) {
@@ -133,7 +133,7 @@ export default class WordScrambler {
 
   set word(word: string) {
     this._word = word;
-    this._scrambles = wordVariants(word);
+    this.generateScrambles();
   }
 
   get currentWord(): string {

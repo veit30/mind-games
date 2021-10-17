@@ -13,6 +13,10 @@ module.exports = function (plop) {
       templateFile: "plop/templates/TemplateGame.vue",
       gameListFile: "src/data/games.ts",
     },
+    gameHelper: {
+      path: "src/components/gameHelp/{{pascalCase name}}Help.vue",
+      templateFile: "plop/templates/TemplateGameHelp.vue",
+    }
   };
 
   plop.setGenerator("view", {
@@ -93,6 +97,17 @@ module.exports = function (plop) {
         path: template.games.path,
         pattern: /GAME_TITLE/g,
         template: "{{titleCase name}}",
+      },
+      {
+        type: "add",
+        path: template.gameHelper.path,
+        templateFile: template.gameHelper.templateFile,
+      },
+      {
+        type: "modify",
+        path: template.gameHelper.path,
+        pattern: /TemplateHelp/g,
+        template: "{{pascalCase name}}Help",
       },
       {
         type: "modify",

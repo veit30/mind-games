@@ -17,6 +17,7 @@
     </template>
 
     <template #default>
+      <p class="count-down__instruction">Count from 49 to 1</p>
       <game-matrix-display
         class="count-down__matrix"
         :matrix="gameMatrix"
@@ -131,7 +132,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .count-down {
   &__matrix {
-    margin-top: 4rem;
+    margin-top: 2rem;
   }
 
   &__timer {
@@ -145,6 +146,12 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+  &__instruction {
+    text-align: center;
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
   }
 }
 </style>
