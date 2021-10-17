@@ -63,7 +63,7 @@ export default defineComponent({
     font-size: 3.3rem;
     margin: 0;
     display: inline-block;
-    animation: fadeInFromNone 2s ease;
+    animation: fadeInFromNone 1.5s ease;
 
     &-separator {
       width: 10px;
@@ -77,11 +77,11 @@ export default defineComponent({
 }
 
 @keyframes fadeInFromNone {
-  from {
+  0% {
     opacity: 0;
   }
 
-  to {
+  100% {
     opacity: 1;
   }
 }
