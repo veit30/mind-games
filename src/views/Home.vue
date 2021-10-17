@@ -4,8 +4,10 @@
       <h2 class="home__headline">Game Selection</h2>
     </div>
     <div class="home__game-container">
-      <game-card v-for="game in games" :key="game.name" v-bind="game" />
-      <div v-if="games.length % 3 === 2" class="home__game-placeholder"></div>
+      <div class="home__games">
+        <game-card v-for="game in games" :key="game.name" v-bind="game" />
+        <div v-if="games.length % 3 === 2" class="home__game-placeholder"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,17 +43,20 @@ export default defineComponent({
   text-align: center;
 
   &__game-container {
-    display: flex;
     width: 90%;
     margin: 0 auto;
     padding: 1rem;
-    justify-content: space-between;
-    flex-wrap: wrap;
     height: calc(100vh - 18rem);
     overflow-y: scroll;
     border: 1px solid $color-border-dark;
     border-top: 0px;
     background: $color-background-dark;
+  }
+
+  &__games {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   &__headline {
