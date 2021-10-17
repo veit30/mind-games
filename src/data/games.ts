@@ -56,6 +56,13 @@ const games: Game[] = [
     route: "pick-the-operator",
     category: "Math",
   },
+  {
+    name: "Memory",
+    component: "Memory",
+    description: "Just the usual memory",
+    route: "memory",
+    category: "Memory",
+  },
   //nextGame
 ];
 
