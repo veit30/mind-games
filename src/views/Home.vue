@@ -81,7 +81,7 @@ export default defineComponent({
 @media only screen and (max-width: 395px) {
   .home {
     &__game-container {
-      height: calc(100vh - 20rem);
+      height: calc(100vh - 24rem);
     }
   }
 }

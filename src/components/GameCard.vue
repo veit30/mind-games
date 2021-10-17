@@ -56,7 +56,7 @@ export default defineComponent({
 
   &__description {
     padding: 0.625rem 1.25rem;
-    color: $color-font-dark;
+    color: $color-font-secondary;
     font-size: 0.825rem;
   }
 }
