@@ -1,27 +1,40 @@
 <template>
   <div class="mind-games-header">
     <div class="header__container" @click="$router.push('/')">
-      <h1 class="mind-games-header__headline">{{ headlineValues[0] }}</h1>
+      <h1 class="mind-games-header__headline">
+        {{ mindScrambler.currentWord }}
+      </h1>
       <div class="mind-games-header__headline-separator"></div>
-      <h1 class="mind-games-header__headline">{{ headlineValues[1] }}</h1>
+      <h1 class="mind-games-header__headline">
+        {{ gamesScrambler.currentWord }}
+      </h1>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import WordScrambler from "@/data/WordScrambler";
 
 export default defineComponent({
   name: "MindGamesHeader",
 
   data() {
     return {
-      headlineValues: ["MiNd", "GAmES"] as Array<string>,
+      mindScrambler: new WordScrambler("MiNd", 5000),
+      gamesScrambler: new WordScrambler("GAmES", 5000),
     };
   },
 
+  mounted() {
+    this.startScramble();
+  },
+
   methods: {
-    //TODO: text scrable for headline
+    startScramble() {
+      this.mindScrambler.start();
+      this.gamesScrambler.start();
+    },
   },
 });
 </script>
@@ -43,6 +56,7 @@ export default defineComponent({
     font-size: 3.3rem;
     margin: 0;
     display: inline-block;
+    animation: fadeInFromNone 2s ease;
 
     &-separator {
       width: 10px;
@@ -53,5 +67,15 @@ export default defineComponent({
 
 .header__container {
   cursor: pointer;
+}
+
+@keyframes fadeInFromNone {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 </style>
