@@ -1,5 +1,5 @@
 <template>
-  <div class="mind-games-header">
+  <div class="mind-games-header" :class="{ invisible: !isHome }">
     <div class="header__container" @click="$router.push('/')">
       <h1 class="mind-games-header__headline">
         {{ mindScrambler.currentWord }}
@@ -28,12 +28,19 @@ export default defineComponent({
 
   mounted() {
     this.startScramble();
+    console.log(this.$route);
   },
 
   methods: {
     startScramble() {
       this.mindScrambler.start();
       this.gamesScrambler.start();
+    },
+  },
+
+  computed: {
+    isHome() {
+      return this.$route.name === "Home";
     },
   },
 });
@@ -76,6 +83,12 @@ export default defineComponent({
 
   to {
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .mind-games-header.invisible {
+    display: none;
   }
 }
 </style>
