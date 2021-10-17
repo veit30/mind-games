@@ -91,12 +91,12 @@
             button.hasExtraBorder ? 'border-left--dark' : '',
           ]"
           :is-large="true"
-          @click="$emit(button.clickEvent)"
+          @click="$emit(button.clickEvent.event, button.clickEvent.value)"
           :alternative="button.alternative"
           :is-borderless="true"
           :has-fly-out="button.hasFlyOut ? true : false"
           :label="button.label"
-          :fly-out-trigger="button.flyOutTrigger"
+          :action-counter="button.actionCounter"
         />
       </div>
     </div>

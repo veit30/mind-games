@@ -16,11 +16,11 @@ export type ActionButtonOptions = {
   isFullSize: boolean;
   hasExtraBorder?: boolean;
   hasFlyOut?: boolean;
-  flyOutTrigger?: number;
+  actionCounter?: number;
 };
 
 export interface FlyOutActionButtonOptions extends ActionButtonOptions {
-  flyOutTrigger: number;
+  actionCounter: number;
 }
 
 export type GameStep = {
@@ -40,5 +40,5 @@ export type GameInfo = { id: number; info: string; value: boolean };
 export function isFlyOutActionButtonOptions(
   item: ActionButtonOptions | FlyOutActionButtonOptions
 ): item is FlyOutActionButtonOptions {
-  return (item as FlyOutActionButtonOptions).flyOutTrigger !== undefined;
+  return (item as FlyOutActionButtonOptions).hasFlyOut !== undefined;
 }
