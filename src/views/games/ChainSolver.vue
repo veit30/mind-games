@@ -58,7 +58,7 @@ const actionButtons: ActionButtonOptions[] = [
     name: "next",
     alternative: "space",
     code: "Space",
-    label: "Weiter",
+    label: "Next",
     clickEvent: {
       event: "next",
     },
@@ -114,7 +114,6 @@ export default defineComponent({
         isStepped: true,
         operators: OPERATOR_COLLECTION.BASIC,
       }) as Task,
-      version: "1.0.1",
     };
   },
 
@@ -134,11 +133,11 @@ export default defineComponent({
       });
 
       if (points > 6) {
-        let r = this.gameTimer.seconds - (this.gameTimeThreshold - 40);
-        r = r < 0 ? 0 : r;
-        let f = Math.ceil(r / 10);
-        f = f > 5 ? 0 : f;
-        let timerPoints = 5 - f;
+        let overTime = this.gameTimer.seconds - this.gameTimeThreshold;
+        let timerPoints =
+          overTime < 0
+            ? 5
+            : 5 - (Math.ceil(overTime / 10) > 5 ? 5 : Math.ceil(overTime / 10));
         points += timerPoints;
       }
       return points;

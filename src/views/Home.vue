@@ -42,7 +42,7 @@ export default defineComponent({
 
   &__game-container {
     display: flex;
-    width: 70%;
+    width: 90%;
     margin: 0 auto;
     padding: 1rem;
     justify-content: space-between;
@@ -60,8 +60,8 @@ export default defineComponent({
   }
 
   &__headline-container {
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 5%;
+    margin-right: 5%;
     margin-top: 2.5rem;
     text-align: center;
     border: 1px solid $color-border-dark;
@@ -77,6 +77,19 @@ export default defineComponent({
   .home {
     &__game-container {
       height: calc(100vh - 20rem);
+    }
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .home {
+    &__game-container {
+      width: 70%;
+    }
+
+    &__headline-container {
+      margin-left: 15%;
+      margin-right: 15%;
     }
   }
 }

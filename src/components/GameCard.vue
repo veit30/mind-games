@@ -42,6 +42,7 @@ export default defineComponent({
   color: $color-font;
   text-align: start;
   margin-bottom: 1rem;
+  overflow: hidden;
 
   &:hover {
     background: $color-background-darker;
@@ -60,7 +61,7 @@ export default defineComponent({
   }
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 700px) {
   .game-card {
     width: 31%;
   }

@@ -17,6 +17,7 @@
     </template>
 
     <template #default>
+      <p class="count-up__instruction">Count from 1 to 49</p>
       <game-matrix-display
         class="count-up__matrix"
         :matrix="gameMatrix"
@@ -146,6 +147,12 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+  &__instruction {
+    text-align: center;
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
   }
 }
 </style>
