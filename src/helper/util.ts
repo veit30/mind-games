@@ -109,3 +109,11 @@ export function countNumbers(str: string): number {
     return acc;
   }, 0);
 }
+
+export function easeOutQuad(x: number): number {
+  return 1 - (1 - x) * (1 - x);
+}
+
+export function multiplyArray<T>(arr: T[], multiplicator: number): T[] {
+  return Array.from({ length: multiplicator }, () => arr).flat();
+}
