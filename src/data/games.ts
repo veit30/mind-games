@@ -38,14 +38,14 @@ const games: Game[] = [
   {
     name: "Count Up",
     component: "CountUp",
-    description: "Count from 1 to ...",
+    description: "Count from 1 to 49",
     route: "count-up",
     category: "Brain",
   },
   {
     name: "Count Down",
     component: "CountDown",
-    description: "Count down the numbers in the right order.",
+    description: "Count down from 49 to 1.",
     route: "count-down",
     category: "Brain",
   },
@@ -55,6 +55,13 @@ const games: Game[] = [
     description: "Pick the right operator for a given equation.",
     route: "pick-the-operator",
     category: "Math",
+  },
+  {
+    name: "Memory",
+    component: "Memory",
+    description: "Just the usual memory.",
+    route: "memory",
+    category: "Memory",
   },
   //nextGame
 ];
@@ -71,7 +78,7 @@ type GamePointThreshold =
   | RelativeGamePointThreshold
   | AbsoluteGamePointThreshold;
 
-//TODO: needs rework when game options are implemented
+//TODO: needs rework when game settings are implemented
 export const gamesPointThresholds: { [key: string]: GamePointThreshold } = {
   SpeedSolver: {
     type: "absolute",

@@ -14,15 +14,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import WordScrambler from "@/data/WordScrambler";
+import TextScrambler from "@/data/TextScrambler";
 
 export default defineComponent({
   name: "MindGamesHeader",
 
   data() {
     return {
-      mindScrambler: new WordScrambler("MiNd", 5000),
-      gamesScrambler: new WordScrambler("GAmES", 5000),
+      mindScrambler: new TextScrambler("MiNd", 5000),
+      gamesScrambler: new TextScrambler("GAmES", 5000),
     };
   },
 
@@ -63,7 +63,7 @@ export default defineComponent({
     font-size: 3.3rem;
     margin: 0;
     display: inline-block;
-    animation: fadeInFromNone 2s ease;
+    animation: fadeInFromNone 1.5s ease;
 
     &-separator {
       width: 10px;
@@ -77,11 +77,11 @@ export default defineComponent({
 }
 
 @keyframes fadeInFromNone {
-  from {
+  0% {
     opacity: 0;
   }
 
-  to {
+  100% {
     opacity: 1;
   }
 }

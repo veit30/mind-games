@@ -1,6 +1,6 @@
 import { easeOutQuad, shuffleArray } from "@/helper/util";
 
-export default class WordScrambler {
+export default class TextScrambler {
   constructor(word: string, length: number) {
     this._word = word;
     this.animationLength = length; //in ms

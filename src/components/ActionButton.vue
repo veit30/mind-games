@@ -122,12 +122,14 @@ export default defineComponent({
 }
 
 @keyframes fadeIn {
-  from {
+  0% {
     opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
-  to {
+  100% {
     opacity: 0;
+    -webkit-transform: translate3d(0, -3.5rem, 0);
     transform: translate3d(0, -3.5rem, 0);
   }
 }
