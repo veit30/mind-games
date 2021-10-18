@@ -369,6 +369,14 @@ export default defineComponent({
 
 /* MEDIA QUERY */
 
+@media only screen and (min-width: 500px) {
+  .game-wrapper {
+    &__container {
+      height: calc(100vh - 9rem);
+    }
+  }
+}
+
 @media only screen and (min-width: 900px) {
   .game-wrapper {
     &__container {

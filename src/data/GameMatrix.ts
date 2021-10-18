@@ -4,15 +4,25 @@ import { shuffleArray } from "@/helper/util";
 export type GameMatrixItemValue = Color | string | number | boolean;
 
 export class GameMatrixItem {
-  constructor(value: GameMatrixItemValue, id: number, isClickable?: boolean) {
+  constructor(
+    value: GameMatrixItemValue,
+    id: number,
+    isClickable?: boolean,
+    isValueHidden?: boolean,
+    isSelected?: boolean
+  ) {
     this.value = value;
     this.id = id;
     this.isClickable = isClickable || false;
+    this.isValueHidden = isValueHidden || false;
+    this.isSelected = isSelected || false;
   }
 
   value: GameMatrixItemValue;
   id: number;
   isClickable: boolean;
+  isValueHidden: boolean;
+  isSelected: boolean;
 
   get type(): string {
     if (typeof this.value === "object") {

@@ -1,12 +1,8 @@
 <template>
   <div class="site-wrapper">
-    <mind-games-header />
-    <hr
-      v-for="line in backgroundLines"
-      :key="line.style"
-      :style="line.style"
-      class="size-wrapper__background-line"
-    />
+    <mind-games-header v-if="isHome" />
+    <hr v-if="!isHome" class="size-wrapper__background-line" />
+    <hr v-if="!isHome" class="size-wrapper__background-line" />
     <slot></slot>
   </div>
 </template>
@@ -36,6 +32,9 @@ export default defineComponent({
           return backgroundData["game"];
       }
     },
+    isHome() {
+      return this.$route.name === "Home";
+    },
   },
 
   components: {
@@ -60,11 +59,23 @@ export default defineComponent({
   z-index: -1;
 
   &:first-of-type {
-    top: 40%;
+    top: 20%;
   }
 
   &:last-of-type {
-    top: 75%;
+    top: 65%;
+  }
+}
+
+@media only screen and (min-width: 500px) {
+  .size-wrapper__background-line {
+    &:first-of-type {
+      top: 28%;
+    }
+
+    &:last-of-type {
+      top: 72%;
+    }
   }
 }
 </style>

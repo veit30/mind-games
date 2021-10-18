@@ -24,9 +24,9 @@
         @item-click="handleItemClick"
       />
       <countdown-bar
-        v-if="gamePhase === 0"
+        v-if="gamePhase < 2"
         class="memory-matrix__countdown"
-        :countdown="memorizeCountdown"
+        :countdown="currentCountdown"
         :is-small="true"
       />
     </template>
@@ -76,10 +76,10 @@ export default defineComponent({
       userMatrix: new GameMatrix(),
       fakeMatrix: new GameMatrix(),
       memorizeCountdown: new Countdown(3),
-      interCountdown: new Countdown(5),
+      interCountdown: new Countdown(4),
       instructions: [
         "Memorize the pattern",
-        "...",
+        "Resetting grid...",
         "Paste the previous pattern",
       ],
       interCountdownSecond: 5,
@@ -124,6 +124,11 @@ export default defineComponent({
     },
     currentInstruction(): string {
       return this.instructions[this.gamePhase];
+    },
+    currentCountdown(): unknown {
+      return this.gamePhase === 0
+        ? this.memorizeCountdown
+        : this.interCountdown;
     },
   },
 
