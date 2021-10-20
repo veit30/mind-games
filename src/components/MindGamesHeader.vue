@@ -1,5 +1,5 @@
 <template>
-  <div class="mind-games-header" :class="{ invisible: !isHome }">
+  <div class="mind-games-header">
     <div class="header__container" @click="$router.push('/')">
       <h1 class="mind-games-header__headline">
         {{ mindScrambler.currentWord }}
@@ -14,33 +14,26 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import WordScrambler from "@/data/WordScrambler";
+import TextScrambler from "@/data/TextScrambler";
 
 export default defineComponent({
   name: "MindGamesHeader",
 
   data() {
     return {
-      mindScrambler: new WordScrambler("MiNd", 5000),
-      gamesScrambler: new WordScrambler("GAmES", 5000),
+      mindScrambler: new TextScrambler("MiNd", 5000),
+      gamesScrambler: new TextScrambler("GAmES", 5000),
     };
   },
 
   mounted() {
     this.startScramble();
-    console.log(this.$route);
   },
 
   methods: {
     startScramble() {
       this.mindScrambler.start();
       this.gamesScrambler.start();
-    },
-  },
-
-  computed: {
-    isHome() {
-      return this.$route.name === "Home";
     },
   },
 });
@@ -76,6 +69,10 @@ export default defineComponent({
   cursor: pointer;
 }
 
+.mind-games-header.invisible {
+  display: none;
+}
+
 @keyframes fadeInFromNone {
   0% {
     opacity: 0;
@@ -83,12 +80,6 @@ export default defineComponent({
 
   100% {
     opacity: 1;
-  }
-}
-
-@media only screen and (max-width: 500px) {
-  .mind-games-header.invisible {
-    display: none;
   }
 }
 </style>

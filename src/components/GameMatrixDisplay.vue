@@ -8,7 +8,7 @@
       class="game-matrix-display__item"
       @click="handleItemClick(item)"
     >
-      {{ item.type === "string" || item.type === "number" ? item.value : "" }}
+      <p>{{ itemDisplayValue(item) }}</p>
     </div>
   </div>
 </template>
@@ -81,12 +81,19 @@ export default defineComponent({
       return `${this.generalItemStyles} ${additionalStyles}`;
     },
     classByItem(item: GameMatrixItem) {
-      // TODO: prepare for color classes
+      //TODO: prepare for color classes
       return {
         clickable: item.isClickable,
         disabled: !item.isClickable && this.hasDisabledStyle,
+        selected: item.isSelected,
         "background--light": item.isActive,
       };
+    },
+    itemDisplayValue(item: GameMatrixItem) {
+      if (item.isValueHidden) {
+        return "";
+      }
+      return item.type === "string" || item.type === "number" ? item.value : "";
     },
   },
 });
@@ -115,6 +122,10 @@ export default defineComponent({
       background: $grey-40;
       color: $grey-70;
     }
+
+    &.selected p {
+      animation: bounce 2s ease infinite;
+    }
   }
 }
 
@@ -139,6 +150,23 @@ export default defineComponent({
     &.clickable:hover {
       background: $grey-60;
     }
+  }
+}
+
+@keyframes bounce {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  40% {
+    -webkit-transform: translate3d(0, -0.2rem, 0);
+    transform: translate3d(0, -0.2rem, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 </style>

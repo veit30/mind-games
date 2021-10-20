@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import WordScrambler from "@/data/WordScrambler";
+import TextScrambler from "@/data/TextScrambler";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -22,7 +22,7 @@ export default defineComponent({
 
   data() {
     return {
-      headlineScrambler: new WordScrambler("", 1000),
+      headlineScrambler: new TextScrambler("", 1000),
     };
   },
 
