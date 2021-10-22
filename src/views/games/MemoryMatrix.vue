@@ -24,9 +24,9 @@
         @item-click="handleItemClick"
       />
       <countdown-bar
-        v-if="gamePhase < 2"
+        v-if="gamePhase < 1"
         class="memory-matrix__countdown"
-        :countdown="currentCountdown"
+        :countdown="memorizeCountdown"
         :is-small="true"
       />
     </template>
@@ -131,11 +131,11 @@ export default defineComponent({
     currentInstruction(): string {
       return this.instructions[this.gamePhase];
     },
-    currentCountdown(): unknown {
-      return this.gamePhase === 0
-        ? this.memorizeCountdown
-        : this.interCountdown;
-    },
+    // currentCountdown(): unknown {
+    //   return this.gamePhase === 0
+    //     ? this.memorizeCountdown
+    //     : this.interCountdown;
+    // },
   },
 
   methods: {
@@ -169,9 +169,9 @@ export default defineComponent({
         true
       );
 
-      this.fakeMatrix.generateItems(this.matrixWidth, this.matrixHeight, false);
-      this.fakeMatrix.changeItemValue(this.matrixWidth, true);
-      // this.fakeMatrix.shuffle();
+      // this.fakeMatrix.generateItems(this.matrixWidth, this.matrixHeight, false);
+      // this.fakeMatrix.changeItemValue(this.matrixWidth, true);
+      // // this.fakeMatrix.shuffle();
     },
     nextRound() {
       this.round += 1;

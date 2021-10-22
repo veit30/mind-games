@@ -73,52 +73,19 @@ const games: Game[] = [
   //nextGame
 ];
 
-type RelativeGamePointThreshold = {
-  type: "relative";
-  max: number;
-  thresholds: number[];
+export const gamesScoreThresholds: { [key: string]: number[] } = {
+  SpeedSolver: [0, 25, 40, 60],
+  ChainSolver: [0, 25, 35, 45],
+  SumItUp: [4, 10, 17, 25],
+  MemoryMatrix: [4, 10, 17, 25],
+  CountUp: [0, 20, 40, 50],
+  CountDown: [0, 23, 45, 55],
+  PickTheOperator: [0, 20, 40, 50],
+  Memory: [0, 5, 12, 15],
 };
 
-type AbsoluteGamePointThreshold = { type: "absolute"; thresholds: number[] };
-
-type GamePointThreshold =
-  | RelativeGamePointThreshold
-  | AbsoluteGamePointThreshold;
-
-//TODO: needs rework when game settings are implemented
-export const gamesPointThresholds: { [key: string]: GamePointThreshold } = {
-  SpeedSolver: {
-    type: "absolute",
-    thresholds: [0, 25, 40, 60],
-  },
-  ChainSolver: {
-    type: "absolute",
-    thresholds: [4, 8, 12, 15],
-  },
-  SumItUp: {
-    type: "absolute",
-    thresholds: [4, 8, 12, 15],
-  },
-  MemoryMatrix: {
-    type: "absolute",
-    thresholds: [3, 7, 11, 16],
-  },
-  CountUp: {
-    type: "absolute",
-    thresholds: [0, 20, 45, 55],
-  },
-  CountDown: {
-    type: "absolute",
-    thresholds: [0, 25, 48, 60],
-  },
-  PickTheOperator: {
-    type: "absolute",
-    thresholds: [0, 20, 40, 50],
-  },
-  Memory: {
-    type: "absolute",
-    thresholds: [0, 5, 12, 15],
-  },
-};
+export function getScoreThresholds(name: string): number[] {
+  return gamesScoreThresholds[name];
+}
 
 export default games;

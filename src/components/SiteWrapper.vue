@@ -10,7 +10,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import MindGamesHeader from "@/components/MindGamesHeader.vue";
-// TODO: use state for that
 import games from "@/data/games";
 
 export default defineComponent({
@@ -23,9 +22,6 @@ export default defineComponent({
   },
 
   computed: {
-    isHome() {
-      return this.$route.name === "Home";
-    },
     isHome() {
       return this.$route.name === "Home";
     },

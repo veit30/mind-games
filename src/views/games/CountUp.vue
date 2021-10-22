@@ -70,7 +70,7 @@ export default defineComponent({
       restartCounter: 0,
       gameMatrix: new GameMatrix(),
       gameTimer: new Timer(),
-      gameTimeThreshold: 55,
+      gameTimeThreshold: 50,
       falseCounts: [] as FalseCountInfo[],
       numbersConfirmed: 0,
     };

@@ -148,7 +148,7 @@ export default defineComponent({
         value: minusScore,
       });
 
-      if (score > 2) {
+      if (score > 20) {
         let timeScore = this.gameTimeThreshold - this.gameTimer.seconds;
         timeScore = timeScore > 0 ? timeScore : 0;
         scoreElements.push({

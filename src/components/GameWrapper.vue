@@ -107,7 +107,6 @@ import GameButton from "@/components/GameButton.vue";
 import type { ActionButtonOptions, ScoreElement } from "@/data/types";
 import Countdown from "@/data/Countdown";
 import ActionButton from "@/components/ActionButton.vue";
-import { gamesPointThresholds } from "@/data/games";
 import Modal from "@/components/Modal.vue";
 import ScoreView from "@/components/ScoreView.vue";
 
@@ -125,7 +124,6 @@ export default defineComponent({
     return {
       preCountdown: new Countdown(3) as Countdown,
       preTimer: 0,
-      gamesPointThresholds,
       isHelpModalOpen: false,
     };
   },

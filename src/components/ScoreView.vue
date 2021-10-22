@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import NumberCountAnimation from "@/data/NumberCountAnimation";
-import { gamesPointThresholds } from "@/data/games";
+import { getScoreThresholds } from "@/data/games";
 import type { ScoreElement } from "@/data/types";
 
 export default defineComponent({
@@ -32,7 +32,7 @@ export default defineComponent({
 
   data() {
     return {
-      gamesPointThresholds,
+      gameScoreThresholds: [] as number[],
       scoreCountAnimation: new NumberCountAnimation(0, 0, 0),
     };
   },
@@ -49,6 +49,7 @@ export default defineComponent({
   },
 
   mounted() {
+    this.gameScoreThresholds = getScoreThresholds(this.gameName);
     let score = this.scoreElements.reduce((acc, cur) => {
       return acc + cur.value;
     }, 0);
@@ -59,29 +60,26 @@ export default defineComponent({
 
   computed: {
     scoreClass(): string {
-      let thresholdOptions = this.gamesPointThresholds[this.gameName];
-      if (thresholdOptions && thresholdOptions.type === "absolute") {
-        let thresholds = thresholdOptions.thresholds;
-        if (this.calculatedScore < thresholds[0]) {
-          return "color--red";
-        } else if (
-          this.calculatedScore >= thresholds[0] &&
-          this.calculatedScore < thresholds[1]
-        ) {
-          return "color--white";
-        } else if (
-          this.calculatedScore >= thresholds[1] &&
-          this.calculatedScore < thresholds[2]
-        ) {
-          return "color--green";
-        } else if (
-          this.calculatedScore >= thresholds[2] &&
-          this.calculatedScore < thresholds[3]
-        ) {
-          return "color--blue";
-        } else {
-          return "color--violet";
-        }
+      let thresholds = this.gameScoreThresholds;
+      if (this.calculatedScore < thresholds[0]) {
+        return "color--red";
+      } else if (
+        this.calculatedScore >= thresholds[0] &&
+        this.calculatedScore < thresholds[1]
+      ) {
+        return "color--white";
+      } else if (
+        this.calculatedScore >= thresholds[1] &&
+        this.calculatedScore < thresholds[2]
+      ) {
+        return "color--green";
+      } else if (
+        this.calculatedScore >= thresholds[2] &&
+        this.calculatedScore < thresholds[3]
+      ) {
+        return "color--blue";
+      } else if (this.calculatedScore >= thresholds[3]) {
+        return "color--violet";
       } else {
         return "color--white";
       }
@@ -95,10 +93,9 @@ export default defineComponent({
       });
     },
     flickerClass(): string {
-      let thresholds = this.gamesPointThresholds[this.gameName].thresholds;
       if (
         this.scoreCountAnimation.current === this.scoreCountAnimation.to &&
-        this.calculatedScore >= thresholds[1]
+        this.calculatedScore >= this.gameScoreThresholds[1]
       ) {
         return "flicker";
       }
