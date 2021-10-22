@@ -4,7 +4,7 @@
     name="Memory"
     :is-game-over="isGameOver"
     :counter="restartCounter"
-    :points="gamePoints"
+    :score-elements="scoreElements"
     :action-buttons="currentActionButtons"
     @precountdown-over="gamePhase = 0"
     @turn="turnMemory"
@@ -47,6 +47,7 @@ import Memory from "@/data/Memory";
 import GameMatrixDisplay from "@/components/GameMatrixDisplay.vue";
 import { GameMatrixItem } from "@/data/GameMatrix";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
+import { ScoreElement } from "@/data/types";
 
 const actionButtons: ActionButtonOptions[] = [
   {
@@ -94,8 +95,19 @@ export default defineComponent({
       }
       return [];
     },
-    gamePoints(): number {
-      return 15 - this.falsePairs.length;
+    scoreElements(): ScoreElement[] {
+      return [
+        {
+          id: 0,
+          info: "Game clear",
+          value: 15,
+        },
+        {
+          id: 1,
+          info: "Wrong pairs",
+          value: -this.falsePairs.length,
+        },
+      ];
     },
     currentInstruction(): string {
       return this.instructions[this.gamePhase];

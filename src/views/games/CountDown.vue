@@ -4,7 +4,7 @@
     name="CountDown"
     :is-game-over="isGameOver"
     :counter="restartCounter"
-    :points="gamePoints"
+    :score-elements="scoreElements"
     @precountdown-over="newRound"
     @restart="restart"
   >
@@ -49,6 +49,7 @@ import GameMatrixDisplay from "@/components/GameMatrixDisplay.vue";
 import TimerBox from "@/components/TimerBox.vue";
 import Timer from "@/data/Timer";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
+import { ScoreElement } from "@/data/types";
 
 type FalseCountInfo = { id: number; info: string };
 
@@ -75,13 +76,25 @@ export default defineComponent({
   },
 
   computed: {
-    gamePoints(): number {
+    scoreElements(): ScoreElement[] {
       let timerValue = this.gameTimer.seconds;
-      let points =
-        this.gameTimeThreshold -
-        (timerValue - this.gameTimeThreshold) -
-        this.falseCounts.length;
-      return points;
+      return [
+        {
+          id: 0,
+          info: "Game clear",
+          value: this.gameTimeThreshold,
+        },
+        {
+          id: 1,
+          info: "Time penalty",
+          value: -(timerValue - this.gameTimeThreshold),
+        },
+        {
+          id: 2,
+          info: "False counts",
+          value: this.falseCounts.length,
+        },
+      ];
     },
     matrixDisplayWidth(): number {
       //TODO: change once differen matrix sizes supported

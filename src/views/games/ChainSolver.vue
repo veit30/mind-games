@@ -4,7 +4,7 @@
     name="ChainSolver"
     :is-game-over="isGameOver"
     :counter="restartCounter"
-    :points="gamePoints"
+    :score-elements="scoreElements"
     :action-buttons="currentActionButtons"
     @precountdown-over="startGameTimer"
     @restart="restart"
@@ -52,6 +52,7 @@ import type { Solution } from "@/data/Task";
 import type { ActionButtonOptions, GameStep } from "@/data/types";
 import { GAME_STATE, OPERATOR_COLLECTION } from "@/data/constants";
 import GameStepIndicator from "@/components/GameStepIndicator.vue";
+import { ScoreElement } from "@/data/types";
 
 const actionButtons: ActionButtonOptions[] = [
   {
@@ -104,7 +105,7 @@ export default defineComponent({
       gamePhases: [] as GameStep[],
       gameSteps: [] as GameStep[],
       gameTimer: new Timer() as Timer,
-      gameTimeThreshold: 115,
+      gameTimeThreshold: 60,
       isGameOver: true,
       phaseIndex: 0,
       restartCounter: 0,
@@ -126,21 +127,37 @@ export default defineComponent({
       return this.actionButtons.slice(-2);
     },
 
-    gamePoints(): number {
-      let points = 0;
+    scoreElements(): ScoreElement[] {
+      let scoreElements = [];
+      let score = 0;
+      let minusScore = 0;
       this.gamePhases.forEach((phase) => {
-        points += phase.state === GAME_STATE.DONE ? 1 : 0;
+        score += phase.state === GAME_STATE.DONE ? 10 : 0;
+        minusScore += phase.state === GAME_STATE.ERROR ? -5 : 0;
       });
 
-      if (points > 6) {
-        let overTime = this.gameTimer.seconds - this.gameTimeThreshold;
-        let timerPoints =
-          overTime < 0
-            ? 5
-            : 5 - (Math.ceil(overTime / 10) > 5 ? 5 : Math.ceil(overTime / 10));
-        points += timerPoints;
+      scoreElements.push({
+        id: 0,
+        info: "Solved tasks",
+        value: score,
+      });
+
+      scoreElements.push({
+        id: 1,
+        info: "Failed tasks",
+        value: minusScore,
+      });
+
+      if (score > 2) {
+        let timeScore = this.gameTimeThreshold - this.gameTimer.seconds;
+        timeScore = timeScore > 0 ? timeScore : 0;
+        scoreElements.push({
+          id: 2,
+          info: "Time bonus",
+          value: timeScore,
+        });
       }
-      return points;
+      return scoreElements;
     },
 
     isFinalStep(): boolean {
@@ -150,19 +167,14 @@ export default defineComponent({
 
   methods: {
     resetGamePhases() {
-      this.gamePhases = Array.from({ length: 10 }, (x, i) => ({
+      this.gamePhases = Array.from({ length: 3 }, (x, i) => ({
         state: i === 0 ? GAME_STATE.UNDECIDED : GAME_STATE.PENDING,
         name: `phase-${i}`,
       }));
     },
 
     resetGameSteps() {
-      let taskLength = 8;
-      if (this.phaseIndex > 4 && this.phaseIndex < 8) {
-        taskLength = 10;
-      } else if (this.phaseIndex >= 8) {
-        taskLength = 12;
-      }
+      let taskLength = 8 + 2 * this.phaseIndex;
       this.task.new(taskLength);
       this.solutions = this.task.getPossibleSolutions(2);
       this.actionButtons[1].label = `${this.solutions[0].value}`;

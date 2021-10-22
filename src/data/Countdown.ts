@@ -67,6 +67,7 @@ export default class Countdown {
 
   set length(len: number) {
     this._countdownLength = len;
+    this.reset();
   }
 
   get length(): number {

@@ -4,7 +4,7 @@
     name="PickTheOperator"
     :is-game-over="isGameOver"
     :counter="restartCounter"
-    :points="gamePoints"
+    :score-elements="scoreElements"
     :action-buttons="actionButtons"
     @commit-operator="commitOperator"
     @precountdown-over="start"
@@ -45,6 +45,7 @@ import CountdownBar from "@/components/CountdownBar.vue";
 import Countdown from "@/data/Countdown";
 import Equation from "@/data/Equation";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
+import { ScoreElement } from "@/data/types";
 
 const actionButtons: FlyOutActionButtonOptions[] = [
   {
@@ -110,12 +111,32 @@ export default defineComponent({
   },
 
   computed: {
-    gamePoints(): number {
-      let points = 0;
+    scoreElements(): ScoreElement[] {
+      let score = 0;
+      let scoreElements = [];
       this.results.forEach((res) => {
-        points += res.value ? 1 : -1;
+        score += res.value ? 1 : 0;
       });
-      return points;
+
+      scoreElements.push({
+        id: 0,
+        info: "Solved tasks",
+        value: score,
+      });
+
+      score = 0;
+
+      this.results.forEach((res) => {
+        score += !res.value ? 1 : 0;
+      });
+
+      scoreElements.push({
+        id: 1,
+        info: "Failed tasks",
+        value: -score,
+      });
+
+      return scoreElements;
     },
   },
 

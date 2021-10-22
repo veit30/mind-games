@@ -4,7 +4,7 @@
     name="SumItUp"
     :is-game-over="isGameOver"
     :counter="restartCounter"
-    :points="gamePoints"
+    :score-elements="scoreElements"
     :action-buttons="actionButtons"
     @precountdown-over="startGameCountdown"
     @restart="restart"
@@ -43,7 +43,7 @@ import Countdown from "@/data/Countdown";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
 import GameMatrixDisplay from "@/components/GameMatrixDisplay.vue";
 import GameMatrix, { GameMatrixItem } from "@/data/GameMatrix";
-import { countNumbers } from "@/helper/util";
+import { ScoreElement } from "@/data/types";
 
 const actionButtons: FlyOutActionButtonOptions[] = [
   {
@@ -89,37 +89,50 @@ export default defineComponent({
     return {
       actionButtons,
       isGameOver: true,
-      gameCountdown: new Countdown(90) as Countdown,
+      gameCountdown: new Countdown(60) as Countdown,
       restartCounter: 0,
       results: [] as GameInfo[],
       solutions: [] as Solution[],
       task: new Task(2, { operators: OPERATOR_COLLECTION.ADD }),
-      increment: 2,
       gameMatrix: new GameMatrix(),
     };
   },
 
   computed: {
-    gamePoints(): number {
-      let points = 0;
-      for (let result of this.results) {
-        let additionalPoints = Math.sqrt(countNumbers(result.info) - 1) - 1;
-        if (!result.value) {
-          additionalPoints = -1 * Math.floor(additionalPoints / 2);
-          points += additionalPoints;
-        } else {
-          additionalPoints += result.info.includes(OPERATOR.SUBTRACT) ? 1 : 0;
-          points += additionalPoints;
-        }
-      }
-      return points;
+    scoreElements(): ScoreElement[] {
+      let score = 0;
+      let minusScore = 0;
+      let extraPoints = 0;
+
+      this.results.forEach((res) => {
+        score += res.value ? 1 : 0;
+        minusScore += !res.value ? -1 : 0;
+        extraPoints += res.info.includes(OPERATOR.SUBTRACT) ? 1 : 0;
+      });
+
+      return [
+        {
+          id: 0,
+          info: "Solved tasks",
+          value: score,
+        },
+        {
+          id: 1,
+          info: "Failed tasks",
+          value: minusScore,
+        },
+        {
+          id: 2,
+          info: "Tasks including subtract",
+          value: extraPoints,
+        },
+      ];
     },
   },
 
   methods: {
     restart() {
       this.restartCounter += 1;
-      this.increment = 2;
       this.gameCountdown.reset();
       this.isGameOver = false;
       this.results = [];
@@ -134,19 +147,11 @@ export default defineComponent({
     },
     nextTask() {
       let completedTasks = this.results.length;
-      if (completedTasks > 0 && completedTasks % 10 === 0) {
-        this.increment += 1;
-      }
-      let taskLength = this.increment * this.increment;
-      this.task = new Task(taskLength, {
+      this.task = new Task(4, {
         operators: OPERATOR_COLLECTION.ADD,
       });
-      if (completedTasks > 0 && completedTasks % 3 === 0) {
-        this.task.replaceOperator(
-          OPERATOR.ADD,
-          OPERATOR.SUBTRACT,
-          1 / taskLength
-        );
+      if (completedTasks > 0 && completedTasks % 5 === 0) {
+        this.task.replaceOperator(OPERATOR.ADD, OPERATOR.SUBTRACT, 0.25);
       }
       this.solutions = this.task.getPossibleSolutions(2);
       this.actionButtons[0].label = `${this.solutions[0].value}`;

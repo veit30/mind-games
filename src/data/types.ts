@@ -42,3 +42,9 @@ export function isFlyOutActionButtonOptions(
 ): item is FlyOutActionButtonOptions {
   return (item as FlyOutActionButtonOptions).hasFlyOut !== undefined;
 }
+
+export type ScoreElement = {
+  id: number;
+  info: string;
+  value: number;
+};

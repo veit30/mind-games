@@ -4,7 +4,7 @@
     name="MemoryMatrix"
     :is-game-over="isGameOver"
     :counter="restartCounter"
-    :points="gamePoints"
+    :score-elements="scoreElements"
     :action-buttons="currentActionButtons"
     @submit-matrix="submitMatrix"
     @precountdown-over="startMemorizeCountdown"
@@ -41,6 +41,7 @@ import GameMatrixDisplay from "@/components/GameMatrixDisplay.vue";
 import GameMatrix from "@/data/GameMatrix";
 import Countdown from "@/data/Countdown";
 import CountdownBar from "@/components/CountdownBar.vue";
+import { ScoreElement } from "@/data/types";
 
 const actionButtons: ActionButtonOptions[] = [
   {
@@ -76,13 +77,12 @@ export default defineComponent({
       userMatrix: new GameMatrix(),
       fakeMatrix: new GameMatrix(),
       memorizeCountdown: new Countdown(3),
-      interCountdown: new Countdown(4),
+      interCountdown: new Countdown(1),
       instructions: [
         "Memorize the pattern",
         "Resetting grid...",
         "Paste the previous pattern",
       ],
-      interCountdownSecond: 5,
     };
   },
 
@@ -110,8 +110,14 @@ export default defineComponent({
       }
       return [];
     },
-    gamePoints(): number {
-      return this.round;
+    scoreElements(): ScoreElement[] {
+      return [
+        {
+          id: 0,
+          info: "Finished rounds",
+          value: this.round,
+        },
+      ];
     },
     currentMatrix(): GameMatrix {
       if (this.gamePhase === 0) {
@@ -165,15 +171,15 @@ export default defineComponent({
 
       this.fakeMatrix.generateItems(this.matrixWidth, this.matrixHeight, false);
       this.fakeMatrix.changeItemValue(this.matrixWidth, true);
-      this.fakeMatrix.shuffle();
+      // this.fakeMatrix.shuffle();
     },
     nextRound() {
       this.round += 1;
       this.gamePhase = 0;
-      if (this.round % 3 === 0) {
+      if (this.round % 5 === 0) {
         this.matrixWidth += 1;
       }
-      if (this.round % 5 === 0) {
+      if (this.round % 10 === 0) {
         this.matrixHeight += 1;
       }
       this.newMatrix();
@@ -217,7 +223,7 @@ export default defineComponent({
       handler(newVal) {
         if (newVal.isOver) {
           this.gamePhase = 1;
-          this.interCountdown.reset();
+          this.interCountdown.length = this.matrixHeight;
           this.interCountdown.start();
         }
       },
@@ -225,9 +231,16 @@ export default defineComponent({
     interCountdown: {
       deep: true,
       handler(newVal) {
-        if (newVal.value !== this.interCountdownSecond) {
-          this.interCountdownSecond = newVal.value;
-          this.fakeMatrix.shuffle();
+        if (newVal.value) {
+          this.fakeMatrix.generateItems(
+            this.matrixWidth,
+            this.matrixHeight,
+            false
+          );
+          this.fakeMatrix.changeItemValue(
+            this.matrixWidth * newVal.value,
+            true
+          );
         }
         if (newVal.isOver) {
           this.gamePhase = 2;

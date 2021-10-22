@@ -10,7 +10,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import MindGamesHeader from "@/components/MindGamesHeader.vue";
-import backgroundData from "@/data/backgroundData";
 // TODO: use state for that
 import games from "@/data/games";
 
@@ -19,18 +18,13 @@ export default defineComponent({
 
   data() {
     return {
-      backgroundData,
       games,
     };
   },
 
   computed: {
-    //TODO: remove in future when not needed
-    backgroundLines(): Array<{ style: string }> {
-      switch (this.$route.name) {
-        default:
-          return backgroundData["game"];
-      }
+    isHome() {
+      return this.$route.name === "Home";
     },
     isHome() {
       return this.$route.name === "Home";

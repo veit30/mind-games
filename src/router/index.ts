@@ -4,15 +4,23 @@ import Home from "../views/Home.vue";
 import { getMetaByContent } from "@/helper/util";
 import games from "@/data/games";
 
-function gameRoutes() {
-  return games.map((game) => {
-    return {
-      path: `/${game.route}`,
-      name: game.component,
-      component: () => import(`../views/games/${game.component}.vue`),
-      meta: getMetaByContent(`Mind Games - ${game.name}`),
-    };
-  });
+function gameRoutes(ignoreTestRoute: boolean) {
+  return games
+    .map((game) => {
+      return {
+        path: `/${game.route}`,
+        name: game.component,
+        component: () => import(`../views/games/${game.component}.vue`),
+        meta: getMetaByContent(`Mind Games - ${game.name}`),
+      };
+    })
+    .filter((routes) => {
+      if (ignoreTestRoute) {
+        return routes.name !== "Test";
+      } else {
+        return routes;
+      }
+    });
 }
 
 const routes: Array<RouteRecordRaw> = [
@@ -28,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/About.vue"),
     meta: getMetaByContent("Mind Games - About"),
   },
-  ...gameRoutes(),
+  ...gameRoutes(process.env.NODE_ENV !== "development"),
 ];
 
 const router = createRouter({

@@ -63,6 +63,13 @@ const games: Game[] = [
     route: "memory",
     category: "Memory",
   },
+  {
+    name: "Test",
+    component: "Test",
+    description: "testing...",
+    route: "test",
+    category: "Brain",
+  },
   //nextGame
 ];
 
