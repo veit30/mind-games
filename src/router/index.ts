@@ -2,10 +2,10 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import type { RouteRecordNormalized } from "vue-router";
 import Home from "../views/Home.vue";
 import { getMetaByContent } from "@/helper/util";
-import games from "@/data/games";
+import { getGames } from "@/data/games";
 
 function gameRoutes() {
-  return games.map((game) => {
+  return getGames().map((game) => {
     return {
       path: `/${game.route}`,
       name: game.component,

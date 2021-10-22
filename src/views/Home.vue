@@ -15,22 +15,24 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import GameCard from "@/components/GameCard.vue";
-import games from "@/data/games";
+import { getGames } from "@/data/games";
+import type { Game } from "@/data/games";
 
 export default defineComponent({
   name: "GameSelection",
-
-  data() {
-    return {
-      games,
-    };
-  },
 
   components: {
     GameCard,
   },
 
+  computed: {
+    games(): Game[] {
+      return this.getGames();
+    },
+  },
+
   methods: {
+    getGames,
     routeTo(game: string) {
       this.$router.push(`/${game}`);
     },

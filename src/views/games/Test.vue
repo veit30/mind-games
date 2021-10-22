@@ -1,10 +1,11 @@
 <template>
   <game-wrapper
-    title="GAME_TITLE"
-    name="TemplateGame"
+    title="Test"
+    name="SpeedSolver"
     :is-game-over="isGameOver"
     :counter="restartCounter"
-    :score-elements="scoreElements"
+    :score="score"
+    :scoreElements="scoreElements"
     :action-buttons="currentActionButtons"
     @precountdown-over="start"
     @restart="restart"
@@ -20,13 +21,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import GameWrapper from "@/components/GameWrapper.vue";
-import type { ActionButtonOptions } from "@/data/types";
-import { ScoreElement } from "@/data/types";
+import type { ActionButtonOptions, ScoreElement } from "@/data/types";
 
 const actionButtons: ActionButtonOptions[] = [];
 
 export default defineComponent({
-  name: "TemplateGame",
+  name: "Test",
 
   components: {
     GameWrapper,
@@ -36,7 +36,19 @@ export default defineComponent({
     return {
       actionButtons,
       isGameOver: true,
-      restartCounter: 0,
+      restartCounter: 1,
+      scoreElements: [
+        {
+          id: 0,
+          info: "Game clear",
+          value: 30,
+        },
+        {
+          id: 1,
+          info: "Wrong answer",
+          value: -1,
+        },
+      ] as ScoreElement[],
     };
   },
 
@@ -44,10 +56,9 @@ export default defineComponent({
     currentActionButtons(): ActionButtonOptions[] {
       return [];
     },
-    scoreElements(): ScoreElement[] {
-      let score = 0;
-      let scoreElements: ScoreElement[] = [];
-      return scoreElements;
+    score(): number {
+      let score = 70;
+      return score;
     },
   },
 
@@ -64,6 +75,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.template-game {
+.test {
 }
 </style>

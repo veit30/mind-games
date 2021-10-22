@@ -66,9 +66,7 @@
           class="game-wrapper__game-over-box"
         >
           <p>Game Over</p>
-          <p>
-            Score: <span :class="pointsClass">{{ points }}</span>
-          </p>
+          <score-view :game-name="name" :score-elements="scoreElements" />
         </div>
         <p v-else class="game-wrapper__pregame-countdown">
           {{ preCountdown.value === 0 ? "" : preCountdown.value }}
@@ -106,11 +104,11 @@
 <script lang="ts">
 import { defineComponent, defineAsyncComponent, PropType } from "vue";
 import GameButton from "@/components/GameButton.vue";
-import type { ActionButtonOptions } from "@/data/types";
+import type { ActionButtonOptions, ScoreElement } from "@/data/types";
 import Countdown from "@/data/Countdown";
 import ActionButton from "@/components/ActionButton.vue";
-import { gamesPointThresholds } from "@/data/games";
 import Modal from "@/components/Modal.vue";
+import ScoreView from "@/components/ScoreView.vue";
 
 export default defineComponent({
   name: "GameWrapper",
@@ -119,13 +117,13 @@ export default defineComponent({
     GameButton,
     ActionButton,
     Modal,
+    ScoreView,
   },
 
   data() {
     return {
       preCountdown: new Countdown(3) as Countdown,
       preTimer: 0,
-      gamesPointThresholds,
       isHelpModalOpen: false,
     };
   },
@@ -143,10 +141,6 @@ export default defineComponent({
       type: String,
       default: "",
     },
-    points: {
-      type: Number,
-      default: 0,
-    },
     isGameOver: {
       type: Boolean,
       required: true,
@@ -154,6 +148,10 @@ export default defineComponent({
     counter: {
       type: Number,
       required: true,
+    },
+    scoreElements: {
+      type: Array as PropType<ScoreElement[]>,
+      default: () => [],
     },
   },
 
@@ -176,34 +174,6 @@ export default defineComponent({
     },
     isFirstGame(): boolean {
       return this.counter < 1;
-    },
-    pointsClass(): string {
-      let thresholdOptions = this.gamesPointThresholds[this.name];
-      if (thresholdOptions && thresholdOptions.type === "absolute") {
-        let thresholds = thresholdOptions.thresholds;
-        if (this.points < thresholds[0]) {
-          return "color--red";
-        } else if (
-          this.points >= thresholds[0] &&
-          this.points < thresholds[1]
-        ) {
-          return "color--white";
-        } else if (
-          this.points >= thresholds[1] &&
-          this.points < thresholds[2]
-        ) {
-          return "color--green";
-        } else if (
-          this.points >= thresholds[2] &&
-          this.points < thresholds[3]
-        ) {
-          return "color--blue";
-        } else {
-          return "color--violet";
-        }
-      } else {
-        return "color--white";
-      }
     },
   },
 
@@ -388,7 +358,7 @@ export default defineComponent({
     }
 
     &__game-info-container {
-      margin-top: 6rem;
+      margin-top: 4rem;
 
       button {
         margin-top: 0.5rem;

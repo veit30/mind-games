@@ -105,7 +105,7 @@ export default defineComponent({
     position: relative;
     height: 0px;
     top: -4.5rem;
-    animation: fadeIn 0.5s ease-in both;
+    animation: fadeOutUp 0.5s ease-in both;
 
     &.action-button__flyout--large {
       font-size: 2rem;
@@ -121,7 +121,7 @@ export default defineComponent({
   }
 }
 
-@keyframes fadeIn {
+@keyframes fadeOutUp {
   0% {
     opacity: 1;
     -webkit-transform: translate3d(0, 0, 0);
