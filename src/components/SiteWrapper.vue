@@ -10,16 +10,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import MindGamesHeader from "@/components/MindGamesHeader.vue";
-import games from "@/data/games";
 
 export default defineComponent({
   name: "SiteWrapper",
-
-  data() {
-    return {
-      games,
-    };
-  },
 
   computed: {
     isHome() {

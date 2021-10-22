@@ -2,25 +2,17 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import type { RouteRecordNormalized } from "vue-router";
 import Home from "../views/Home.vue";
 import { getMetaByContent } from "@/helper/util";
-import games from "@/data/games";
+import { getGames } from "@/data/games";
 
-function gameRoutes(ignoreTestRoute: boolean) {
-  return games
-    .map((game) => {
-      return {
-        path: `/${game.route}`,
-        name: game.component,
-        component: () => import(`../views/games/${game.component}.vue`),
-        meta: getMetaByContent(`Mind Games - ${game.name}`),
-      };
-    })
-    .filter((routes) => {
-      if (ignoreTestRoute) {
-        return routes.name !== "Test";
-      } else {
-        return routes;
-      }
-    });
+function gameRoutes() {
+  return getGames().map((game) => {
+    return {
+      path: `/${game.route}`,
+      name: game.component,
+      component: () => import(`../views/games/${game.component}.vue`),
+      meta: getMetaByContent(`Mind Games - ${game.name}`),
+    };
+  });
 }
 
 const routes: Array<RouteRecordRaw> = [
@@ -36,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/About.vue"),
     meta: getMetaByContent("Mind Games - About"),
   },
-  ...gameRoutes(process.env.NODE_ENV !== "development"),
+  ...gameRoutes(),
 ];
 
 const router = createRouter({

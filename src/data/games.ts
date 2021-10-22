@@ -1,5 +1,5 @@
 type GameCategory = "Math" | "Memory" | "Brain" | "Speed" | "Endurance";
-type Game = {
+export type Game = {
   name: string;
   component: string;
   description: string;
@@ -63,6 +63,7 @@ const games: Game[] = [
     route: "memory",
     category: "Memory",
   },
+  //nextGame
   {
     name: "Test",
     component: "Test",
@@ -70,8 +71,14 @@ const games: Game[] = [
     route: "test",
     category: "Brain",
   },
-  //nextGame
 ];
+
+export function getGames(): Game[] {
+  if (process.env.NODE_ENV !== "development") {
+    return games.slice(0, -1);
+  }
+  return games;
+}
 
 export const gamesScoreThresholds: { [key: string]: number[] } = {
   SpeedSolver: [0, 25, 40, 60],
