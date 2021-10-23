@@ -1,6 +1,15 @@
 <template>
   <div class="time-score-view">
-    <p v-if="time > 0" class="time-score-view__time-headline">Time</p>
+    <p
+      v-if="time > 0"
+      class="time-score-view__time-headline"
+      :class="{ flicker: newBestTime }"
+    >
+      {{ newBestTime ? "New best time" : "Time" }}
+    </p>
+    <p v-if="highscore && !newBestTime" class="time-score-view__highscore">
+      Best time: <span>{{ highscore }}</span>
+    </p>
     <p class="time-score-view__time" :class="[scoreClass, flickerClass]">
       {{ timeOrFailMessage }}
     </p>
@@ -10,6 +19,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { getTimeThresholds, getTimeFailMessage } from "@/data/games";
+import { mapState } from "vuex";
 
 export default defineComponent({
   name: "TimeScoreView",
@@ -18,6 +28,7 @@ export default defineComponent({
     return {
       gameTimeThresholds: [] as number[],
       failMessage: "" as string,
+      newBestTime: false,
     };
   },
 
@@ -35,9 +46,16 @@ export default defineComponent({
   mounted() {
     this.gameTimeThresholds = getTimeThresholds(this.gameName);
     this.failMessage = getTimeFailMessage(this.gameName);
+
+    let currentHighscore = parseFloat(this.highscore) || -1;
+    if (currentHighscore < 0 || this.time < currentHighscore) {
+      this.newBestTime = true;
+      this.$store.dispatch("saveHighscore", this.time);
+    }
   },
 
   computed: {
+    ...mapState(["highscore"]),
     scoreClass(): string {
       let thresholds = this.gameTimeThresholds;
       if (this.time < 0) {
@@ -79,10 +97,15 @@ export default defineComponent({
 
   &__time {
     font-weight: 600;
-    &.flicker {
-      animation: fadeInOut 0.7s linear infinite;
-    }
   }
+
+  &__highscore {
+    font-size: 1rem;
+  }
+}
+
+.flicker {
+  animation: fadeInOut 0.7s linear infinite;
 }
 
 @keyframes fadeInOut {

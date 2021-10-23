@@ -76,7 +76,7 @@ const actionButtons: ActionButtonOptions[] = [
       event: "unstack",
       value: "yellow",
     },
-    buttonSize: "half",
+    buttonSize: "full",
     backgroundColor: "yellow",
   },
 ];

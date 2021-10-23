@@ -1,6 +1,11 @@
 <template>
   <div class="score-view">
-    <p class="score-view__headline">Score</p>
+    <p class="score-view__headline" :class="{ flicker: newHighscore }">
+      {{ newHighscore ? "New Highscore" : "Score" }}
+    </p>
+    <p v-if="highscore && !newHighscore" class="score-view__highscore">
+      Highscore: <span>{{ highscore }}</span>
+    </p>
     <p class="score-view__score" :class="[scoreClass, flickerClass]">
       {{ calculatedScore }}
     </p>
@@ -24,6 +29,7 @@ import { defineComponent, PropType } from "vue";
 import NumberCountAnimation from "@/data/NumberCountAnimation";
 import { getScoreThresholds } from "@/data/games";
 import type { ScoreElement } from "@/data/types";
+import { mapState } from "vuex";
 
 export default defineComponent({
   name: "ScoreView",
@@ -32,6 +38,7 @@ export default defineComponent({
     return {
       gameScoreThresholds: [] as number[],
       scoreCountAnimation: new NumberCountAnimation(0, 0, 0),
+      newHighscore: false,
     };
   },
 
@@ -55,17 +62,14 @@ export default defineComponent({
     this.scoreCountAnimation = new NumberCountAnimation(0, score, time);
     this.scoreCountAnimation.start();
 
-    //TODO: implement in state
-    // console.log(score);
-    // let currentHighscore = localStorage.getItem(`${this.gameName}_highscore`);
-    // console.log(currentHighscore);
-    // if(!currentHighscore || parseInt(currentHighscore) < score)  {
-    //   console.log("set score for " + this.gameName + ": " + score);
-    //   localStorage.setItem(`${this.gameName}_highscore`, `${score}`);
-    // }
+    if (score > (parseInt(this.highscore) || 0)) {
+      this.newHighscore = true;
+      this.$store.dispatch("saveHighscore", score);
+    }
   },
 
   computed: {
+    ...mapState(["highscore"]),
     scoreClass(): string {
       let thresholds = this.gameScoreThresholds;
       if (this.calculatedScore < thresholds[0]) {
@@ -126,10 +130,15 @@ export default defineComponent({
 
   &__score {
     font-weight: 600;
-    &.flicker {
-      animation: fadeInOut 0.7s linear infinite;
-    }
   }
+
+  &__highscore {
+    font-size: 1rem;
+  }
+}
+
+.flicker {
+  animation: fadeInOut 0.7s linear infinite;
 }
 
 @for $i from 1 through 10 {

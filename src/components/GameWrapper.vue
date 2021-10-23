@@ -16,14 +16,10 @@
         >
           ?
         </button>
-        <modal
+        <game-help-modal
           v-if="isHelpModalOpen"
-          headline="Help"
-          :sections="helpModalContent"
           @close="isHelpModalOpen = false"
-        >
-          <component :is="gameHelperComponent" />
-        </modal>
+        />
       </div>
     </div>
     <div class="game-wrapper__container">
@@ -73,7 +69,7 @@
           v-else-if="!isFirstGame && !isPreCountdownRunning"
           class="game-wrapper__game-over-box"
         >
-          <p>Game Over</p>
+          <p class="game-over">Game Over</p>
           <score-view
             v-if="scoreElements.length"
             :game-name="name"
@@ -123,10 +119,10 @@ import GameButton from "@/components/GameButton.vue";
 import type { ActionButtonOptions, ScoreElement } from "@/data/types";
 import Countdown from "@/data/Countdown";
 import ActionButton from "@/components/ActionButton.vue";
-import Modal from "@/components/Modal.vue";
 import ScoreView from "@/components/ScoreView.vue";
 import TimeScoreView from "@/components/TimeScoreView.vue";
 import { deviceType } from "@/helper/util";
+import GameHelpModal from "@/components/GameHelpModal.vue";
 
 export default defineComponent({
   name: "GameWrapper",
@@ -134,9 +130,9 @@ export default defineComponent({
   components: {
     GameButton,
     ActionButton,
-    Modal,
     ScoreView,
     TimeScoreView,
+    GameHelpModal,
   },
 
   data() {
@@ -144,6 +140,7 @@ export default defineComponent({
       preCountdown: new Countdown(3) as Countdown,
       preTimer: 0,
       isHelpModalOpen: false,
+      showGameOver: false,
     };
   },
 
@@ -192,6 +189,11 @@ export default defineComponent({
 
   beforeUnmount() {
     document.removeEventListener("keydown", this.handleKeyDown, false);
+  },
+
+  mounted() {
+    this.$store.commit("setGame", this.name);
+    this.$store.dispatch("getHighscore");
   },
 
   computed: {
@@ -262,6 +264,16 @@ export default defineComponent({
         }
       },
     },
+    //TODO: for animation improvement
+    // isGameOver(newVal, oldVal) {
+    //   if(newVal) {
+    //     this.showGameOver = true;
+    //     setTimeout(() => {
+    //       this.showGameOver = false;
+    //     }, 2000)
+
+    //   }
+    // }
   },
 });
 </script>
@@ -478,6 +490,29 @@ export default defineComponent({
     background: $color-background-darker;
     color: $color-font;
     cursor: pointer;
+  }
+}
+
+.game-over {
+  //TODO: for animation improvement
+  // animation: showAndFadeOut ease 2s 1;
+}
+
+@keyframes showAndFadeOut {
+  0% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 1rem, 0);
+    transform: translate3d(0, 1rem, 0);
   }
 }
 </style>
