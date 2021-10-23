@@ -6,16 +6,12 @@
     :counter="restartCounter"
     :score-elements="scoreElements"
     :action-buttons="currentActionButtons"
+    :instruction="currentInstruction"
     @submit-matrix="submitMatrix"
     @precountdown-over="startMemorizeCountdown"
     @restart="restart"
   >
-    <template #top>
-      <div class="memory-matrix__top-spacing"></div>
-    </template>
-
     <template #default>
-      <p class="memory-matrix__instruction">{{ currentInstruction }}</p>
       <game-matrix-display
         class="memory-matrix__game-matrix"
         :matrix="currentMatrix"
@@ -47,6 +43,7 @@ const actionButtons: ActionButtonOptions[] = [
   {
     name: "submit",
     alternative: "space",
+    code: "Space",
     label: "Submit Matrix",
     clickEvent: {
       event: "submit-matrix",
@@ -236,19 +233,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .memory-matrix {
-  &__top-spacing {
-    height: 4rem;
-  }
-
   &__countdown {
     margin-top: 3rem;
-  }
-
-  &__instruction {
-    text-align: center;
-    margin-top: 2.5rem;
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
   }
 }
 </style>

@@ -54,6 +54,7 @@ import { GAME_STATE, OPERATOR_COLLECTION } from "@/data/constants";
 import GameStepIndicator from "@/components/GameStepIndicator.vue";
 import { ScoreElement } from "@/data/types";
 
+//TODO: number input
 const actionButtons: ActionButtonOptions[] = [
   {
     name: "next",

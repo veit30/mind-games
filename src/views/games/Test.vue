@@ -7,6 +7,7 @@
     :score="score"
     :scoreElements="scoreElements"
     :action-buttons="currentActionButtons"
+    :hasNoPreCountdown="true"
     @precountdown-over="start"
     @restart="restart"
   >

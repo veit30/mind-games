@@ -28,6 +28,7 @@
     </div>
     <div class="game-wrapper__container">
       <slot name="top"></slot>
+      <div v-if="!hasTopSlotContent" class="game-wrapper__top-spacing"></div>
       <div class="game-wrapper__button-container margin-horizontal--large">
         <game-button
           class="game-wrapper__top-button"
@@ -46,6 +47,11 @@
         v-if="!isGameOver && !isPreCountdownRunning"
         class="game-wrapper__main-container"
       >
+        <p
+          v-if="instruction"
+          class="game-wrapper__instruction"
+          v-html="instruction"
+        ></p>
         <slot></slot>
       </div>
       <div
@@ -66,7 +72,16 @@
           class="game-wrapper__game-over-box"
         >
           <p>Game Over</p>
-          <score-view :game-name="name" :score-elements="scoreElements" />
+          <score-view
+            v-if="scoreElements.length"
+            :game-name="name"
+            :score-elements="scoreElements"
+          />
+          <time-score-view
+            v-if="scoreTime"
+            :time="scoreTime"
+            :game-name="name"
+          />
         </div>
         <p v-else class="game-wrapper__pregame-countdown">
           {{ preCountdown.value === 0 ? "" : preCountdown.value }}
@@ -95,6 +110,7 @@
           :has-fly-out="button.hasFlyOut ? true : false"
           :label="button.label"
           :action-counter="button.actionCounter"
+          :background-color="button.backgroundColor"
         />
       </div>
     </div>
@@ -109,6 +125,7 @@ import Countdown from "@/data/Countdown";
 import ActionButton from "@/components/ActionButton.vue";
 import Modal from "@/components/Modal.vue";
 import ScoreView from "@/components/ScoreView.vue";
+import TimeScoreView from "@/components/TimeScoreView.vue";
 
 export default defineComponent({
   name: "GameWrapper",
@@ -118,6 +135,7 @@ export default defineComponent({
     ActionButton,
     Modal,
     ScoreView,
+    TimeScoreView,
   },
 
   data() {
@@ -153,6 +171,18 @@ export default defineComponent({
       type: Array as PropType<ScoreElement[]>,
       default: () => [],
     },
+    instruction: {
+      type: String,
+      default: "",
+    },
+    scoreTime: {
+      type: Number,
+      default: 0,
+    },
+    hasNoPreCountdown: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   beforeMount() {
@@ -174,6 +204,9 @@ export default defineComponent({
     },
     isFirstGame(): boolean {
       return this.counter < 1;
+    },
+    hasTopSlotContent(): boolean {
+      return !!this.$slots["top"];
     },
   },
 
@@ -204,9 +237,11 @@ export default defineComponent({
 
   watch: {
     counter(newVal, oldVal) {
-      if (newVal > oldVal) {
+      if (newVal > oldVal && !this.hasNoPreCountdown) {
         this.preCountdown.reset();
         this.preCountdown.start();
+      } else {
+        this.$emit("precountdown-over");
       }
     },
     preCountdown: {
@@ -229,6 +264,17 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   user-select: none;
+
+  &__top-spacing {
+    height: 4rem;
+  }
+
+  &__instruction {
+    text-align: center;
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+  }
 
   &__start-button {
     margin: 0 auto;

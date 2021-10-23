@@ -1,9 +1,12 @@
 <template>
   <button class="game-button" :class="extraClasses">
     <span><slot></slot></span>
-    <span v-if="alternative.length" class="game-button__alternative">{{
-      alternative
-    }}</span>
+    <span
+      v-if="alternative.length"
+      class="game-button__alternative"
+      :class="{ noitalic: alternative === '↓' || alternative === '↑' }"
+      >{{ alternative }}</span
+    >
   </button>
 </template>
 
@@ -92,6 +95,10 @@ button.game-button {
   font-family: $font-secondary;
   font-style: italic;
   font-weight: 900;
+
+  &.noitalic {
+    font-style: normal;
+  }
 }
 
 .action-button:hover {

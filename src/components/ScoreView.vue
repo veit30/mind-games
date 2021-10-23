@@ -1,6 +1,6 @@
 <template>
   <div class="score-view">
-    <p class="score-view__score-line">Score</p>
+    <p class="score-view__headline">Score</p>
     <p class="score-view__score" :class="[scoreClass, flickerClass]">
       {{ calculatedScore }}
     </p>
@@ -27,8 +27,6 @@ import type { ScoreElement } from "@/data/types";
 
 export default defineComponent({
   name: "ScoreView",
-
-  components: {},
 
   data() {
     return {
@@ -121,7 +119,7 @@ export default defineComponent({
     margin: 0.25rem 0;
   }
 
-  &__score-line {
+  &__headline {
     font-size: 3rem;
     margin: 0;
   }

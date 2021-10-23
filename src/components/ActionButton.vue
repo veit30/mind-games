@@ -1,5 +1,5 @@
 <template>
-  <div class="action-button">
+  <div class="action-button" :class="colorClass">
     <game-button
       :alternative="alternative"
       :is-large="isLarge"
@@ -19,8 +19,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import GameButton from "@/components/GameButton.vue";
+import { GameColor } from "@/data/types";
 
 export default defineComponent({
   name: "ActionButton",
@@ -58,9 +59,21 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    backgroundColor: {
+      type: String as PropType<GameColor>,
+      default: "",
+    },
   },
 
   computed: {
+    colorClass() {
+      return {
+        "background--red": this.backgroundColor === "red",
+        "background--green": this.backgroundColor === "green",
+        "background--blue": this.backgroundColor === "blue",
+        "background--yellow": this.backgroundColor === "yellow",
+      };
+    },
     flyOutClass() {
       return {
         "action-button__flyout--large":
@@ -117,6 +130,70 @@ export default defineComponent({
       font-size: 2rem;
       position: relative;
       top: -4.25rem;
+    }
+  }
+
+  &.background--blue {
+    background: $blue;
+
+    button.game-button {
+      background: $blue;
+    }
+  }
+
+  &.background--blue:hover {
+    background: $blue--hover;
+
+    button.game-button {
+      background: $blue--hover;
+    }
+  }
+
+  &.background--red {
+    background: $red;
+
+    button.game-button {
+      background: $red;
+    }
+  }
+
+  &.background--red:hover {
+    background: $red--hover;
+
+    button.game-button {
+      background: $red--hover;
+    }
+  }
+
+  &.background--yellow {
+    background: $yellow;
+
+    button.game-button {
+      background: $yellow;
+    }
+  }
+
+  &.background--yellow:hover {
+    background: $yellow--hover;
+
+    button.game-button {
+      background: $yellow--hover;
+    }
+  }
+
+  &.background--green {
+    background: $green;
+
+    button.game-button {
+      background: $green;
+    }
+  }
+
+  &.background--green:hover {
+    background: $green--hover;
+
+    button.game-button {
+      background: $green--hover;
     }
   }
 }

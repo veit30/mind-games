@@ -33,6 +33,16 @@ export const OPERATOR_COLLECTION = {
   FULL: [OPERATOR.ADD, OPERATOR.SUBTRACT, OPERATOR.MULTIPLY, OPERATOR.DEVIDE],
 };
 
+export const colors = [
+  "blue",
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "violet",
+  "white",
+];
+
 export const operatorMapper = (ts: TaskSegment): string => {
   if (ts === "*") {
     return "×";

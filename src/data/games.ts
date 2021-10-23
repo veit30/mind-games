@@ -70,6 +70,20 @@ const games: Game[] = [
     route: "order-matters",
     category: "Memory",
   },
+  {
+    name: "Quick Stacker",
+    component: "QuickStacker",
+    description: "Stack the shown stack as quickly as possible.",
+    route: "quick-stacker",
+    category: "Speed",
+  },
+  {
+    name: "Quick Tapper",
+    component: "QuickTapper",
+    description: "Tap when the right colors appears. Be quick.",
+    route: "quick-tapper",
+    category: "Speed",
+  },
   //nextGame
   {
     name: "Test",
@@ -99,8 +113,26 @@ export const gamesScoreThresholds: { [key: string]: number[] } = {
   OrderMatters: [2, 6, 12, 18],
 };
 
+const gameTimeThresholds: { [key: string]: number[] } = {
+  QuickTapper: [1, 0.8, 0.4, 0.2],
+  QuickStacker: [8, 5.5, 4, 2.5],
+};
+
+const gameTimeFailMessage: { [key: string]: string } = {
+  QuickTapper: "Too early",
+  QuickStacker: "Wrong color",
+};
+
 export function getScoreThresholds(name: string): number[] {
   return gamesScoreThresholds[name];
+}
+
+export function getTimeThresholds(name: string): number[] {
+  return gameTimeThresholds[name];
+}
+
+export function getTimeFailMessage(name: string): string {
+  return gameTimeFailMessage[name];
 }
 
 export default games;

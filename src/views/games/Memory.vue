@@ -6,16 +6,12 @@
     :counter="restartCounter"
     :score-elements="scoreElements"
     :action-buttons="currentActionButtons"
+    :instruction="currentInstruction"
     @precountdown-over="gamePhase = 0"
     @turn="turnMemory"
     @restart="restart"
   >
-    <template #top>
-      <div class="memory__top-spacing"></div>
-    </template>
-
     <template #default>
-      <p class="memory__instruction">{{ currentInstruction }}</p>
       <game-matrix-display
         class="memory__memory"
         :matrix="memory"
@@ -185,17 +181,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .memory {
-  &__instruction {
-    text-align: center;
-    margin-top: 2.5rem;
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
-  }
-
-  &__top-spacing {
-    height: 4rem;
-  }
-
   &__memory {
     margin-top: 2rem;
   }
