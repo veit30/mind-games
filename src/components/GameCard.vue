@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
+//TODO: game type as badge
 export default defineComponent({
   name: "GameCard",
 
