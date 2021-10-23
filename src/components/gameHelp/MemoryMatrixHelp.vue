@@ -15,13 +15,6 @@
         <i>Good luck, have fun!</i>
       </div>
     </section>
-    <section>
-      <h3>Points</h3>
-      <div>
-        Every correctly memorized pattern will add
-        <span class="color--green">+1</span> point to the final score.
-      </div>
-    </section>
   </div>
 </template>
 

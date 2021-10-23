@@ -86,14 +86,6 @@ export default defineComponent({
     };
   },
 
-  beforeMount() {
-    document.addEventListener("keydown", this.handleKeyDown, false);
-  },
-
-  beforeUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown, false);
-  },
-
   computed: {
     maxMatrixDisplayWidth(): number {
       if (this.matrixWidth < 5) {
@@ -131,11 +123,6 @@ export default defineComponent({
     currentInstruction(): string {
       return this.instructions[this.gamePhase];
     },
-    // currentCountdown(): unknown {
-    //   return this.gamePhase === 0
-    //     ? this.memorizeCountdown
-    //     : this.interCountdown;
-    // },
   },
 
   methods: {
@@ -168,10 +155,6 @@ export default defineComponent({
         false,
         true
       );
-
-      // this.fakeMatrix.generateItems(this.matrixWidth, this.matrixHeight, false);
-      // this.fakeMatrix.changeItemValue(this.matrixWidth, true);
-      // // this.fakeMatrix.shuffle();
     },
     nextRound() {
       this.round += 1;

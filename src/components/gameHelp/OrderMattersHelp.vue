@@ -3,9 +3,9 @@
     <section>
       <h2>How to play?</h2>
       <div>
-        Count up the numbers starting by <strong>1</strong> (<i
-          >by clicking on them!</i
-        >). <br /><br />
+        Memorize the order of appearence of the highlighted squares. In the
+        second step click the squares in the order you memorized before.
+        <br /><br />
         <i>Good luck, have fun!</i>
       </div>
     </section>
@@ -16,6 +16,6 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "CountUpHelp",
+  name: "OrderMattersHelp",
 });
 </script>
