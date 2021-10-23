@@ -32,12 +32,14 @@
       <div class="game-wrapper__button-container margin-horizontal--large">
         <game-button
           class="game-wrapper__top-button"
+          :class="{ mobile: isMobile }"
           alternative="B"
           @click="this.$router.push('/')"
           >Back</game-button
         >
         <game-button
           class="game-wrapper__top-button"
+          :class="{ mobile: isMobile }"
           alternative="R"
           @click="$emit('restart')"
           >Restart</game-button
@@ -124,6 +126,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import Modal from "@/components/Modal.vue";
 import ScoreView from "@/components/ScoreView.vue";
 import TimeScoreView from "@/components/TimeScoreView.vue";
+import { deviceType } from "@/helper/util";
 
 export default defineComponent({
   name: "GameWrapper",
@@ -205,6 +208,9 @@ export default defineComponent({
     },
     hasTopSlotContent(): boolean {
       return !!this.$slots["top"];
+    },
+    isMobile(): boolean {
+      return deviceType() !== "desktop";
     },
   },
 
@@ -341,6 +347,10 @@ export default defineComponent({
 
   &__top-button {
     min-width: 6.25rem;
+
+    &.mobile {
+      padding: 1.5rem;
+    }
   }
 
   &__game-info-container {
