@@ -117,3 +117,17 @@ export function easeOutQuad(x: number): number {
 export function multiplyArray<T>(arr: T[], multiplicator: number): T[] {
   return Array.from({ length: multiplicator }, () => arr).flat();
 }
+
+export function deviceType(): "tablet" | "mobile" | "desktop" {
+  const ua = navigator.userAgent;
+  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+    return "tablet";
+  } else if (
+    /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+      ua
+    )
+  ) {
+    return "mobile";
+  }
+  return "desktop";
+}

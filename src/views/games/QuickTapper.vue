@@ -34,7 +34,7 @@ const actionButtons: ActionButtonOptions[] = [
     clickEvent: {
       event: "tap",
     },
-    isFullSize: true,
+    buttonSize: "full",
   },
 ];
 

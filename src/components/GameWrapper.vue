@@ -98,9 +98,7 @@
           :key="button.name"
           class="game-wrapper__action-button"
           :class="[
-            button.isFullSize
-              ? 'game-wrapper__action-button--full'
-              : 'game-wrapper__action-button--default',
+            buttonSizeClass(button),
             button.hasExtraBorder ? 'border-left--dark' : '',
           ]"
           :is-large="true"
@@ -224,7 +222,10 @@ export default defineComponent({
           break;
       }
       this.actionButtons.forEach((button) => {
-        if (button.code && button.code === event.code) {
+        if (
+          button.code &&
+          (button.code === event.code || button.altCode === event.code)
+        ) {
           event.preventDefault();
           this.$emit(button.clickEvent.event, button.clickEvent.value);
         }
@@ -232,6 +233,9 @@ export default defineComponent({
     },
     openModal() {
       this.isHelpModalOpen = true;
+    },
+    buttonSizeClass(button: ActionButtonOptions) {
+      return `game-wrapper__action-button--${button.buttonSize}`;
     },
   },
 
@@ -452,8 +456,12 @@ export default defineComponent({
     flex-basis: 100%;
   }
 
-  &--default {
+  &--half {
     flex-basis: 50%;
+  }
+
+  &--third {
+    flex-basis: calc(100% / 3);
   }
 
   &:hover {

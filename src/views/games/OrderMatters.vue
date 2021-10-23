@@ -40,7 +40,7 @@ const actionButtons: ActionButtonOptions[] = [
     clickEvent: {
       event: "submit-matrix",
     },
-    isFullSize: true,
+    buttonSize: "full",
   },
 ];
 

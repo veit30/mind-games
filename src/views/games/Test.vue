@@ -53,6 +53,14 @@ export default defineComponent({
     };
   },
 
+  beforeMount() {
+    document.addEventListener("keydown", this.handleKeyDown, false);
+  },
+
+  beforeUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown, false);
+  },
+
   computed: {
     currentActionButtons(): ActionButtonOptions[] {
       return [];
@@ -70,6 +78,9 @@ export default defineComponent({
     },
     endGame(): void {
       this.isGameOver = true;
+    },
+    handleKeyDown(event: KeyboardEvent) {
+      console.log(event.code);
     },
   },
 });

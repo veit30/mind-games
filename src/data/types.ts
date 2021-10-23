@@ -8,12 +8,14 @@ export type ActionButtonOptions = {
   name: string;
   alternative: string;
   code?: string;
+  altCode?: string;
   label: string;
   clickEvent: {
     event: string;
     value?: unknown;
   };
-  isFullSize: boolean;
+  // isFullSize: boolean;
+  buttonSize: "full" | "half" | "third";
   hasExtraBorder?: boolean;
   hasFlyOut?: boolean;
   actionCounter?: number;

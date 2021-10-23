@@ -54,7 +54,7 @@ const actionButtons: ActionButtonOptions[] = [
     clickEvent: {
       event: "turn",
     },
-    isFullSize: true,
+    buttonSize: "full",
   },
 ];
 

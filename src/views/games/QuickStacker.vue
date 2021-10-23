@@ -40,7 +40,7 @@ const actionButtons: ActionButtonOptions[] = [
       value: "blue",
     },
     backgroundColor: "blue",
-    isFullSize: true,
+    buttonSize: "full",
   },
   {
     name: "color_red",
@@ -51,7 +51,7 @@ const actionButtons: ActionButtonOptions[] = [
       event: "unstack",
       value: "red",
     },
-    isFullSize: false,
+    buttonSize: "half",
     backgroundColor: "red",
   },
   {
@@ -63,7 +63,7 @@ const actionButtons: ActionButtonOptions[] = [
       event: "unstack",
       value: "green",
     },
-    isFullSize: false,
+    buttonSize: "half",
     hasExtraBorder: true,
     backgroundColor: "green",
   },
@@ -76,7 +76,7 @@ const actionButtons: ActionButtonOptions[] = [
       event: "unstack",
       value: "yellow",
     },
-    isFullSize: true,
+    buttonSize: "half",
     backgroundColor: "yellow",
   },
 ];

@@ -2,7 +2,7 @@
   <button class="game-button" :class="extraClasses">
     <span><slot></slot></span>
     <span
-      v-if="alternative.length"
+      v-if="alternative.length && isUserOnDesktop"
       class="game-button__alternative"
       :class="{ noitalic: alternative === '↓' || alternative === '↑' }"
       >{{ alternative }}</span
@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts">
+import { deviceType } from "@/helper/util";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -37,6 +38,9 @@ export default defineComponent({
           this.isLarge && this.alternative.length > 2,
         "game-button--borderless": this.isBorderless,
       };
+    },
+    isUserOnDesktop() {
+      return deviceType() === "desktop";
     },
   },
 });
