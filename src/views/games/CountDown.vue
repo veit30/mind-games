@@ -5,6 +5,7 @@
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :score-elements="scoreElements"
+    :has-no-pre-countdown="true"
     @precountdown-over="newRound"
     @restart="restart"
   >

@@ -77,6 +77,10 @@ hr {
   &--orange {
     color: $orange;
   }
+
+  &--yellow {
+    color: $yellow;
+  }
 }
 
 .background {
@@ -94,6 +98,18 @@ hr {
 
   &--red {
     background: $red;
+  }
+
+  &--yellow {
+    background: $yellow;
+  }
+
+  &--blue {
+    background: $blue;
+  }
+
+  &--violet {
+    background: $violet;
   }
 
   &--empty {

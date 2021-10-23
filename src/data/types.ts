@@ -8,15 +8,18 @@ export type ActionButtonOptions = {
   name: string;
   alternative: string;
   code?: string;
+  altCode?: string;
   label: string;
   clickEvent: {
     event: string;
     value?: unknown;
   };
-  isFullSize: boolean;
+  // isFullSize: boolean;
+  buttonSize: "full" | "half" | "third";
   hasExtraBorder?: boolean;
   hasFlyOut?: boolean;
   actionCounter?: number;
+  backgroundColor?: GameColor;
 };
 
 export interface FlyOutActionButtonOptions extends ActionButtonOptions {
@@ -48,3 +51,12 @@ export type ScoreElement = {
   info: string;
   value: number;
 };
+
+export type GameColor =
+  | "blue"
+  | "red"
+  | "yellow"
+  | "green"
+  | "violet"
+  | "white"
+  | "empty";

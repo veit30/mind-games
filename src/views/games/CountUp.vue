@@ -6,6 +6,7 @@
     :counter="restartCounter"
     :score="score"
     :scoreElements="scoreElements"
+    :has-no-pre-countdown="true"
     @precountdown-over="newRound"
     @restart="restart"
   >

@@ -6,16 +6,12 @@
     :counter="restartCounter"
     :score-elements="scoreElements"
     :action-buttons="currentActionButtons"
+    :instruction="currentInstruction"
     @submit-matrix="submitMatrix"
     @precountdown-over="startShowTimer"
     @restart="restart"
   >
-    <template #top>
-      <div class="order-matters__top-spacing"></div>
-    </template>
-
     <template #default>
-      <p class="order-matters__instruction">{{ currentInstruction }}</p>
       <game-matrix-display
         class="memory-matrix__game-matrix"
         :matrix="currentMatrix"
@@ -44,7 +40,7 @@ const actionButtons: ActionButtonOptions[] = [
     clickEvent: {
       event: "submit-matrix",
     },
-    isFullSize: true,
+    buttonSize: "full",
   },
 ];
 
@@ -195,16 +191,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-.order-matters {
-  &__top-spacing {
-    height: 4rem;
-  }
-  &__instruction {
-    text-align: center;
-    margin-top: 2.5rem;
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
