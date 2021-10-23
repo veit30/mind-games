@@ -1,5 +1,5 @@
 <template>
-  <div class="game-matrix-display" :style="containerStyle">
+  <div class="game-matrix-display" :style="containerStyle" :key="remounts">
     <div
       v-for="item in matrix.items"
       :key="item.id"
@@ -24,6 +24,7 @@ export default defineComponent({
   data() {
     return {
       itemMargin: 0.125,
+      remounts: 0,
     };
   },
 
@@ -94,6 +95,16 @@ export default defineComponent({
         return "";
       }
       return item.type === "string" || item.type === "number" ? item.value : "";
+    },
+  },
+  watch: {
+    matrix: {
+      deep: true,
+      handler(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.remounts += 1;
+        }
+      },
     },
   },
 });

@@ -17,20 +17,6 @@
         <i>Good luck, have fun!</i>
       </div>
     </section>
-    <section>
-      <h3>Points</h3>
-      <div>
-        A 2x2 square of numbers will add <span class="color--green">+1</span> if
-        solved correctly. Larger squares like 3x3 will add
-        <span class="color--green">+2</span> or 5x5
-        <span class="color--green">+4</span> and so on. <br /><br />
-        If the square contains a negative number (e.g. "-2") you will gain
-        <span class="color--green">+1</span> extra point if solved correctly.
-        <br />
-        Larger squares (3x3 and above) will cost
-        <i class="color--red">minus points</i> if not solved correctly.
-      </div>
-    </section>
   </div>
 </template>
 

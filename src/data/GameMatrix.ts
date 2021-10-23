@@ -79,8 +79,18 @@ export default class GameMatrix {
     );
   }
 
+  getIndex(id: number): number {
+    return this._items.findIndex((item) => {
+      return item.id === id;
+    });
+  }
+
   addItem(item: GameMatrixItem): void {
     this._items.push(item);
+  }
+
+  setItem(item: GameMatrixItem, index: number): void {
+    this._items[index] = item;
   }
 
   compareTo(matrix: GameMatrix): boolean {

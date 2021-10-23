@@ -13,10 +13,6 @@
         <i>Good luck, have fun!</i>
       </div>
     </section>
-    <section>
-      <h3>Points</h3>
-      <div>//TODO: needs to be implemented</div>
-    </section>
   </div>
 </template>
 

@@ -63,6 +63,13 @@ const games: Game[] = [
     route: "memory",
     category: "Memory",
   },
+  {
+    name: "Order Matters",
+    component: "OrderMatters",
+    description: "Memorize the right order!",
+    route: "order-matters",
+    category: "Memory",
+  },
   //nextGame
   {
     name: "Test",
@@ -89,6 +96,7 @@ export const gamesScoreThresholds: { [key: string]: number[] } = {
   CountDown: [0, 23, 45, 55],
   PickTheOperator: [0, 20, 40, 50],
   Memory: [0, 5, 12, 15],
+  OrderMatters: [2, 6, 12, 18],
 };
 
 export function getScoreThresholds(name: string): number[] {

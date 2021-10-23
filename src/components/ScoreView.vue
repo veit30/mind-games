@@ -56,6 +56,15 @@ export default defineComponent({
     let time = this.filteredScoreElements.length * 1000;
     this.scoreCountAnimation = new NumberCountAnimation(0, score, time);
     this.scoreCountAnimation.start();
+
+    //TODO: implement in state
+    // console.log(score);
+    // let currentHighscore = localStorage.getItem(`${this.gameName}_highscore`);
+    // console.log(currentHighscore);
+    // if(!currentHighscore || parseInt(currentHighscore) < score)  {
+    //   console.log("set score for " + this.gameName + ": " + score);
+    //   localStorage.setItem(`${this.gameName}_highscore`, `${score}`);
+    // }
   },
 
   computed: {

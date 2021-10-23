@@ -16,22 +16,6 @@
         <i>Good luck, have fun!</i>
       </div>
     </section>
-    <section>
-      <h3>Points</h3>
-      <div>
-        Each correctly solved task will add
-        <span class="color--green">+1</span> point to the final score. There
-        will be no minus points for wrongly solved tasks. <br /><br />
-        When you solved more than 6 tasks correctly you can gain up to
-        <strong>5</strong> extra points dependent on the time you needed to
-        solve the tasks. By staying below the threshold of
-        <i><strong>115</strong></i> seconds you will earn the full
-        <span class="color--green">+5</span> extra points. Every
-        <i><strong>10</strong></i> seconds you took longer will cost
-        <span class="color--red">-1</span> extra points. <br /><br />
-        <i>You can not get minus extra points.</i>
-      </div>
-    </section>
   </div>
 </template>
 

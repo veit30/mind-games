@@ -8,12 +8,6 @@
         <i>Good luck, have fun!</i>
       </div>
     </section>
-    <section>
-      <h3>Points</h3>
-      <div>
-        <!-- Content -->
-      </div>
-    </section>
   </div>
 </template>
 
