@@ -52,7 +52,6 @@ import TimerBox from "@/components/TimerBox.vue";
 import GameWrapper from "@/components/GameWrapper.vue";
 import Timer from "@/data/Timer";
 import Task from "@/data/Task";
-import type { Solution } from "@/data/Task";
 import type { ActionButtonOptions, GameStep } from "@/data/types";
 import { GAME_STATE, OPERATOR_COLLECTION } from "@/data/constants";
 import GameStepIndicator from "@/components/GameStepIndicator.vue";
@@ -249,10 +248,8 @@ export default defineComponent({
       isGameOver: true,
       phaseIndex: 0,
       restartCounter: 0,
-      solutions: [] as Array<Solution>,
       stepIndex: 0,
       task: new Task(8, {
-        isStepped: true,
         operators: OPERATOR_COLLECTION.BASIC,
       }) as Task,
       userSolution: "" as string,

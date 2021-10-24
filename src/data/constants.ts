@@ -1,5 +1,3 @@
-import { TaskSegment } from "./Task";
-
 export const DIFFICULTY = {
   EASY: 0,
   MEDIUM: 1,
@@ -43,12 +41,12 @@ export const colors = [
   "white",
 ];
 
-export const operatorMapper = (ts: TaskSegment): string => {
-  if (ts === "*") {
+export const operatorMapper = (s: string | number): string => {
+  if (s === "*") {
     return "×";
-  } else if (ts === "/") {
+  } else if (s === "/") {
     return "÷";
   } else {
-    return ts + "";
+    return s + "";
   }
 };

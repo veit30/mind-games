@@ -1,5 +1,5 @@
 import { OPERATOR, operatorMapper, OPERATOR_COLLECTION } from "./constants";
-import Task, { TaskSegment } from "@/data/Task";
+import Task from "@/data/Task";
 import { Operator } from "./types";
 import { shuffleArray } from "@/helper/util";
 
@@ -9,7 +9,7 @@ export default class Equation extends Task {
     this.new();
   }
 
-  private _equation: Array<TaskSegment> = [];
+  private _equation: Array<string | number> = [];
 
   toString(): string {
     return this._equation.map(operatorMapper).join(" ");
@@ -67,7 +67,7 @@ export default class Equation extends Task {
 
   new(): void {
     super.new();
-    this._equation = [...this._task];
+    this._equation = [...this.steps];
     this._equation.push(OPERATOR.EQUAL);
     this._equation.push(this.solution);
   }

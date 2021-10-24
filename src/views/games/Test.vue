@@ -23,6 +23,8 @@
 import { defineComponent } from "vue";
 import GameWrapper from "@/components/GameWrapper.vue";
 import type { ActionButtonOptions, ScoreElement } from "@/data/types";
+import Task from "@/data/Task";
+import { OPERATOR_COLLECTION } from "@/data/constants";
 
 const actionButtons: ActionButtonOptions[] = [];
 
@@ -61,6 +63,14 @@ export default defineComponent({
     document.removeEventListener("keydown", this.handleKeyDown, false);
   },
 
+  mounted() {
+    let t = new Task(2, { operators: OPERATOR_COLLECTION.FULL });
+    console.log(t.solution);
+    console.log(t.fakeSolution);
+
+    // t.fakeSolution
+  },
+
   computed: {
     currentActionButtons(): ActionButtonOptions[] {
       return [];
@@ -75,6 +85,13 @@ export default defineComponent({
     restart(): void {
       this.restartCounter += 1;
       this.isGameOver = false;
+      let t = new Task(4, { operators: OPERATOR_COLLECTION.FULL });
+      console.log(t.taskSteps);
+      console.log(t.segmentsWithSign);
+    },
+    start(): void {
+      let t = new Task(4, { operators: OPERATOR_COLLECTION.FULL });
+      console.log(t.taskSteps);
     },
     endGame(): void {
       this.isGameOver = true;

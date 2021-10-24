@@ -38,10 +38,11 @@ import CountdownBar from "@/components/CountdownBar.vue";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
 import GameWrapper from "@/components/GameWrapper.vue";
 import Task from "@/data/Task";
-import type { Solution } from "@/data/Task";
 import Countdown from "@/data/Countdown";
 import type { FlyOutActionButtonOptions, GameInfo } from "@/data/types";
 import { ScoreElement } from "@/data/types";
+import { OPERATOR_COLLECTION } from "@/data/constants";
+import { shuffleArray } from "@/helper/util";
 
 const actionButtons: FlyOutActionButtonOptions[] = [
   {
@@ -89,8 +90,8 @@ export default defineComponent({
       isGameOver: true,
       restartCounter: 0,
       results: [] as GameInfo[],
-      solutions: [] as Solution[],
-      task: new Task() as Task,
+      solutions: [] as number[],
+      task: new Task(2, { operators: OPERATOR_COLLECTION.FULL }) as Task,
     };
   },
 
@@ -113,18 +114,21 @@ export default defineComponent({
     },
 
     nextTask() {
-      this.task = new Task();
-      this.solutions = this.task.getPossibleSolutions(2);
-      this.actionButtons[0].label = `${this.solutions[0].value}`;
-      this.actionButtons[1].label = `${this.solutions[1].value}`;
+      this.task.new();
+      this.solutions = shuffleArray([
+        this.task.fakeSolution,
+        this.task.solution,
+      ]);
+      this.actionButtons[0].label = `${this.solutions[0]}`;
+      this.actionButtons[1].label = `${this.solutions[1]}`;
     },
 
     commitSolution(index: number) {
       if (this.isGameOver) return;
       this.results.push({
         id: this.results.length,
-        info: `${this.task} = ${this.solutions[index].value}`,
-        value: this.solutions[index].isValid,
+        info: `${this.task} = ${this.solutions[index]}`,
+        value: this.solutions[index] === this.task.solution,
       });
       if (this.actionButtons[index].actionCounter >= 0) {
         this.actionButtons[index].actionCounter += 1;
