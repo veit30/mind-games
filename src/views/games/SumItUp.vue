@@ -38,12 +38,12 @@ import type { FlyOutActionButtonOptions, GameInfo } from "@/data/types";
 import { OPERATOR_COLLECTION, OPERATOR } from "@/data/constants";
 import CountdownBar from "@/components/CountdownBar.vue";
 import Task from "@/data/Task";
-import type { Solution } from "@/data/Task";
 import Countdown from "@/data/Countdown";
 import GameInfoPoint from "@/components/GameInfoPoint.vue";
 import GameMatrixDisplay from "@/components/GameMatrixDisplay.vue";
 import GameMatrix, { GameMatrixItem } from "@/data/GameMatrix";
 import { ScoreElement } from "@/data/types";
+import { shuffleArray } from "@/helper/util";
 
 const actionButtons: FlyOutActionButtonOptions[] = [
   {
@@ -92,8 +92,8 @@ export default defineComponent({
       gameCountdown: new Countdown(60) as Countdown,
       restartCounter: 0,
       results: [] as GameInfo[],
-      solutions: [] as Solution[],
-      task: new Task(2, { operators: OPERATOR_COLLECTION.ADD }),
+      solutions: [] as number[],
+      task: new Task(4, { operators: OPERATOR_COLLECTION.ADD }),
       gameMatrix: new GameMatrix(),
     };
   },
@@ -147,15 +147,21 @@ export default defineComponent({
     },
     nextTask() {
       let completedTasks = this.results.length;
-      this.task = new Task(4, {
-        operators: OPERATOR_COLLECTION.ADD,
-      });
       if (completedTasks > 0 && completedTasks % 5 === 0) {
-        this.task.replaceOperator(OPERATOR.ADD, OPERATOR.SUBTRACT, 0.25);
+        this.task = new Task(4, {
+          operators: OPERATOR_COLLECTION.BASIC,
+        });
+      } else {
+        this.task = new Task(4, {
+          operators: OPERATOR_COLLECTION.ADD,
+        });
       }
-      this.solutions = this.task.getPossibleSolutions(2);
-      this.actionButtons[0].label = `${this.solutions[0].value}`;
-      this.actionButtons[1].label = `${this.solutions[1].value}`;
+      this.solutions = shuffleArray([
+        this.task.fakeSolution,
+        this.task.solution,
+      ]);
+      this.actionButtons[0].label = `${this.solutions[0]}`;
+      this.actionButtons[1].label = `${this.solutions[1]}`;
       let items = this.task.segmentsWithSign.map(
         (taskSegment: string, i: number) => {
           return new GameMatrixItem(taskSegment, i);
@@ -167,8 +173,8 @@ export default defineComponent({
       if (this.isGameOver) return;
       this.results.push({
         id: this.results.length,
-        info: `${this.task} = ${this.solutions[index].value}`,
-        value: this.solutions[index].isValid,
+        info: `${this.task} = ${this.solutions[index]}`,
+        value: this.solutions[index] === this.task.solution,
       });
       if (this.actionButtons[index].actionCounter >= 0) {
         this.actionButtons[index].actionCounter += 1;
