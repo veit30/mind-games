@@ -29,7 +29,8 @@ import { defineComponent, PropType } from "vue";
 import NumberCountAnimation from "@/data/NumberCountAnimation";
 import { getScoreThresholds } from "@/data/games";
 import type { ScoreElement } from "@/data/types";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+import { getIntScoreColorClass } from "@/helper/scoreColorClass";
 
 export default defineComponent({
   name: "ScoreView",
@@ -69,31 +70,12 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapState(["highscore"]),
+    ...mapGetters({ highscore: "getHighscore" }),
     scoreClass(): string {
-      let thresholds = this.gameScoreThresholds;
-      if (this.calculatedScore < thresholds[0]) {
-        return "color--red";
-      } else if (
-        this.calculatedScore >= thresholds[0] &&
-        this.calculatedScore < thresholds[1]
-      ) {
-        return "color--white";
-      } else if (
-        this.calculatedScore >= thresholds[1] &&
-        this.calculatedScore < thresholds[2]
-      ) {
-        return "color--green";
-      } else if (
-        this.calculatedScore >= thresholds[2] &&
-        this.calculatedScore < thresholds[3]
-      ) {
-        return "color--blue";
-      } else if (this.calculatedScore >= thresholds[3]) {
-        return "color--violet";
-      } else {
-        return "color--white";
-      }
+      return getIntScoreColorClass(
+        this.calculatedScore,
+        this.gameScoreThresholds
+      );
     },
     calculatedScore() {
       return this.scoreCountAnimation.current;

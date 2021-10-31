@@ -49,69 +49,18 @@ hr {
   }
 }
 
-.color {
-  &--red {
-    color: $red;
+
+@each $color in $colors {
+  .color--#{nth($color,1)} {
+    color: #{nth($color,2)};
   }
 
-  &--white {
-    color: $white;
-  }
-
-  &--green {
-    color: $green;
-  }
-
-  &--blue {
-    color: $blue;
-  }
-
-  &--violet {
-    color: $violet;
-  }
-
-  &--grey {
-    color: $grey-50;
-  }
-
-  &--orange {
-    color: $orange;
-  }
-
-  &--yellow {
-    color: $yellow;
+  .background--#{nth($color,1)} {
+    background: #{nth($color,2)};
   }
 }
 
 .background {
-  &--white {
-    background: $white;
-  }
-
-  &--green {
-    background: $green;
-  }
-
-  &--orange {
-    background: $orange;
-  }
-
-  &--red {
-    background: $red;
-  }
-
-  &--yellow {
-    background: $yellow;
-  }
-
-  &--blue {
-    background: $blue;
-  }
-
-  &--violet {
-    background: $violet;
-  }
-
   &--empty {
     border: 1px solid $color-border-dark;
   }

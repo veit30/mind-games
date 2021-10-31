@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, defineAsyncComponent } from "vue";
 import { VNode } from "vue";
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 import Modal from "@/components/Modal.vue";
 
 export default defineComponent({
@@ -24,7 +24,9 @@ export default defineComponent({
 
   computed: {
     ...mapState(["game"]),
-    ...mapGetters(["hasHighscore"]),
+    hasHighscore(): boolean {
+      return this.$store.getters.hasHighscore(this.game);
+    },
     gameHelperComponent(): VNode {
       return defineAsyncComponent(
         () => import(`@/components/gameHelp/${this.game}Help.vue`)

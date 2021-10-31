@@ -1,5 +1,7 @@
 /* GLOBAL COLORS */
 $deep-black: #020202;
+//TODO: repalce with black
+$clean-black: #080808;
 $black: #101010;
 $grey-10: #131214;
 $grey-20: #202020;
@@ -16,6 +18,19 @@ $orange: #e89641;
 $blue: #1291ff;
 $violet: #b523ff;
 $yellow: #fff349;
+$brown: #904223;
+
+$colors: 
+    ("green",   $green),
+    ("red",     $red),
+    ("orange",  $orange),
+    ("blue",    $blue),
+    ("violet",  $violet),
+    ("yellow",  $yellow),
+    ("brown",   $brown),
+    ("white",   $white),
+    ("black",   $black),
+    ("grey",    $grey-50);
 
 $green--hover: #5bb14b;
 $red--hover: #ca5252;

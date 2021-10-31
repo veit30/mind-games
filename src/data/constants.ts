@@ -50,3 +50,7 @@ export const operatorMapper = (s: string | number): string => {
     return s + "";
   }
 };
+
+export const ICONS = {
+  PLAY: "play",
+} as const;
