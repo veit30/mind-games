@@ -1,3 +1,4 @@
+import { ICONS } from "./constants";
 import { DIFFICULTY, OPERATOR, GAME_STATE } from "@/data/constants";
 
 export type Difficulty = typeof DIFFICULTY[keyof typeof DIFFICULTY];
@@ -60,3 +61,5 @@ export type GameColor =
   | "violet"
   | "white"
   | "empty";
+
+export type IconName = typeof ICONS[keyof typeof ICONS];

@@ -193,7 +193,7 @@ export default defineComponent({
 
   mounted() {
     this.$store.commit("setGame", this.name);
-    this.$store.dispatch("getHighscore");
+    this.$store.dispatch("getHighscore", { name: this.name });
   },
 
   computed: {

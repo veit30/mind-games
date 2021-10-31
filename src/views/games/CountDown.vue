@@ -5,7 +5,6 @@
     :is-game-over="isGameOver"
     :counter="restartCounter"
     :score-elements="scoreElements"
-    :has-no-pre-countdown="true"
     @precountdown-over="newRound"
     @restart="restart"
   >
@@ -93,12 +92,12 @@ export default defineComponent({
         {
           id: 2,
           info: "False counts",
-          value: this.falseCounts.length,
+          value: -this.falseCounts.length,
         },
       ];
     },
     matrixDisplayWidth(): number {
-      //TODO: change once differen matrix sizes supported
+      //TODO: change once different matrix sizes supported
       return 23;
     },
   },
@@ -118,11 +117,9 @@ export default defineComponent({
     newRound() {
       this.gameMatrix.generateNumberMatrix(7, 7, true);
       this.gameMatrix.shuffle();
+      this.gameTimer.start();
     },
     confirmNumber(id: number) {
-      if (this.gameTimer.isStopped && this.numbersConfirmed === 0) {
-        this.gameTimer.start();
-      }
       if (48 - id === this.numbersConfirmed) {
         let item = this.gameMatrix.get(id);
         if (item) {

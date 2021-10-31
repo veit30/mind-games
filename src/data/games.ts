@@ -1,10 +1,11 @@
-type GameCategory = "Math" | "Memory" | "Brain" | "Speed" | "Endurance";
+export type GameCategory = "math" | "memory" | "brain" | "speed" | "endurance";
 export type Game = {
   name: string;
   component: string;
   description: string;
   route: string;
-  category: GameCategory;
+  categories: GameCategory[];
+  scoreType: "number" | "time";
 };
 const games: Game[] = [
   {
@@ -12,77 +13,88 @@ const games: Game[] = [
     component: "SpeedSolver",
     description: "Solve as many task as possible whithin 60 seconds.",
     route: "speed-solver",
-    category: "Math",
+    categories: ["math", "speed"],
+    scoreType: "number",
   },
   {
     name: "Chain Solver",
     component: "ChainSolver",
     description: "Solve a large task that is build up step by step.",
     route: "chain-solver",
-    category: "Math",
+    categories: ["math"],
+    scoreType: "number",
   },
   {
     name: "Sum It Up",
     component: "SumItUp",
     description: "Add up the numbers in the squares.",
     route: "sum-it-up",
-    category: "Math",
+    categories: ["math"],
+    scoreType: "number",
   },
   {
     name: "Memory Matrix",
     component: "MemoryMatrix",
     description: "Memorise the pattern.",
     route: "memory-matrix",
-    category: "Memory",
+    categories: ["memory"],
+    scoreType: "number",
   },
   {
     name: "Count Up",
     component: "CountUp",
     description: "Count from 1 to 49",
     route: "count-up",
-    category: "Brain",
+    categories: ["brain", "speed"],
+    scoreType: "number",
   },
   {
     name: "Count Down",
     component: "CountDown",
     description: "Count down from 49 to 1.",
     route: "count-down",
-    category: "Brain",
+    categories: ["brain", "speed"],
+    scoreType: "number",
   },
   {
     name: "Pick The Operator",
     component: "PickTheOperator",
     description: "Pick the right operator for a given equation.",
     route: "pick-the-operator",
-    category: "Math",
+    categories: ["math"],
+    scoreType: "number",
   },
   {
     name: "Memory",
     component: "Memory",
     description: "Just the usual memory.",
     route: "memory",
-    category: "Memory",
+    categories: ["memory"],
+    scoreType: "number",
   },
   {
     name: "Order Matters",
     component: "OrderMatters",
     description: "Memorize the right order!",
     route: "order-matters",
-    category: "Memory",
+    categories: ["memory"],
+    scoreType: "number",
   },
   {
     name: "Quick Stacker",
     component: "QuickStacker",
     description: "Stack the shown stack as quickly as possible.",
     route: "quick-stacker",
-    category: "Speed",
+    categories: ["speed"],
+    scoreType: "time",
   },
   {
     name: "Quick Tapper",
     component: "QuickTapper",
     description: "Tap when the right colors appears. Be quick.",
     route: "quick-tapper",
-    category: "Speed",
+    categories: ["speed"],
+    scoreType: "time",
   },
   //nextGame
   {
@@ -90,7 +102,8 @@ const games: Game[] = [
     component: "Test",
     description: "testing...",
     route: "test",
-    category: "Brain",
+    categories: ["math", "memory", "brain", "speed", "endurance"],
+    scoreType: "number",
   },
 ];
 

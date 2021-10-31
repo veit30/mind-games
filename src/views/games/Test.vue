@@ -1,109 +1,62 @@
 <template>
-  <game-wrapper
-    title="Test"
-    name="SpeedSolver"
-    :is-game-over="isGameOver"
-    :counter="restartCounter"
-    :score="score"
-    :scoreElements="scoreElements"
-    :action-buttons="currentActionButtons"
-    :hasNoPreCountdown="true"
-    @precountdown-over="start"
-    @restart="restart"
-  >
-    <template #top> </template>
-
-    <template #default> </template>
-
-    <template #bottom> </template>
-  </game-wrapper>
+  <div class="test-container">
+    <div class="main">
+      <play-button @click="click" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import GameWrapper from "@/components/GameWrapper.vue";
-import type { ActionButtonOptions, ScoreElement } from "@/data/types";
-import Task from "@/data/Task";
-import { OPERATOR_COLLECTION } from "@/data/constants";
-
-const actionButtons: ActionButtonOptions[] = [];
+import PlayButton from "@/components/PlayButton.vue";
 
 export default defineComponent({
   name: "Test",
 
   components: {
-    GameWrapper,
+    PlayButton,
   },
 
   data() {
-    return {
-      actionButtons,
-      isGameOver: true,
-      restartCounter: 1,
-      scoreElements: [
-        {
-          id: 0,
-          info: "Game clear",
-          value: 30,
-        },
-        {
-          id: 1,
-          info: "Wrong answer",
-          value: -1,
-        },
-      ] as ScoreElement[],
-    };
+    return {};
   },
 
-  beforeMount() {
-    document.addEventListener("keydown", this.handleKeyDown, false);
-  },
+  // beforeMount() {
+  //   document.addEventListener("keydown", this.handleKeyDown, false);
+  // },
 
-  beforeUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown, false);
-  },
+  // beforeUnmount() {
+  //   document.removeEventListener("keydown", this.handleKeyDown, false);
+  // },
 
-  mounted() {
-    let t = new Task(2, { operators: OPERATOR_COLLECTION.FULL });
-    console.log(t.solution);
-    console.log(t.fakeSolution);
+  // mounted() {},
 
-    // t.fakeSolution
-  },
-
-  computed: {
-    currentActionButtons(): ActionButtonOptions[] {
-      return [];
-    },
-    score(): number {
-      let score = 70;
-      return score;
-    },
-  },
+  // computed: {},
 
   methods: {
-    restart(): void {
-      this.restartCounter += 1;
-      this.isGameOver = false;
-      let t = new Task(4, { operators: OPERATOR_COLLECTION.FULL });
-      console.log(t.taskSteps);
-      console.log(t.segmentsWithSign);
+    click() {
+      console.log("play");
     },
-    start(): void {
-      let t = new Task(4, { operators: OPERATOR_COLLECTION.FULL });
-      console.log(t.taskSteps);
-    },
-    endGame(): void {
-      this.isGameOver = true;
-    },
-    handleKeyDown(event: KeyboardEvent) {
-      console.log(event.code);
-    },
+    // handleKeyDown(event: KeyboardEvent) {
+    //   console.log(event.code);
+    // },
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.test {
+.test-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  .main {
+    background: $color-background-dark;
+    border: 1px solid $color-border-dark;
+    width: 80%;
+    height: 80%;
+  }
 }
 </style>

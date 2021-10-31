@@ -39,6 +39,10 @@ export default class Timer {
     return Math.floor(this._value / 1000);
   }
 
+  get startTime(): number {
+    return this._startTime;
+  }
+
   get time(): string {
     const min = Math.floor(this.seconds / 60);
     const sec = this.seconds % 60;

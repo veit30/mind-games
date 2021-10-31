@@ -15,7 +15,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import GameCard from "@/components/GameCard.vue";
-import { getGames } from "@/data/games";
 import type { Game } from "@/data/games";
 
 export default defineComponent({
@@ -25,14 +24,17 @@ export default defineComponent({
     GameCard,
   },
 
+  mounted() {
+    this.$store.dispatch("getHighscores");
+  },
+
   computed: {
     games(): Game[] {
-      return this.getGames();
+      return this.$store.state.games;
     },
   },
 
   methods: {
-    getGames,
     routeTo(game: string) {
       this.$router.push(`/${game}`);
     },

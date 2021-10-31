@@ -7,7 +7,7 @@
     :score-time="scoreTime"
     :action-buttons="actionButtons"
     :instruction="currentInstruction"
-    @tap="tapped"
+    @tap="endGame"
     @precountdown-over="start"
     @restart="restart"
   >
@@ -88,15 +88,12 @@ export default defineComponent({
       this.scoreTime = 0;
     },
     endGame(): void {
+      this.timer.stop();
+      this.scoreTime = (this.timer.value - this.actionSecond * 1000) / 1000;
       this.isGameOver = true;
     },
     start(): void {
       this.timer.start();
-    },
-    tapped(): void {
-      this.timer.stop();
-      this.scoreTime = (this.timer.value - this.actionSecond * 1000) / 1000;
-      this.isGameOver = true;
     },
   },
   watch: {
@@ -106,8 +103,8 @@ export default defineComponent({
         if (newVal.seconds > this.lastTimerSecond) {
           this.lastTimerSecond = newVal.seconds;
         }
-        if (newVal.seconds > this.actionSecond) {
-          this.isGameOver = true;
+        if (newVal.seconds > this.actionSecond + 5) {
+          this.endGame();
         }
       },
     },

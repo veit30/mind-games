@@ -19,7 +19,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { getTimeThresholds, getTimeFailMessage } from "@/data/games";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+import { getTimeScoreColorClass } from "@/helper/scoreColorClass";
 
 export default defineComponent({
   name: "TimeScoreView",
@@ -55,23 +56,9 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapState(["highscore"]),
+    ...mapGetters({ highscore: "getHighscore" }),
     scoreClass(): string {
-      let thresholds = this.gameTimeThresholds;
-      if (this.time < 0) {
-        return "color--red";
-      }
-      if (this.time <= thresholds[3]) {
-        return "color--violet";
-      } else if (this.time <= thresholds[2]) {
-        return "color--blue";
-      } else if (this.time <= thresholds[1]) {
-        return "color--green";
-      } else if (this.time <= thresholds[0]) {
-        return "color--white";
-      } else {
-        return "color--red";
-      }
+      return getTimeScoreColorClass(this.time, this.gameTimeThresholds);
     },
     flickerClass(): string {
       if (this.time <= this.gameTimeThresholds[2] || this.time < 0) {
