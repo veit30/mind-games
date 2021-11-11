@@ -1,9 +1,11 @@
 <template>
-  <div class="site-wrapper">
-    <mind-games-header v-if="isHome" />
-    <hr v-if="!isHome" class="size-wrapper__background-line" />
-    <hr v-if="!isHome" class="size-wrapper__background-line" />
-    <slot></slot>
+  <div class="theme" :class="themeClass">
+    <div class="site-wrapper">
+      <mind-games-header v-if="isHome" />
+      <hr v-if="!isHome" class="size-wrapper__background-line" />
+      <hr v-if="!isHome" class="size-wrapper__background-line" />
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -18,6 +20,12 @@ export default defineComponent({
     isHome() {
       return this.$route.name === "Home";
     },
+    theme() {
+      return this.$store.state.theme;
+    },
+    themeClass(): string {
+      return `theme--${this.theme}`;
+    },
   },
 
   components: {
@@ -26,9 +34,12 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .site-wrapper {
-  background: $color-background-dark;
+  @include themed() {
+    background: t("bg-secondary");
+  }
+
   width: 100%;
   height: 100%;
   position: fixed;
@@ -36,9 +47,11 @@ export default defineComponent({
 }
 
 .size-wrapper__background-line {
+  @include themed() {
+    border-top: 1px solid t("border-theme");
+  }
   width: 100%;
   position: fixed;
-  border-top: 1px solid $color-border-dark;
   z-index: -1;
 
   &:first-of-type {

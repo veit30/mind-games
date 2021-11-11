@@ -14,7 +14,8 @@ $white: #ffffff;
 
 $green: #6dd85b;
 $red: #ef6060;
-$orange: #e89641;
+// $orange: #e89641;
+$orange: #ff9650;
 $blue: #1291ff;
 $violet: #b523ff;
 $yellow: #fff349;
@@ -41,14 +42,43 @@ $yellow--hover: #ddd33f;
 
 $color-background-light--hover: $grey-40;
 $color-background-light: $grey-80;
-$color-background-dark: $grey-10;
-$color-background-darker: $black;
+// $color-background-dark: $grey-10;
+// $color-background-darker: $black;
+//110e16 darker
+// #15121a darker
+$color-background-darker: #15121a;
+$color-background-dark: #19151e;
 
-$color-border-dark: $grey-50;
+// $color-border-dark: #393640;
+$color-border-dark: #3a3640;
+// $color-border-dark: #302e34;
+// $color-border-dark: $grey-50;
 $color-border-darker: $black;
 
-$color-font: $white;
+$color-font: #f8eff9;
 $color-font--hover: $grey-80;
 $color-font-darker: $black;
 $color-font-dark: $grey-50;
 $color-font-secondary: $grey-60;
+
+// dakr theme colors
+$bg--dark: #19151e;
+$bg--darker: #15121a;
+$bg--dark--hover: $bg--darker;
+$text--dark: #fef8ff;
+$text--dark--hover: #d8d2da;
+$text--dark--secondary: #716c74;
+$text--2--dark: $grey-80;
+$border--dark: #3a3640;
+$border--dark--hover: #322f36;
+
+//light theme colors
+
+$bg--light: #fff;
+$bg--lighter: #f9f8f8;
+$bg--light--hover: $bg--lighter;
+$text--light--hover: #424046;
+$text--light: #1a1a1a;
+$text--light--secondary: #6c696e;
+$border--light: #787777;
+$border--light--hover: #555454;

@@ -55,7 +55,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .timer-box {
-  border: 1px solid $color-border-dark;
+  @include themed() {
+    border: 1px solid t("border");
+  }
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
   height: 2.5rem;
   width: 6rem;
   z-index: 5;

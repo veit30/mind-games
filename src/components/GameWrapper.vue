@@ -1,21 +1,30 @@
 <template>
   <div class="game-wrapper">
     <div class="game-wrapper__headline-container">
-      <div class="game-wrapper__headline-side-container"></div>
+      <div class="game-wrapper__headline-side-container">
+        <icon-button
+          icon="chevron-left"
+          class="m1-left"
+          :hover-action="'slide-left'"
+          @click="this.$router.push('/')"
+        />
+      </div>
       <h2
         class="game-wrapper__headline"
         :class="{ 'game-wrapper__headline--long': title.length > 13 }"
       >
         {{ title }}
       </h2>
-      <div class="game-wrapper__headline-side-container">
-        <button
-          class="game-wrapper__help-button"
-          :class="{ 'game-wrapper__help-button--small': title.length > 13 }"
-          @click="openModal"
-        >
-          ?
-        </button>
+      <div class="game-wrapper__headline-side-container right">
+        <icon-button
+          v-if="counter"
+          icon="restart"
+          :size="1.8"
+          class="m1-right"
+          @click="$emit('restart')"
+          :hover-action="'rotate-in'"
+        />
+        <icon-button icon="help" class="m1-right" @click="openModal" />
         <game-help-modal
           v-if="isHelpModalOpen"
           @close="isHelpModalOpen = false"
@@ -25,22 +34,6 @@
     <div class="game-wrapper__container">
       <slot name="top"></slot>
       <div v-if="!hasTopSlotContent" class="game-wrapper__top-spacing"></div>
-      <div class="game-wrapper__button-container margin-horizontal--large">
-        <game-button
-          class="game-wrapper__top-button"
-          :class="{ mobile: isMobile }"
-          alternative="B"
-          @click="this.$router.push('/')"
-          >Back</game-button
-        >
-        <game-button
-          class="game-wrapper__top-button"
-          :class="{ mobile: isMobile }"
-          alternative="R"
-          @click="$emit('restart')"
-          >Restart</game-button
-        >
-      </div>
       <div
         v-if="!isGameOver && !isPreCountdownRunning"
         class="game-wrapper__main-container"
@@ -123,6 +116,7 @@ import ScoreView from "@/components/ScoreView.vue";
 import TimeScoreView from "@/components/TimeScoreView.vue";
 import { deviceType } from "@/helper/util";
 import GameHelpModal from "@/components/GameHelpModal.vue";
+import IconButton from "@/components/IconButton.vue";
 
 export default defineComponent({
   name: "GameWrapper",
@@ -133,6 +127,7 @@ export default defineComponent({
     ScoreView,
     TimeScoreView,
     GameHelpModal,
+    IconButton,
   },
 
   data() {
@@ -280,6 +275,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .game-wrapper {
+  @include themed() {
+    color: t("text");
+  }
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
@@ -324,19 +322,26 @@ export default defineComponent({
   }
 
   &__headline-container {
+    @include themed() {
+      background: t("bg");
+      border: 1px solid t("border-theme");
+    }
+    position: relative;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    border: 1px solid $color-border-dark;
     width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: $color-background-dark;
   }
 
   &__container {
-    border: 1px solid $color-border-dark;
-    border-top: 0px;
-    background: $color-background-dark;
+    @include themed() {
+      background: t("bg");
+      border: 1px solid t("border-theme");
+      border-top: 0px;
+    }
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
     width: 90%;
     height: calc(100vh - 17.5rem);
     display: flex;
@@ -346,7 +351,7 @@ export default defineComponent({
 
   &__button-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-left: 3rem;
     margin-right: 3rem;
   }
@@ -384,14 +389,16 @@ export default defineComponent({
   }
 
   &__help-button {
+    @include themed() {
+      color: t("text");
+    }
+    background: none;
     margin-right: 1rem;
     padding: 0;
     font-size: 2rem;
     font-family: $font-title;
-    background: $color-background-dark;
     outline: none;
     border: none;
-    color: $white;
     cursor: pointer;
     float: right;
 
@@ -400,12 +407,19 @@ export default defineComponent({
     }
 
     &:hover {
-      color: $grey-80;
+      @include themed() {
+        color: t("text-hover");
+      }
     }
   }
 
   &__headline-side-container {
     width: 10%;
+    display: flex;
+
+    &.right {
+      justify-content: flex-end;
+    }
   }
 }
 
@@ -459,9 +473,11 @@ export default defineComponent({
 
 // Overwrite default game button styles
 .game-wrapper__action-button {
+  @include themed() {
+    border-top: 1px solid t("border");
+  }
   flex-basis: 50%;
   height: 6.25rem;
-  border-top: 1px solid $color-border-dark;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -469,7 +485,9 @@ export default defineComponent({
   button.border {
     &-left {
       &--dark {
-        border-left: 1px solid $color-border-dark;
+        @include themed() {
+          border-left: 1px solid t("border");
+        }
       }
     }
   }
@@ -487,8 +505,10 @@ export default defineComponent({
   }
 
   &:hover {
-    background: $color-background-darker;
-    color: $color-font;
+    @include themed() {
+      background: t("bg-secondary");
+      color: t("text");
+    }
     cursor: pointer;
   }
 }

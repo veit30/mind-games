@@ -65,7 +65,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .countdown-bar {
-  border: 1px solid $color-border-dark;
+  @include themed() {
+    border: 1px solid t("border");
+  }
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
   height: 2rem;
   width: calc(100% - 6rem);
   z-index: 5;
@@ -81,13 +84,15 @@ export default defineComponent({
   }
 
   &__value {
+    @include themed() {
+      color: t("text");
+    }
     position: relative;
     display: flex;
     justify-content: center;
     font-size: 1rem;
     margin: 0;
     top: -1.5rem;
-    color: $color-font;
   }
 }
 

@@ -7,6 +7,7 @@ declare module "@vue/runtime-core" {
     games: Game[];
     game: string;
     highscore: number;
+    theme: string;
   }
 
   interface ComponentCustomProperties {

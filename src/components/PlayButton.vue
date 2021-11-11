@@ -28,6 +28,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .play-button {
+  @include themed() {
+    color: t("text");
+  }
   min-width: 3rem;
   min-height: 3rem;
   display: flex;
@@ -36,7 +39,6 @@ export default defineComponent({
   background: none;
   outline: none;
   border: none;
-  color: $white;
 
   svg {
     transform: scale(0.9);
@@ -44,6 +46,9 @@ export default defineComponent({
   }
 
   &:hover svg {
+    @include themed() {
+      color: t("text-hover");
+    }
     animation-play-state: paused;
     cursor: pointer;
   }

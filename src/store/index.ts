@@ -13,6 +13,7 @@ const initialState = () => ({
   games: getGames(),
   game: "",
   highscores: initialHighscores(),
+  theme: "dark",
 });
 
 const state = initialState();
@@ -25,6 +26,9 @@ export default createStore({
     },
     setGame(state, game: string) {
       state.game = game;
+    },
+    setTheme(state, theme: string) {
+      state.theme = theme;
     },
   },
   actions: {

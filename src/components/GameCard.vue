@@ -111,13 +111,16 @@ export default defineComponent({
 }
 
 .card {
+  @include themed() {
+    background: t("bg");
+    border: 1px solid t("border-theme");
+  }
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  background: $color-background-dark;
-  border: 1px solid $color-border-dark;
 }
 
 .info-container {
@@ -129,7 +132,9 @@ export default defineComponent({
   }
 
   &:hover {
-    background: $color-background-darker;
+    @include themed() {
+      background: t("bg-secondary");
+    }
     cursor: pointer;
   }
 
@@ -140,7 +145,9 @@ export default defineComponent({
 }
 
 .controls-container {
-  background: $color-background-darker;
+  @include themed() {
+    background: t("bg-secondary");
+  }
   display: flex;
   align-items: flex-end;
 
@@ -159,8 +166,10 @@ export default defineComponent({
 }
 
 .description {
+  @include themed() {
+    color: t("text-secondary");
+  }
   padding: 0.625rem 1.25rem;
-  color: $color-font-secondary;
   font-size: 0.825rem;
 }
 

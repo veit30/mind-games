@@ -41,14 +41,18 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .mind-games-header {
-  background: $color-background-darker;
+  @include themed() {
+    background: t("bg");
+    border-bottom: 1px solid t("border-theme");
+    color: t("text");
+  }
   width: 100%;
   text-align: center;
-  color: $color-font;
   padding: 2.375rem 0;
   user-select: none;
   display: flex;
   justify-content: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
 
   &__headline {
     font-family: $font-title;

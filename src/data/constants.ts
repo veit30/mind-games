@@ -53,4 +53,9 @@ export const operatorMapper = (s: string | number): string => {
 
 export const ICONS = {
   PLAY: "play",
+  COLOR_SWITCH: "color-switch",
+  CHEVRON_LEFT: "chevron-left",
+  HELP: "help",
+  RESTART: "restart",
+  CLOSE: "close",
 } as const;
