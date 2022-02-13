@@ -58,4 +58,5 @@ export const ICONS = {
   HELP: "help",
   RESTART: "restart",
   CLOSE: "close",
+  TRASH: "trash",
 } as const;

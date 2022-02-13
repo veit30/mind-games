@@ -95,7 +95,10 @@ export default defineComponent({
       }
     },
     routeToGame() {
-      this.$router.push(this.route);
+      this.$store.commit("transitionName", "home-to-game");
+      setTimeout(() => {
+        this.$router.push(this.route);
+      }, 1100);
     },
   },
 });
@@ -115,6 +118,7 @@ export default defineComponent({
     background: t("bg");
     border: 1px solid t("border-theme");
   }
+  transition: background 0.3s ease;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
   position: absolute;
   width: 100%;

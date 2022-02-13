@@ -4,9 +4,12 @@
       <div class="modal__headline">
         <div class="modal__headline-slot"></div>
         <h1>{{ currentHeadline }}</h1>
-        <div class="modal__close modal__headline-slot" @click="$emit('close')">
-          close
-        </div>
+        <icon-button
+          icon="close"
+          :size="1.5"
+          class="modal__close modal__headline-slot hover--red"
+          @click="$emit('close')"
+        />
       </div>
       <slot></slot>
     </div>
@@ -16,9 +19,14 @@
 <script lang="ts">
 import TextScrambler from "@/data/TextScrambler";
 import { defineComponent } from "vue";
+import IconButton from "@/components/IconButton.vue";
 
 export default defineComponent({
   name: "Modal",
+
+  components: {
+    IconButton,
+  },
 
   data() {
     return {
@@ -67,21 +75,24 @@ export default defineComponent({
   background-color: rgba(0, 0, 0, 0.4);
 
   &__content {
-    background-color: $deep-black;
+    @include themed() {
+      background: t("bg");
+      border: 1px solid t("border-theme");
+    }
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
     margin: 15% auto;
     padding: 20px;
     width: 95%;
+    transition: height ease 1s;
   }
 
   &__close {
     text-align: end;
-    cursor: pointer;
-
-    &:hover,
-    &:focus {
-      color: $grey-80;
-    }
+    position: relative;
+    top: -2rem;
+    right: -1rem;
   }
+
   &__headline {
     display: flex;
     justify-content: space-between;
@@ -91,6 +102,13 @@ export default defineComponent({
     &-slot {
       width: 10%;
     }
+  }
+}
+
+.hover--red:hover,
+.hover--red:focus {
+  @include themed() {
+    color: $red;
   }
 }
 

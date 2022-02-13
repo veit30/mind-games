@@ -44,12 +44,12 @@ export default defineComponent({
     },
   },
 
-  mounted() {
+  created() {
     this.gameTimeThresholds = getTimeThresholds(this.gameName);
     this.failMessage = getTimeFailMessage(this.gameName);
 
-    let currentHighscore = parseFloat(this.highscore) || -1;
-    if (currentHighscore < 0 || this.time < currentHighscore) {
+    let currentHighscore = parseFloat(this.highscore);
+    if (this.time > 0 && (!currentHighscore || this.time < currentHighscore)) {
       this.newBestTime = true;
       this.$store.dispatch("saveHighscore", this.time);
     }
@@ -78,15 +78,19 @@ export default defineComponent({
 <style lang="scss" scoped>
 .time-score-view {
   &__time-headline {
+    text-align: center;
     font-size: 3rem;
     margin: 0;
   }
 
   &__time {
+    text-align: center;
     font-weight: 600;
+    margin: 1rem 0;
   }
 
   &__highscore {
+    text-align: center;
     font-size: 1rem;
   }
 }

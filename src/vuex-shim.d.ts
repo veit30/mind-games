@@ -8,6 +8,8 @@ declare module "@vue/runtime-core" {
     game: string;
     highscore: number;
     theme: string;
+    sessionStarted: boolean;
+    transitionName: string;
   }
 
   interface ComponentCustomProperties {

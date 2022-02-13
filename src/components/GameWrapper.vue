@@ -6,7 +6,7 @@
           icon="chevron-left"
           class="m1-left"
           :hover-action="'slide-left'"
-          @click="this.$router.push('/')"
+          @click="routeToHome()"
         />
       </div>
       <h2
@@ -49,26 +49,25 @@
         v-if="isGameOver || isPreCountdownRunning"
         class="game-wrapper__game-info-container"
       >
-        <game-button
+        <play-button
           v-if="isFirstGame && !isPreCountdownRunning"
-          class="game-wrapper__start-button"
-          alternative="S"
-          :is-borderless="true"
-          :is-large="true"
+          icon="play"
+          :size="4"
           @click="$emit('restart')"
-          >Start Game</game-button
-        >
+        />
         <div
           v-else-if="!isFirstGame && !isPreCountdownRunning"
           class="game-wrapper__game-over-box"
         >
           <p class="game-over">Game Over</p>
           <score-view
+            class="game-over__score"
             v-if="scoreElements.length"
             :game-name="name"
             :score-elements="scoreElements"
           />
           <time-score-view
+            class="game-over__score"
             v-if="scoreTime"
             :time="scoreTime"
             :game-name="name"
@@ -108,7 +107,6 @@
 
 <script lang="ts">
 import { defineComponent, defineAsyncComponent, PropType } from "vue";
-import GameButton from "@/components/GameButton.vue";
 import type { ActionButtonOptions, ScoreElement } from "@/data/types";
 import Countdown from "@/data/Countdown";
 import ActionButton from "@/components/ActionButton.vue";
@@ -117,17 +115,18 @@ import TimeScoreView from "@/components/TimeScoreView.vue";
 import { deviceType } from "@/helper/util";
 import GameHelpModal from "@/components/GameHelpModal.vue";
 import IconButton from "@/components/IconButton.vue";
+import PlayButton from "@/components/PlayButton.vue";
 
 export default defineComponent({
   name: "GameWrapper",
 
   components: {
-    GameButton,
     ActionButton,
     ScoreView,
     TimeScoreView,
     GameHelpModal,
     IconButton,
+    PlayButton,
   },
 
   data() {
@@ -240,6 +239,12 @@ export default defineComponent({
     buttonSizeClass(button: ActionButtonOptions) {
       return `game-wrapper__action-button--${button.buttonSize}`;
     },
+    routeToHome() {
+      this.$store.commit("transitionName", "game-to-home");
+      setTimeout(() => {
+        this.$router.push("/");
+      }, 1100);
+    },
   },
 
   watch: {
@@ -259,16 +264,6 @@ export default defineComponent({
         }
       },
     },
-    //TODO: for animation improvement
-    // isGameOver(newVal, oldVal) {
-    //   if(newVal) {
-    //     this.showGameOver = true;
-    //     setTimeout(() => {
-    //       this.showGameOver = false;
-    //     }, 2000)
-
-    //   }
-    // }
   },
 });
 </script>
@@ -301,7 +296,11 @@ export default defineComponent({
   }
 
   &__game-over-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     p {
+      text-align: center;
       margin-bottom: 0.625rem;
       margin-top: 0.625rem;
 
@@ -373,7 +372,8 @@ export default defineComponent({
   &__game-info-container {
     margin-top: 6rem;
     font-size: 3.75rem;
-    text-align: center;
+    display: flex;
+    justify-content: center;
 
     button {
       margin-top: 3.5rem;
@@ -386,6 +386,7 @@ export default defineComponent({
 
   &__pregame-countdown {
     margin-top: 5vh;
+    animation: growAndShrink 1s ease-in-out infinite;
   }
 
   &__help-button {
@@ -514,12 +515,27 @@ export default defineComponent({
 }
 
 .game-over {
-  //TODO: for animation improvement
-  // animation: showAndFadeOut ease 2s 1;
+  opacity: 0;
+  -webkit-transform: translate3d(0, -2rem, 0);
+  transform: translate3d(0, -2rem, 0);
+  animation: showAndFadeOut ease 2s 1;
+
+  &__score {
+    // animation: fadeInUp ease 2s 1
+    opacity: 1;
+    -webkit-transform: translate3d(0, -2rem, 0);
+    transform: translate3d(0, -2rem, 0);
+    animation: fadeInUp ease 3s 1;
+  }
 }
 
 @keyframes showAndFadeOut {
   0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
     opacity: 1;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
@@ -531,8 +547,26 @@ export default defineComponent({
   }
   100% {
     opacity: 0;
-    -webkit-transform: translate3d(0, 1rem, 0);
-    transform: translate3d(0, 1rem, 0);
+    -webkit-transform: translate3d(0, -2rem, 0);
+    transform: translate3d(0, -2rem, 0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  30% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, -2rem, 0);
+    transform: translate3d(0, -2rem, 0);
   }
 }
 </style>

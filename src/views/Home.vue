@@ -36,6 +36,7 @@ export default defineComponent({
   },
 
   mounted() {
+    this.$store.commit("enteredRoute");
     this.$store.dispatch("getHighscores");
   },
 
@@ -49,14 +50,11 @@ export default defineComponent({
   },
 
   methods: {
-    routeTo(game: string) {
-      this.$router.push(`/${game}`);
-    },
     switchTheme() {
       if (this.theme === "dark") {
-        this.$store.commit("setTheme", "light");
+        this.$store.dispatch("setTheme", "light");
       } else {
-        this.$store.commit("setTheme", "dark");
+        this.$store.dispatch("setTheme", "dark");
       }
     },
   },
@@ -68,19 +66,22 @@ export default defineComponent({
   @include themed() {
     color: t("text");
   }
+  margin-top: 10rem;
   text-align: center;
 
   &__game-container {
     @include themed() {
       border: 1px solid t("border-theme");
-      background: t("bg");
+      background: t("bg-secondary");
       border-top: 0px;
     }
+    transition: background 0.3s ease;
     width: 90%;
     margin: 0 auto;
     padding: 1rem;
     height: calc(100vh - 18rem);
     overflow-y: scroll;
+    overflow-x: hidden;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
   }
 
@@ -101,6 +102,7 @@ export default defineComponent({
       background: t("bg");
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
     }
+    transition: background 0.3s ease;
     position: relative;
     display: flex;
     justify-content: space-between;

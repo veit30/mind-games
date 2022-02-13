@@ -25,7 +25,7 @@ export default defineComponent({
   computed: {
     colorClass() {
       if (this.timer.isStopped) {
-        return "color--grey";
+        return "disabled";
       }
       if (this.timer.seconds > this.threshold) {
         return "color--red";
@@ -35,7 +35,7 @@ export default defineComponent({
       ) {
         return "color--orange";
       }
-      return "color--white";
+      return "";
     },
     time() {
       return this.timer.time;
@@ -57,6 +57,7 @@ export default defineComponent({
 .timer-box {
   @include themed() {
     border: 1px solid t("border");
+    color: t("text");
   }
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
   height: 2.5rem;
@@ -74,6 +75,12 @@ export default defineComponent({
     left: 50%;
     transform: translate(-50%, -50%);
     margin: 0;
+  }
+
+  &.disabled {
+    @include themed() {
+      color: t("text-disabled");
+    }
   }
 }
 </style>

@@ -54,7 +54,7 @@ export default defineComponent({
     },
   },
 
-  mounted() {
+  created() {
     this.gameScoreThresholds = getScoreThresholds(this.gameName);
     let score = this.scoreElements.reduce((acc, cur) => {
       return acc + cur.value;
@@ -101,6 +101,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .score-view {
   &__score-element {
+    text-align: center;
     font-size: 1rem;
     margin: 0.25rem 0;
   }
@@ -111,10 +112,13 @@ export default defineComponent({
   }
 
   &__score {
+    text-align: center;
     font-weight: 600;
+    margin: 1rem 0;
   }
 
   &__highscore {
+    text-align: center;
     font-size: 1rem;
   }
 }

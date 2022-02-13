@@ -115,6 +115,10 @@ hr {
   margin-right: 1rem;
 }
 
+.m02-right {
+  margin-right: 0.2rem;
+}
+
 .m1-left {
   margin-left: 1rem;
 }
@@ -133,5 +137,17 @@ hr {
       font-size: 1.5rem;
       padding: 0.5rem 0;
     }
+  }
+}
+
+@keyframes growAndShrink {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(0.9);
   }
 }

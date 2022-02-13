@@ -61,24 +61,33 @@ $color-font-darker: $black;
 $color-font-dark: $grey-50;
 $color-font-secondary: $grey-60;
 
-// dakr theme colors
+// dark theme colors
 $bg--dark: #19151e;
 $bg--darker: #15121a;
 $bg--dark--hover: $bg--darker;
+$bg--dark--disabled: #2a232e;
 $text--dark: #fef8ff;
 $text--dark--hover: #d8d2da;
 $text--dark--secondary: #716c74;
+$text--dark--disabled: $text--dark--secondary;
 $text--2--dark: $grey-80;
 $border--dark: #3a3640;
 $border--dark--hover: #322f36;
+$bg--dark--disabled--hover: #2c2732;
 
 //light theme colors
 
 $bg--light: #fff;
 $bg--lighter: #f9f8f8;
 $bg--light--hover: $bg--lighter;
+$bg--light--disabled: #cfcfcf;
 $text--light--hover: #424046;
 $text--light: #1a1a1a;
 $text--light--secondary: #6c696e;
+$text--light--disabled: $text--light--secondary;
 $border--light: #787777;
 $border--light--hover: #555454;
+$bg--light--disabled--hover: #e7e7e7;
+
+
+// #16131a

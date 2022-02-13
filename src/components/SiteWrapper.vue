@@ -1,7 +1,7 @@
 <template>
   <div class="theme" :class="themeClass">
     <div class="site-wrapper">
-      <mind-games-header v-if="isHome" />
+      <mind-games-header />
       <hr v-if="!isHome" class="size-wrapper__background-line" />
       <hr v-if="!isHome" class="size-wrapper__background-line" />
       <slot></slot>
@@ -16,6 +16,14 @@ import MindGamesHeader from "@/components/MindGamesHeader.vue";
 export default defineComponent({
   name: "SiteWrapper",
 
+  components: {
+    MindGamesHeader,
+  },
+
+  created() {
+    this.$store.dispatch("getTheme");
+  },
+
   computed: {
     isHome() {
       return this.$route.name === "Home";
@@ -27,10 +35,6 @@ export default defineComponent({
       return `theme--${this.theme}`;
     },
   },
-
-  components: {
-    MindGamesHeader,
-  },
 });
 </script>
 
@@ -39,7 +43,7 @@ export default defineComponent({
   @include themed() {
     background: t("bg-secondary");
   }
-
+  transition: background 0.3s ease;
   width: 100%;
   height: 100%;
   position: fixed;

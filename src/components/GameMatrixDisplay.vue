@@ -87,7 +87,7 @@ export default defineComponent({
         clickable: item.isClickable,
         disabled: !item.isClickable && this.hasDisabledStyle,
         selected: item.isSelected,
-        "background--light": item.isActive,
+        "background--active": item.isActive,
       };
     },
     itemDisplayValue(item: GameMatrixItem) {
@@ -119,19 +119,26 @@ export default defineComponent({
   margin: 0 auto;
 
   &__item {
-    border: 1px solid $color-border-dark;
+    @include themed() {
+      border: 1px solid t("border-theme");
+    }
     display: flex;
     justify-content: center;
     align-items: center;
     transition: background 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
 
     &.clickable:hover {
-      background: $grey-70;
+      @include themed() {
+        background: t("bg-disabled-hover");
+      }
     }
 
     &.disabled {
-      background: $grey-40;
-      color: $grey-70;
+      @include themed() {
+        background: t("bg-disabled");
+        color: t("text-secondary");
+      }
     }
 
     &.selected p {
@@ -140,26 +147,13 @@ export default defineComponent({
   }
 }
 
-.background {
-  &--white {
-    background: $white;
+.background--active {
+  @include themed() {
+    background: t("text");
   }
-
-  &--green {
-    background: $green;
-  }
-
-  &--orange {
-    background: $orange;
-  }
-
-  &--red {
-    background: $red;
-  }
-
-  &--light {
-    &.clickable:hover {
-      background: $grey-60;
+  &.clickable:hover {
+    @include themed() {
+      background: t("text-hover");
     }
   }
 }
