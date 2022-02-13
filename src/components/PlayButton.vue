@@ -1,6 +1,6 @@
 <template>
   <button class="play-button">
-    <svg-icon :icon="ICONS.PLAY" />
+    <svg-icon :icon="ICONS.PLAY" :size="size" />
   </button>
 </template>
 
@@ -12,14 +12,20 @@ import { ICONS } from "@/data/constants";
 export default defineComponent({
   name: "PlayButton",
 
+  components: {
+    SvgIcon,
+  },
+
   data() {
     return {
       ICONS,
     };
   },
 
-  components: {
-    SvgIcon,
+  props: {
+    size: {
+      type: Number,
+    },
   },
 
   methods: {},
@@ -28,6 +34,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .play-button {
+  @include themed() {
+    color: t("text");
+  }
   min-width: 3rem;
   min-height: 3rem;
   display: flex;
@@ -36,7 +45,6 @@ export default defineComponent({
   background: none;
   outline: none;
   border: none;
-  color: $white;
 
   svg {
     transform: scale(0.9);
@@ -44,7 +52,10 @@ export default defineComponent({
   }
 
   &:hover svg {
-    animation-play-state: paused;
+    @include themed() {
+      color: t("text-hover");
+    }
+    // animation-play-state: paused;
     cursor: pointer;
   }
 }

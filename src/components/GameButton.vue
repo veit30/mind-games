@@ -48,15 +48,20 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 button.game-button {
-  background: $color-background-dark;
+  @include themed() {
+    background: t("bg");
+    border: 1px solid t("border");
+    color: t("text");
+  }
+  // background: $color-background-dark;
+  // border: 1px solid $color-border-dark;
+  // color: $color-font;
   outline: none;
-  border: 1px solid $color-border-dark;
   padding: 0.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: $color-font;
   font-family: $font-main;
   font-weight: 500;
   user-select: none;
@@ -64,7 +69,10 @@ button.game-button {
   min-width: 9rem;
 
   &:hover {
-    background: $color-background-darker;
+    @include themed() {
+      background: t("bg-secondary");
+    }
+    // background: $color-background-darker;
     cursor: pointer;
   }
 
@@ -85,17 +93,26 @@ button.game-button {
   }
 
   &--borderless {
-    border: none;
+    @include themed() {
+      border: none;
+    }
 
     &:hover {
-      background: $color-background-dark;
-      color: $color-font--hover;
+      @include themed() {
+        background: t("bg");
+        color: t("text-hover");
+      }
+      // background: $color-background-dark;
+      // color: $color-font--hover;
     }
   }
 }
 
 .game-button__alternative {
-  color: $color-font-dark;
+  @include themed() {
+    color: t("text-secondary");
+  }
+  // color: $color-font-dark;
   font-family: $font-secondary;
   font-style: italic;
   font-weight: 900;
@@ -108,8 +125,12 @@ button.game-button {
 .action-button:hover {
   button.game-button {
     &--borderless {
-      background: $color-background-darker;
-      color: $color-font;
+      @include themed() {
+        background: t("bg-secondary");
+        color: t("text");
+      }
+      // background: $color-background-darker;
+      // color: $color-font;
     }
   }
 }

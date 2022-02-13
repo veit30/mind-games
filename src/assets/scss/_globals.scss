@@ -1,7 +1,6 @@
 html, body {
   margin: 0;
   padding: 0;
-  color: $color-font;
   font-size: 12px;
 }
 
@@ -32,11 +31,15 @@ hr {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $grey-50;
+  @include themed() {
+    background: t('border');
+  }
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: $grey-40;
+  @include themed() {
+    background: t('border-hover');
+  }
 }
 
 /* HELPER CLASSES */
@@ -46,6 +49,36 @@ hr {
     &--dark {
       border-left: 1px solid $color-border-dark;
     }
+  }
+}
+
+.icon-button {
+  @include themed() {
+    color: t('text');
+  }
+  padding: 0;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background: none;
+
+  &:hover {
+    @include themed() {
+      color: t('text-hover');
+    }
+  }
+
+  &.slide-left:hover svg {
+    transform: translate3d(-0.2rem, 0, 0);
+  }
+
+  &.rotate-in:hover svg {
+    transform: rotate3d(0,0,1,20deg);
+  }
+
+  svg {
+    overflow: visible;
+    transition: all ease-in-out 0.2s;
   }
 }
 
@@ -78,6 +111,18 @@ hr {
   cursor: pointer;
 }
 
+.m1-right {
+  margin-right: 1rem;
+}
+
+.m02-right {
+  margin-right: 0.2rem;
+}
+
+.m1-left {
+  margin-left: 1rem;
+}
+
 /* GAME HELP COMPONENTS */
 .game-help {
   section {
@@ -92,5 +137,17 @@ hr {
       font-size: 1.5rem;
       padding: 0.5rem 0;
     }
+  }
+}
+
+@keyframes growAndShrink {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(0.9);
   }
 }

@@ -1,21 +1,30 @@
 <template>
   <div class="game-wrapper">
     <div class="game-wrapper__headline-container">
-      <div class="game-wrapper__headline-side-container"></div>
+      <div class="game-wrapper__headline-side-container">
+        <icon-button
+          icon="chevron-left"
+          class="m1-left"
+          :hover-action="'slide-left'"
+          @click="routeToHome()"
+        />
+      </div>
       <h2
         class="game-wrapper__headline"
         :class="{ 'game-wrapper__headline--long': title.length > 13 }"
       >
         {{ title }}
       </h2>
-      <div class="game-wrapper__headline-side-container">
-        <button
-          class="game-wrapper__help-button"
-          :class="{ 'game-wrapper__help-button--small': title.length > 13 }"
-          @click="openModal"
-        >
-          ?
-        </button>
+      <div class="game-wrapper__headline-side-container right">
+        <icon-button
+          v-if="counter"
+          icon="restart"
+          :size="1.8"
+          class="m1-right"
+          @click="$emit('restart')"
+          :hover-action="'rotate-in'"
+        />
+        <icon-button icon="help" class="m1-right" @click="openModal" />
         <game-help-modal
           v-if="isHelpModalOpen"
           @close="isHelpModalOpen = false"
@@ -25,22 +34,6 @@
     <div class="game-wrapper__container">
       <slot name="top"></slot>
       <div v-if="!hasTopSlotContent" class="game-wrapper__top-spacing"></div>
-      <div class="game-wrapper__button-container margin-horizontal--large">
-        <game-button
-          class="game-wrapper__top-button"
-          :class="{ mobile: isMobile }"
-          alternative="B"
-          @click="this.$router.push('/')"
-          >Back</game-button
-        >
-        <game-button
-          class="game-wrapper__top-button"
-          :class="{ mobile: isMobile }"
-          alternative="R"
-          @click="$emit('restart')"
-          >Restart</game-button
-        >
-      </div>
       <div
         v-if="!isGameOver && !isPreCountdownRunning"
         class="game-wrapper__main-container"
@@ -56,26 +49,25 @@
         v-if="isGameOver || isPreCountdownRunning"
         class="game-wrapper__game-info-container"
       >
-        <game-button
+        <play-button
           v-if="isFirstGame && !isPreCountdownRunning"
-          class="game-wrapper__start-button"
-          alternative="S"
-          :is-borderless="true"
-          :is-large="true"
+          icon="play"
+          :size="4"
           @click="$emit('restart')"
-          >Start Game</game-button
-        >
+        />
         <div
           v-else-if="!isFirstGame && !isPreCountdownRunning"
           class="game-wrapper__game-over-box"
         >
           <p class="game-over">Game Over</p>
           <score-view
+            class="game-over__score"
             v-if="scoreElements.length"
             :game-name="name"
             :score-elements="scoreElements"
           />
           <time-score-view
+            class="game-over__score"
             v-if="scoreTime"
             :time="scoreTime"
             :game-name="name"
@@ -115,7 +107,6 @@
 
 <script lang="ts">
 import { defineComponent, defineAsyncComponent, PropType } from "vue";
-import GameButton from "@/components/GameButton.vue";
 import type { ActionButtonOptions, ScoreElement } from "@/data/types";
 import Countdown from "@/data/Countdown";
 import ActionButton from "@/components/ActionButton.vue";
@@ -123,16 +114,19 @@ import ScoreView from "@/components/ScoreView.vue";
 import TimeScoreView from "@/components/TimeScoreView.vue";
 import { deviceType } from "@/helper/util";
 import GameHelpModal from "@/components/GameHelpModal.vue";
+import IconButton from "@/components/IconButton.vue";
+import PlayButton from "@/components/PlayButton.vue";
 
 export default defineComponent({
   name: "GameWrapper",
 
   components: {
-    GameButton,
     ActionButton,
     ScoreView,
     TimeScoreView,
     GameHelpModal,
+    IconButton,
+    PlayButton,
   },
 
   data() {
@@ -245,6 +239,12 @@ export default defineComponent({
     buttonSizeClass(button: ActionButtonOptions) {
       return `game-wrapper__action-button--${button.buttonSize}`;
     },
+    routeToHome() {
+      this.$store.commit("transitionName", "game-to-home");
+      setTimeout(() => {
+        this.$router.push("/");
+      }, 1100);
+    },
   },
 
   watch: {
@@ -264,22 +264,15 @@ export default defineComponent({
         }
       },
     },
-    //TODO: for animation improvement
-    // isGameOver(newVal, oldVal) {
-    //   if(newVal) {
-    //     this.showGameOver = true;
-    //     setTimeout(() => {
-    //       this.showGameOver = false;
-    //     }, 2000)
-
-    //   }
-    // }
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .game-wrapper {
+  @include themed() {
+    color: t("text");
+  }
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
@@ -303,7 +296,11 @@ export default defineComponent({
   }
 
   &__game-over-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     p {
+      text-align: center;
       margin-bottom: 0.625rem;
       margin-top: 0.625rem;
 
@@ -324,19 +321,26 @@ export default defineComponent({
   }
 
   &__headline-container {
+    @include themed() {
+      background: t("bg");
+      border: 1px solid t("border-theme");
+    }
+    position: relative;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    border: 1px solid $color-border-dark;
     width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: $color-background-dark;
   }
 
   &__container {
-    border: 1px solid $color-border-dark;
-    border-top: 0px;
-    background: $color-background-dark;
+    @include themed() {
+      background: t("bg");
+      border: 1px solid t("border-theme");
+      border-top: 0px;
+    }
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.1);
     width: 90%;
     height: calc(100vh - 17.5rem);
     display: flex;
@@ -346,7 +350,7 @@ export default defineComponent({
 
   &__button-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-left: 3rem;
     margin-right: 3rem;
   }
@@ -368,7 +372,8 @@ export default defineComponent({
   &__game-info-container {
     margin-top: 6rem;
     font-size: 3.75rem;
-    text-align: center;
+    display: flex;
+    justify-content: center;
 
     button {
       margin-top: 3.5rem;
@@ -381,17 +386,20 @@ export default defineComponent({
 
   &__pregame-countdown {
     margin-top: 5vh;
+    animation: growAndShrink 1s ease-in-out infinite;
   }
 
   &__help-button {
+    @include themed() {
+      color: t("text");
+    }
+    background: none;
     margin-right: 1rem;
     padding: 0;
     font-size: 2rem;
     font-family: $font-title;
-    background: $color-background-dark;
     outline: none;
     border: none;
-    color: $white;
     cursor: pointer;
     float: right;
 
@@ -400,12 +408,19 @@ export default defineComponent({
     }
 
     &:hover {
-      color: $grey-80;
+      @include themed() {
+        color: t("text-hover");
+      }
     }
   }
 
   &__headline-side-container {
     width: 10%;
+    display: flex;
+
+    &.right {
+      justify-content: flex-end;
+    }
   }
 }
 
@@ -459,9 +474,11 @@ export default defineComponent({
 
 // Overwrite default game button styles
 .game-wrapper__action-button {
+  @include themed() {
+    border-top: 1px solid t("border");
+  }
   flex-basis: 50%;
   height: 6.25rem;
-  border-top: 1px solid $color-border-dark;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -469,7 +486,9 @@ export default defineComponent({
   button.border {
     &-left {
       &--dark {
-        border-left: 1px solid $color-border-dark;
+        @include themed() {
+          border-left: 1px solid t("border");
+        }
       }
     }
   }
@@ -487,19 +506,36 @@ export default defineComponent({
   }
 
   &:hover {
-    background: $color-background-darker;
-    color: $color-font;
+    @include themed() {
+      background: t("bg-secondary");
+      color: t("text");
+    }
     cursor: pointer;
   }
 }
 
 .game-over {
-  //TODO: for animation improvement
-  // animation: showAndFadeOut ease 2s 1;
+  opacity: 0;
+  -webkit-transform: translate3d(0, -2rem, 0);
+  transform: translate3d(0, -2rem, 0);
+  animation: showAndFadeOut ease 2s 1;
+
+  &__score {
+    // animation: fadeInUp ease 2s 1
+    opacity: 1;
+    -webkit-transform: translate3d(0, -2rem, 0);
+    transform: translate3d(0, -2rem, 0);
+    animation: fadeInUp ease 3s 1;
+  }
 }
 
 @keyframes showAndFadeOut {
   0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
     opacity: 1;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
@@ -511,8 +547,26 @@ export default defineComponent({
   }
   100% {
     opacity: 0;
-    -webkit-transform: translate3d(0, 1rem, 0);
-    transform: translate3d(0, 1rem, 0);
+    -webkit-transform: translate3d(0, -2rem, 0);
+    transform: translate3d(0, -2rem, 0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  30% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, -2rem, 0);
+    transform: translate3d(0, -2rem, 0);
   }
 }
 </style>

@@ -51,14 +51,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .highscore-display {
-  // background: $clean-black;
-  // border: 1px solid $color-border-dark;
   padding: 0.5rem 0.75rem;
-  // text-align: end;
 
   .best {
+    @include themed() {
+      color: t("text-secondary");
+    }
     font-size: 1rem;
-    color: $color-font-secondary;
   }
 
   p {

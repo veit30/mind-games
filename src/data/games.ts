@@ -127,7 +127,7 @@ export const gamesScoreThresholds: { [key: string]: number[] } = {
 };
 
 const gameTimeThresholds: { [key: string]: number[] } = {
-  QuickTapper: [1, 0.8, 0.4, 0.2],
+  QuickTapper: [1, 0.8, 0.4, 0.25],
   QuickStacker: [8, 5.5, 4, 2.5],
 };
 

@@ -11,8 +11,6 @@ import { defineComponent, PropType } from "vue";
 export default defineComponent({
   name: "SvgIcon",
 
-  components: {},
-
   props: {
     icon: {
       type: String as PropType<IconName>,
@@ -29,8 +27,6 @@ export default defineComponent({
       return `${require("../assets/svg/symbols.svg")}#${this.icon}`;
     },
   },
-
-  methods: {},
 });
 </script>
 

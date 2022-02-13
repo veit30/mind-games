@@ -15,6 +15,8 @@ export default defineComponent({
     SiteWrapper,
   },
 });
+
+//TODO: game over screen rework
 </script>
 
 <style lang="scss">

@@ -13,6 +13,9 @@ const initialState = () => ({
   games: getGames(),
   game: "",
   highscores: initialHighscores(),
+  theme: "dark",
+  sessionStarted: false,
+  transitionName: "initial",
 });
 
 const state = initialState();
@@ -25,6 +28,9 @@ export default createStore({
     },
     setGame(state, game: string) {
       state.game = game;
+    },
+    transitionName(state, transitionName: string) {
+      state.transitionName = transitionName;
     },
   },
   actions: {
@@ -49,8 +55,19 @@ export default createStore({
       localStorage.clear();
     },
     removeHighscore(context) {
-      context.commit("setHighscore", "");
+      context.commit("setHighscore", {
+        name: context.state.game,
+        highscore: "",
+      });
       localStorage.removeItem(`${context.state.game}_hs`);
+    },
+    getTheme(context) {
+      const theme = localStorage.getItem("mg_theme");
+      context.state.theme = theme || "dark";
+    },
+    setTheme(context, theme) {
+      localStorage.setItem("mg_theme", theme);
+      context.state.theme = theme;
     },
   },
   getters: {
